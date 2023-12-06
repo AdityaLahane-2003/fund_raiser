@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/phone.dart';
 import 'package:fund_raiser_second/verify.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
   runApp(MaterialApp(
     initialRoute: 'phone',
     debugShowCheckedModeBanner: false,

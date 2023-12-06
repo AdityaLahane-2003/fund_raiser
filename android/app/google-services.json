@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "531827117638",
+    "project_id": "fund-raiser-790b1",
+    "storage_bucket": "fund-raiser-790b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531827117638:android:9c0c32fe6081b7313fc447",
+        "android_client_info": {
+          "package_name": "com.example.fund_raiser.fund_raiser_first"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrFslqMSJvA1XBHmI73OixzAZ86lXrF7Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531827117638:android:49d1ea86e3fc51d73fc447",
+        "android_client_info": {
+          "package_name": "com.example.fund_raiser.fund_raiser_second"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrFslqMSJvA1XBHmI73OixzAZ86lXrF7Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
