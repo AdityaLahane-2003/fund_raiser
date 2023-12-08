@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/phone.dart';
 import 'package:fund_raiser_second/screens/auth_screens/login.dart';
-import 'package:fund_raiser_second/screens/auth_screens/signup.dart';
+// import 'package:fund_raiser_second/screens/auth_screens/login.dart';
+import 'package:fund_raiser_second/screens/auth_screens/register_screen.dart';
 
 class AuthScreen1 extends StatelessWidget {
   @override
@@ -56,7 +58,7 @@ class AuthScreen1 extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10))),
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => SignUp()));
+                            MaterialPageRoute(builder: (context) => MyPhone()));
                       },
                       child: Text("Start Fundraising")),
                   ElevatedButton(
@@ -67,7 +69,7 @@ class AuthScreen1 extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10))),
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => SignUp()));
+                            MaterialPageRoute(builder: (context) => Login()));
                       },
                       child: Text("Start Donating")),
                   SizedBox(

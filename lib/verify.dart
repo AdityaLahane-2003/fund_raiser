@@ -1,14 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/phone.dart';
+import 'package:fund_raiser_second/screens/home_screen.dart';
 import 'package:pinput/pinput.dart';
 
 class MyVerify extends StatefulWidget {
-  const MyVerify({Key? key}) : super(key: key);
+   const MyVerify({Key? key}) : super(key: key);
 
   @override
   State<MyVerify> createState() => _MyVerifyState();
 }
 
 class _MyVerifyState extends State<MyVerify> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     final defaultPinTheme = PinTheme(
@@ -34,6 +38,8 @@ class _MyVerifyState extends State<MyVerify> {
         color: Color.fromRGBO(234, 239, 243, 1),
       ),
     );
+
+    var code = "";
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -84,6 +90,9 @@ class _MyVerifyState extends State<MyVerify> {
               ),
               Pinput(
                 length: 6,
+                onChanged: (value){
+                  code =value;
+                },
                 // defaultPinTheme: defaultPinTheme,
                 // focusedPinTheme: focusedPinTheme,
                 // submittedPinTheme: submittedPinTheme,
@@ -102,18 +111,28 @@ class _MyVerifyState extends State<MyVerify> {
                         primary: Colors.green.shade600,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
-                    onPressed: () {},
+                    onPressed: () async {
+                      try{
+                        PhoneAuthCredential credential =
+                        PhoneAuthProvider.credential(
+                            verificationId: MyPhone.verify,
+                            smsCode: code);
+                        await auth.signInWithCredential(credential);
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => HomeScreen()));
+                      }catch(e){
+                        print("Wrong OTP");
+                      }
+
+                    },
                     child: Text("Verify Phone Number")),
               ),
               Row(
                 children: [
                   TextButton(
                       onPressed: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          'phone',
-                              (route) => false,
-                        );
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => MyPhone()));
                       },
                       child: Text(
                         "Edit Phone Number ?",

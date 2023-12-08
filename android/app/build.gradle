@@ -2,7 +2,6 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
-    id 'com.google.gms.google-services'
 }
 
 def localProperties = new Properties()
@@ -46,7 +45,7 @@ android {
         applicationId "com.example.fund_raiser.fund_raiser_second"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -65,11 +64,11 @@ android {
 flutter {
     source '../..'
 }
-
+//apply plugin: 'com.google.gms.google-services'
 dependencies {
 //    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation platform('com.google.firebase:firebase-bom:32.6.0')
-    implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.android.support:multidex:1.0.3'
-    implementation("com.google.firebase:firebase-auth")
+//    implementation platform('com.google.firebase:firebase-bom:32.7.0')
+//    implementation 'com.google.firebase:firebase-analytics'
+//    implementation 'com.android.support:multidex:1.0.3'
+//    implementation "com.google.firebase:firebase-auth"
 }
