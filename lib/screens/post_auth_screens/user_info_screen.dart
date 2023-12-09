@@ -1,5 +1,6 @@
 // import 'dart:io';
 //
+// import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
 //
@@ -7,7 +8,6 @@
 // import '../../model/user_model.dart';
 // import '../../provider/auth_provider.dart';
 // import '../../utils/utils.dart';
-// import '../home_screen.dart';
 //
 // class UserInfromationScreen extends StatefulWidget {
 //   const UserInfromationScreen({super.key});

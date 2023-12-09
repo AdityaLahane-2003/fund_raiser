@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fund_raiser_second/phone.dart';
-import 'package:fund_raiser_second/screens/auth_screens/login.dart';
-// import 'package:fund_raiser_second/screens/auth_screens/login.dart';
-import 'package:fund_raiser_second/screens/auth_screens/register_screen.dart';
+import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.dart';
+import 'package:fund_raiser_second/screens/auth_screens/email_auth/signup_screen.dart';
+import 'package:fund_raiser_second/screens/post_auth_screens/home_screen2.dart';
 
 class AuthScreen1 extends StatelessWidget {
+  const AuthScreen1({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,13 +53,12 @@ class AuthScreen1 extends StatelessWidget {
                 children: [
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          fixedSize: Size.fromHeight(40.0),
-                          primary: Colors.black26,
+                          fixedSize: Size.fromHeight(40.0), backgroundColor: Colors.black26,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => MyPhone()));
+                            MaterialPageRoute(builder: (context) => SignUpScreen()));
                       },
                       child: Text("Start Fundraising")),
                   ElevatedButton(
@@ -69,7 +69,7 @@ class AuthScreen1 extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10))),
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Login()));
+                            MaterialPageRoute(builder: (context) => HomeScreen2()));
                       },
                       child: Text("Start Donating")),
                   SizedBox(
@@ -91,7 +91,7 @@ class AuthScreen1 extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Login()));
+                              MaterialPageRoute(builder: (context) => LoginScreen()));
                         },
                         child: Text(
                           "Login",

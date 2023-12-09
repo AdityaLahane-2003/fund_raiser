@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/screens/auth_screens/auth_screen1.dart';
-import 'package:fund_raiser_second/screens/auth_screens/login.dart';
 import 'package:fund_raiser_second/screens/intro_screens/page1.dart';
 import 'package:fund_raiser_second/screens/intro_screens/page2.dart';
 import 'package:fund_raiser_second/screens/intro_screens/page3.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-class Home extends StatefulWidget {
-  const Home({super.key});
+class IntroHome extends StatefulWidget {
+  const IntroHome({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<IntroHome> createState() => _IntroHomeState();
 }
 
-class _HomeState extends State<Home> {
+class _IntroHomeState extends State<IntroHome> {
 
   //Controller to keep count of pages and to ckeck onn which page we are
   PageController controller = PageController();
