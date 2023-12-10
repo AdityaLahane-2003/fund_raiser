@@ -32,7 +32,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
 
             TextFormField(
               controller: phoneNumberController,
-              keyboardType: TextInputType.number,
+              // keyboardType: TextInputType.number,
               decoration: InputDecoration(
                   hintText: '+1 234 3455 234'
               ),

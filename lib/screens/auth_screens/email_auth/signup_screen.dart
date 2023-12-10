@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../components/round_button.dart';
 import '../../../utils/utils_toast.dart';
-import '../../post_auth_screens/home_screen.dart';
+import '../../post_auth_screens/take_user_info.dart';
 import 'login_screen.dart';
 
 

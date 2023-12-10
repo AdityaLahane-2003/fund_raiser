@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fund_raiser_second/screens/post_auth_screens/home_screen.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 import 'package:fund_raiser_second/screens/intro_screens/intro_home.dart';
 
 
@@ -14,7 +14,7 @@ class SplashServices{
 
     if(user != null){
       Timer(const Duration(seconds: 3),
-              ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))
+              ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => HomeDashboard()))
       );
     }else {
       Timer(const Duration(seconds: 3),

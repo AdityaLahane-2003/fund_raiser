@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/signup_screen.dart';
 import 'package:fund_raiser_second/screens/auth_screens/phone_auth/login_with_phone_number.dart';
-import 'package:fund_raiser_second/screens/post_auth_screens/home_screen2.dart';
-
 import '../../../components/round_button.dart';
 import '../../../utils/utils_toast.dart';
+import '../../post_auth_screens/take_user_info.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -40,9 +39,9 @@ class _LoginScreenState extends State<LoginScreen> {
     _auth.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text.toString()).then((value){
-      Utils().toastMessage(value.user!.email.toString());
+      Utils().toastMessage(value.user!.email.toString(), color: Colors.green);
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => HomeScreen2())
+          MaterialPageRoute(builder: (context) => HomeScreen())
       );
       setState(() {
         loading = false ;
