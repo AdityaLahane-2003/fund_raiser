@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
+import 'generated_plugin_registrant.dart';
+
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
 /// Example:
@@ -52,12 +54,4 @@ class DefaultFirebaseOptions {
         );
     }
   }
-
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB9iGCEiPLakvBeagYP1InNznyLapncJM0',
-    appId: '1:289212149010:android:3e9bc2e0ea811f51f7d7cb',
-    messagingSenderId: '289212149010',
-    projectId: 'hrtaa-fund-raiser',
-    storageBucket: 'hrtaa-fund-raiser.appspot.com',
-  );
 }

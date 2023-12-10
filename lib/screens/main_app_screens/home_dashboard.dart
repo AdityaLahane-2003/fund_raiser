@@ -51,25 +51,27 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   fit: BoxFit.cover,
                 ),
               ),
-              child: Center(
-                child: Column(
-                  children: [
-                    CircleAvatar(
-                      maxRadius: 50,
-                      backgroundImage: NetworkImage('https://avatars.githubusercontent.com/u/108022893?v=4'),
-                    ),
-                    SizedBox(height: 8),
-                    Text('User Name'),
-                    InkWell(
-                      onTap: (){
-                        Utils().toastMessage("Opening - My Profile", color: Colors.green);
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>UserInfoPage(userId: userId)));
-                      },
-                    child:
-                    Text("My Profile"),
-                    )
-                  ],
-                ),
+              child: ListView(
+                children:[ Center(
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        maxRadius: 40,
+                        backgroundImage: NetworkImage('https://avatars.githubusercontent.com/u/108022893?v=4'),
+                      ),
+                      SizedBox(height: 8),
+                      Text('User Name'),
+                      InkWell(
+                        onTap: (){
+                          Utils().toastMessage("Opening - My Profile", color: Colors.green);
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>UserInfoPage(userId: userId)));
+                        },
+                      child:
+                      Text("My Profile", style: TextStyle(fontSize: 13),),
+                      )
+                    ],
+                  ),
+                ),]
               ),
             ),
 
