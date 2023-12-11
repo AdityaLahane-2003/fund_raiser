@@ -56,6 +56,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   child: Column(
                     children: [
                       CircleAvatar(
+                        minRadius: 20,
                         maxRadius: 40,
                         backgroundImage: NetworkImage('https://avatars.githubusercontent.com/u/108022893?v=4'),
                       ),
@@ -67,7 +68,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>UserInfoPage(userId: userId)));
                         },
                       child:
-                      Text("My Profile", style: TextStyle(fontSize: 13),),
+                      Text("My Profile"),
                       )
                     ],
                   ),
@@ -153,82 +154,84 @@ class _HomeDashboardState extends State<HomeDashboard> {
           ],
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-
-// Image at the top
-          Image.network(
-            'https://placekitten.com/300/200', // Replace with your image URL
-            height: 200,
-            fit: BoxFit.cover,
-          ),
-          SizedBox(height: 10),
-          Text("Update UI",textAlign:TextAlign.center,),
-// Toggle button
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+        
+        // Image at the top
+            Image.network(
+              'https://placekitten.com/300/200', // Replace with your image URL
+              height: 200,
+              fit: BoxFit.cover,
+            ),
+            SizedBox(height: 10),
+            Text("Update UI",textAlign:TextAlign.center,),
+        // Toggle button
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Select Option:'),
+                  SizedBox(width: 10),
+                  ToggleButtons(
+                    children: [
+                      Text('Fundraiser'),
+                      Text('Donate'),
+                    ],
+                    isSelected: [isFundraiserSelected, !isFundraiserSelected],
+                    onPressed: (index) {
+                      setState(() {
+                        isFundraiserSelected = index == 0;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+        // Button based on toggle selection
+            isFundraiserSelected
+                ? Column(
+                    children: [
+                      Text(
+                        'Raise Fund for a Cause',
+                        style:
+                            TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CampaignCreation()));
+                        },
+                        child: Text('Raise Fund'),
+                      ),
+                    ],
+                  )
+                : Column(
               children: [
-                Text('Select Option:'),
-                SizedBox(width: 10),
-                ToggleButtons(
-                  children: [
-                    Text('Fundraiser'),
-                    Text('Donate'),
-                  ],
-                  isSelected: [isFundraiserSelected, !isFundraiserSelected],
-                  onPressed: (index) {
-                    setState(() {
-                      isFundraiserSelected = index == 0;
-                    });
+                Text(
+                  'Donate for a Cause',
+                  style:
+                  TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CampaignList()));
                   },
+                  child: Text('Donate Now'),
                 ),
               ],
             ),
-          ),
-// Button based on toggle selection
-          isFundraiserSelected
-              ? Column(
-                  children: [
-                    Text(
-                      'Raise Fund for a Cause',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CampaignCreation()));
-                      },
-                      child: Text('Raise Fund'),
-                    ),
-                  ],
-                )
-              : Column(
-            children: [
-              Text(
-                'Donate for a Cause',
-                style:
-                TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CampaignList()));
-                },
-                child: Text('Donate Now'),
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

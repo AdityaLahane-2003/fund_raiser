@@ -2,19 +2,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 import '../../utils/utils_toast.dart';
+import '../../firebase_services/add_user_details_service.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class TakeUserInfoScreen extends StatefulWidget {
+  const TakeUserInfoScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<TakeUserInfoScreen> createState() => _TakeUserInfoScreenState();
 }
 
 
-class _HomeScreenState extends State<HomeScreen> {
+class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -27,42 +27,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
 
-    String getCurrentUserId() {
-      User? user = FirebaseAuth.instance.currentUser;
-      return user?.uid ?? '';
-    } String getCurrentUserEmail() {
-      User? user = FirebaseAuth.instance.currentUser;
-      return user?.email ?? '';
-    }
-    Future addUserDetails(String name, String email, String phone, int age, String bio) async{
-      String userId = getCurrentUserId();
-      CollectionReference users = FirebaseFirestore.instance.collection('users');
-      await users.doc(userId).set({
-        'name':name,
-        'email':email,
-        'phone':phone,
-        'age':age,
-        'bio':bio,
-        'imageUrl': "",
-      });
-    }
-
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.home),
+        leading: Icon(Icons.verified_user),
         automaticallyImplyLeading:false,
-        title: Text('Post'),
-        actions: [
-          IconButton(onPressed: (){
-            auth.signOut().then((value){
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()));
-            }).onError((error, stackTrace){
-              Utils().toastMessage(error.toString());
-            });
-          }, icon: Icon(Icons.logout_outlined),),
-          SizedBox(width: 10,)
-        ],
+        title: Text('User Details'),
       ),
       body:  SingleChildScrollView(
         child: Padding(
@@ -75,8 +44,6 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 16.0),
               Text("Update UI"),
               SizedBox(height: 16.0),
-
-
               Form(
                 key: _formKey,
                 child: Column(

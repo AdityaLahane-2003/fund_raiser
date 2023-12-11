@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 
 import '../../utils/utils_toast.dart';
 
@@ -37,6 +38,9 @@ class _HomeScreen2State extends State<HomeScreen2> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            TextButton(onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder:(context)=> HomeDashboard()));
+            }, child: Text("HomeDashBoard")),
             Text('Home Screen 2'
             , style: TextStyle(fontSize: 50,color: Colors.deepOrange),),
             SizedBox(height: 10,),

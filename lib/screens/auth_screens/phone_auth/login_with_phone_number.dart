@@ -6,7 +6,8 @@ import '../../../components/round_button.dart';
 import '../../../utils/utils_toast.dart';
 
 class LoginWithPhoneNumber extends StatefulWidget {
-  const LoginWithPhoneNumber({Key? key}) : super(key: key);
+  final String comingFrom;
+  const LoginWithPhoneNumber({Key? key, required this.comingFrom}) : super(key: key);
 
   @override
   State<LoginWithPhoneNumber> createState() => _LoginWithPhoneNumberState();
@@ -22,7 +23,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text( widget.comingFrom=='signup'?"SignUp":'Login'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -38,7 +39,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
               ),
             ),
             SizedBox(height: 80,),
-            RoundButton(title: 'Login',loading: loading, onTap: (){
+            RoundButton(title: widget.comingFrom=='signup'?"SignUp":'Login',loading: loading, onTap: (){
 
               setState(() {
                 loading = true ;
@@ -59,7 +60,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                   codeSent: (String verificationId , int? token){
                     Navigator.push(context,
                         MaterialPageRoute(
-                            builder: (context) => VerifyCodeScreen(verificationId:verificationId ,)));
+                            builder: (context) => VerifyCodeScreen(verificationId:verificationId ,phone:phoneNumberController.text.trim(),comingFrom: widget.comingFrom,)));
                     setState(() {
                       loading = false ;
                     });
