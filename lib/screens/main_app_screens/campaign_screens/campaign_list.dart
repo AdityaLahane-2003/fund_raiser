@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/firebase_services/delete_campaign_services.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/update_campaign.dart';
 
 import '../../../components/campaign_card.dart';
 import '../../../model/campaign_model.dart';
 
 class CampaignsList extends StatefulWidget {
+  const CampaignsList({super.key});
+
   @override
   _CampaignsListState createState() => _CampaignsListState();
 }
@@ -65,6 +67,36 @@ class _CampaignsListState extends State<CampaignsList> {
               ).then((_) {
                 _loadCampaigns();
               });
+            },
+            onDeletePressed: () async{
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Delete Campaign"),
+                      content: Text(
+                          "Are you sure you want to delete your campaign? This action is irreversible."),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(
+                                context); // Close the dialog
+                          },
+                          child: Text("Cancel"),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            await DeleteCampaignServices.deleteCampaign(campaign.id);
+                            await _loadCampaigns();
+                            Navigator.pop(
+                                context);
+                          },
+                          child: Text("Delete"),
+                        ),
+                      ],
+                    );
+                  },
+                );
             },
           );
         },

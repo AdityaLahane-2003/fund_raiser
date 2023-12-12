@@ -6,11 +6,13 @@ class CampaignCard extends StatelessWidget {
   final Campaign campaign;
   final bool isCurrentUserCampaign;
   final VoidCallback onUpdatePressed;
+  final VoidCallback onDeletePressed;
 
   CampaignCard({
     required this.campaign,
     required this.isCurrentUserCampaign,
     required this.onUpdatePressed,
+    required this.onDeletePressed,
   });
 
   @override
@@ -24,9 +26,20 @@ class CampaignCard extends StatelessWidget {
             title: Text(campaign.title),
             subtitle: Text(campaign.description),
             trailing: isCurrentUserCampaign
-                ? IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: onUpdatePressed,
+                ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (isCurrentUserCampaign)
+                  IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: onUpdatePressed,
+                  ),
+                if (isCurrentUserCampaign)
+                  IconButton(
+                    icon: Icon(Icons.delete,color: Colors.red,),
+                    onPressed: onDeletePressed,
+                  ),
+              ],
             )
                 : null,
           ),
