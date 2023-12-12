@@ -6,7 +6,6 @@ String getCurrentUserEmail() {
   return user?.email ?? '';
 }
 String getCurrentUserId() {
-  // User? user = FirebaseAuth.instance.currentUser;
   return user?.uid ?? '';
 }
 Future addUserDetails(String name, String email, String phone, int age, String bio) async{
@@ -14,10 +13,11 @@ Future addUserDetails(String name, String email, String phone, int age, String b
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   await users.doc(userId).set({
     'name':name,
-    'email':email,
+    'email':getCurrentUserEmail(),
     'phone':phone,
     'age':age,
     'bio':bio,
     'imageUrl': "",
+    'campaigns': [],
   });
 }

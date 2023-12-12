@@ -25,6 +25,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
   @override
   void initState() {
+
     super.initState();
     userData = {};
     loadUserInfo();
@@ -72,16 +73,18 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       title: userData['email'] != ""
                           ? Text('Email: ${userData['email']}')
                           : const Text('Email: Not provided}'),
+                      subtitle:FirebaseAuth.instance.currentUser!.emailVerified
+                          ? SizedBox(height: 0,):const Text("we've sent link to verify email, please check and verify!"),
                       trailing: FirebaseAuth.instance.currentUser!.emailVerified
                           ? const Icon(Icons.verified_outlined, color: Colors.green)
                           : TextButton(
                               onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => const VerifyEmail(comingFrom: "myProfile",),
-                                //   ),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const VerifyEmail(isSignUp: false,),
+                                  ),
+                                );
                               },
                               child: Text(
                                 "Verify",

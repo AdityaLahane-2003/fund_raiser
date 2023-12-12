@@ -64,8 +64,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {
         loading = false ;
       });
+      user = _auth.currentUser!;
+      addUserDetails("User",user!.email.toString() ?? "email", "phone", 0, "bio");
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => VerifyEmail())
+          MaterialPageRoute(builder: (context) => const VerifyEmail(isSignUp: true,))
       );
     }).onError((error, stackTrace){
       Utils().toastMessage(error.toString());

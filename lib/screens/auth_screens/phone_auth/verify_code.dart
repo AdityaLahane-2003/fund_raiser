@@ -74,7 +74,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
 
                   try {
                     await auth.signInWithCredential(crendital);
-                    isPhoneverified=true;
                     widget.comingFrom=="signup"?Navigator.push(context,
                         MaterialPageRoute(builder: (context) => TakeUserInfoScreen())):
                      await checkUserExists(widget.phone)?Navigator.push(context,

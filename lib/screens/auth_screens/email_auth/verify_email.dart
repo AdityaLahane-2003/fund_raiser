@@ -10,11 +10,14 @@ import 'package:fund_raiser_second/utils/utils_toast.dart';
 import '../../../firebase_services/add_user_details_service.dart';
 
 class VerifyEmail extends StatefulWidget {
-  const VerifyEmail({super.key});
+  final bool isSignUp;
+
+  const VerifyEmail({Key? key, required this.isSignUp}) : super(key: key);
 
   @override
   State<VerifyEmail> createState() => _VerifyEmailState();
 }
+
 
 class _VerifyEmailState extends State<VerifyEmail> {
 
@@ -24,15 +27,10 @@ late Timer timer;
 @override
   void initState() {
     user = auth.currentUser!;
-  addUserDetails("User",user.email.toString(), "phone", 0, "bio");
+  // addUserDetails("User",user.email.toString(), "phone", 0, "bio");
     user.sendEmailVerification();
     timer = Timer.periodic(Duration(seconds: 5), (timer) {
         checkEmailVerified();
-        // if(user==null){
-        //   timer.cancel();
-        // }else{
-        // Utils().toastMessage("Verifying Email, Please wait !",color: Colors.yellow);
-        // }
     });
     super.initState();
   }
@@ -50,7 +48,8 @@ late Timer timer;
         actions: [
           IconButton(onPressed: (){
             timer.cancel();
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+            widget.isSignUp?Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()))
+            :Navigator.pop(context);
           }, icon: Icon(Icons.close))
         ],
         title: Text("Verify Email"),
@@ -62,16 +61,16 @@ late Timer timer;
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircularProgressIndicator(color: Colors.green,),
-            Text("Verification link sent to your email ID"),
-            Text(" Please Verify Email!"),
-            SizedBox(height: 10,),
+            const CircularProgressIndicator(color: Colors.green,),
+            const Text("Verification link sent to your email ID"),
+            const Text(" Please Verify Email!"),
+            const SizedBox(height: 10,),
             ElevatedButton(
                 onPressed: () {
                   user = auth.currentUser!;
                   user.sendEmailVerification();
                 },
-                child: Text("Resend Verification Link "))
+                child: const Text("Resend Verification Link "))
           ],
         )),
       ),
@@ -85,7 +84,8 @@ Future<void> checkEmailVerified()async{
   if(user.emailVerified){
     timer.cancel();
     Utils().toastMessage("Email Verified Successfully",color: Colors.green);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>TakeUserInfoScreen()));
+    widget.isSignUp?Navigator.push(context, MaterialPageRoute(builder: (context)=>TakeUserInfoScreen()))
+        :Navigator.pop(context);
   }
 }
 }
