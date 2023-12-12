@@ -28,8 +28,8 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _selectedImage == null
-                ?Image(image: AssetImage('assets/logo.png'),height: 200.0)
-                : Image.file(_selectedImage!),
+                ?Image(image: AssetImage('assets/logo.png'),height: 100.0,width: 100,)
+                : Image.file(_selectedImage!,height: 100.0,width: 100,),
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
@@ -63,7 +63,7 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
   }
 
   Future<void> _pickImage() async {
-    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery,imageQuality: 70);
     setState(() {
       if (pickedImage != null) {
         _selectedImage = File(pickedImage.path);

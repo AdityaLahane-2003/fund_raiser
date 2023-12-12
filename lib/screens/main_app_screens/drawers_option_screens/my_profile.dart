@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.dart';
+import 'package:fund_raiser_second/screens/auth_screens/email_auth/verify_email.dart';
 import 'package:fund_raiser_second/screens/auth_screens/phone_auth/login_with_phone_number.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/update_profile.dart';
 import 'package:fund_raiser_second/screens/post_auth_screens/image_picker_screen.dart';
@@ -20,6 +21,7 @@ class UserInfoPage extends StatefulWidget {
 class _UserInfoPageState extends State<UserInfoPage> {
   final FirebaseService firebaseService = FirebaseService();
   late Map<String, dynamic> userData;
+  DeleteUserServices deleteUserServices = DeleteUserServices();
 
   @override
   void initState() {
@@ -66,21 +68,29 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         : Text('Name: User}'),
                   ),
                   ListTile(
-                    leading: Icon(Icons.email_outlined),
-                    title: userData['email'] != ""
-                        ? Text('Email: ${userData['email']}')
-                        : Text('Email: Not provided}'),
-                    trailing: FirebaseAuth.instance.currentUser!.emailVerified
-                        ? Icon(Icons.verified_outlined, color: Colors.green)
-                        : Icon(
-                            Icons.not_interested,
-                            color: Colors.red,
-                          ),
-                  ),
+                      leading: Icon(Icons.email_outlined),
+                      title: userData['email'] != ""
+                          ? Text('Email: ${userData['email']}')
+                          : const Text('Email: Not provided}'),
+                      trailing: FirebaseAuth.instance.currentUser!.emailVerified
+                          ? const Icon(Icons.verified_outlined, color: Colors.green)
+                          : TextButton(
+                              onPressed: () {
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => const VerifyEmail(comingFrom: "myProfile",),
+                                //   ),
+                                // );
+                              },
+                              child: Text(
+                                "Verify",
+                                style: TextStyle(color: Colors.red),
+                              ))),
                   ListTile(
-                      leading: Icon(Icons.phone),
-                      title: Text('Phone: ${userData['phone']}'),
-                     ),
+                    leading: Icon(Icons.phone),
+                    title: Text('Phone: ${userData['phone']}'),
+                  ),
                   ListTile(
                     leading: Icon(Icons.abc_outlined),
                     title: Text('Bio: ${userData['bio']}'),
@@ -121,20 +131,21 @@ class _UserInfoPageState extends State<UserInfoPage> {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Text("Delete Account"),
-                                  content: Text("Are you sure you want to delete your account? This action is irreversible."),
+                                  content: Text(
+                                      "Are you sure you want to delete your account? This action is irreversible."),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.pop(context); // Close the dialog
+                                        Navigator.pop(
+                                            context); // Close the dialog
                                       },
                                       child: Text("Cancel"),
                                     ),
                                     TextButton(
                                       onPressed: () async {
                                         // Call a function to delete the account and data
-                                        await deleteAccountAndData();
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
-                                        Navigator.pop(context); // Close the dialog
+                                        await deleteUserServices
+                                            .deleteAccountAndData(context);
                                       },
                                       child: Text("Delete"),
                                     ),
@@ -145,7 +156,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
                           },
                           child: Text("Delete Account"),
                         )
-
                       ],
                     ),
                   ),

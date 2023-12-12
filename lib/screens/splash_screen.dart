@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/components/loading.dart';
 import '../firebase_services/splash_services.dart';
-
-
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -11,7 +10,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   SplashServices splashScreen = SplashServices();
 
   @override
@@ -20,11 +18,20 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     splashScreen.isLogin(context);
   }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('Firebase Tutorials' , style: TextStyle(fontSize: 30),),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children:
+            [Image(image: AssetImage('assets/logo.png')),
+              SizedBox(height: 20.0,),
+              Loading(size: 50.0, color: Colors.black)
+            ],
+        ),
       ),
     );
   }
