@@ -128,8 +128,27 @@ class _CampaignCreationState extends State<CampaignCreation> {
             fundraiserData.story = story;
           },
           onRaiseFundPressed: () async {
-              await widget.campaignService.createCampaign(fundraiserData);
-              Navigator.pop(context);
+            await widget.campaignService.createCampaign(fundraiserData);
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Campaign Created"),
+                  content: Text(
+                      "Congrats! Your campaign has been created. You can view it in the campaigns tab."),
+                  actions: [
+                    TextButton(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                      },
+                      child: Text("Share"),
+                    ),
+                  ],
+                );
+              },
+            );
+
+              // Navigator.pop(context);
           },
           onPrevious: () {
             setState(() {
