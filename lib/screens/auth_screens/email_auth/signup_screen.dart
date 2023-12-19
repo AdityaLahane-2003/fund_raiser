@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fund_raiser_second/firebase_services/add_user_details_service.dart';
+import 'package:fund_raiser_second/firebase_services/user_services/add_user_details_service.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/verify_email.dart';
 
 import '../../../components/round_button.dart';
@@ -41,22 +41,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       loading = true ;
     });
 
-
-
-    // _auth.sendSignInLinkToEmail(
-    //   email: emailController.text.toString(),
-    //   actionCodeSettings: ActionCodeSettings(
-    //     url: 'https://flutterauth.page.link/',
-    //     handleCodeInApp: true,
-    //     iOSBundleId: 'com.techease.dumy',
-    //     androidPackageName: 'com.techease.dumy',
-    //     androidMinimumVersion: "1",
-    //   ),
-    //
-    // ).then((value){
-    // }).onError((error, stackTrace){
-    //   print(error.toString());
-    // });
 
     _auth.createUserWithEmailAndPassword(
         email: emailController.text.toString(),

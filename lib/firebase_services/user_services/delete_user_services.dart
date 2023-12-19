@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
 
-import '../screens/auth_screens/email_auth/login_screen.dart';
+import '../../screens/auth_screens/email_auth/login_screen.dart';
 
 class DeleteUserServices {
 

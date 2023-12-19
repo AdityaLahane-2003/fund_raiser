@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
-import '../../utils/utils_toast.dart';
-import '../../firebase_services/add_user_details_service.dart';
+import '../../firebase_services/user_services/add_user_details_service.dart';
 
 class TakeUserInfoScreen extends StatefulWidget {
   const TakeUserInfoScreen({super.key});

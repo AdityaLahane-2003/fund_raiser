@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/signup_screen.dart';
-import 'package:fund_raiser_second/screens/post_auth_screens/home_screen2.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/campaign_list.dart';
 
 class AuthScreen1 extends StatelessWidget {
   const AuthScreen1({super.key});
@@ -69,7 +69,7 @@ class AuthScreen1 extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10))),
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => HomeScreen2()));
+                            MaterialPageRoute(builder: (context) => CampaignsList()));
                       },
                       child: Text("Start Donating")),
                   SizedBox(

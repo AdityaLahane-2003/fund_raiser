@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../firebase_services/update_user_info_services.dart';
+import '../../../firebase_services/user_services/update_user_info_services.dart';
 import '../../../utils/utils_toast.dart';
 class UpdateUserInfoPage extends StatefulWidget {
   final String userId;

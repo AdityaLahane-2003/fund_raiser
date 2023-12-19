@@ -7,8 +7,8 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/my_
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/help.dart';
 
-import '../../firebase_services/add_user_details_service.dart';
-import '../../firebase_services/campaign_services.dart';
+import '../../firebase_services/user_services/add_user_details_service.dart';
+import '../../firebase_services/campaign_services/campaign_services.dart';
 import '../../utils/utils_toast.dart';
 import '../auth_screens/email_auth/login_screen.dart';
 import 'drawers_option_screens/my_profile.dart';
@@ -24,6 +24,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
   bool isFundraiserSelected = true; // Default selection
   bool _isVisible = false;
   final CampaignService campaignService = CampaignService(getCurrentUserId());
+
   @override
   Widget build(BuildContext context) {
     String getCurrentUserId() {
@@ -86,7 +87,6 @@ class _HomeDashboardState extends State<HomeDashboard> {
                 ),
               ]),
             ),
-
             ListTile(
               leading: Icon(Icons.home_filled),
               title: Text('Home'),
@@ -106,14 +106,14 @@ class _HomeDashboardState extends State<HomeDashboard> {
               child: ListTile(
                 leading: Icon(Icons.upload_outlined),
                 title: Text('Raise Fund'),
-                trailing:  Icon(Icons.arrow_downward),
-                ),
+                trailing: Icon(Icons.arrow_downward),
               ),
+            ),
             Visibility(
               visible: _isVisible,
               child: ListTile(
-              textColor: Colors.teal[400],
-              iconColor: Colors.green,
+                textColor: Colors.teal[400],
+                iconColor: Colors.green,
                 leading: Icon(Icons.upload_outlined),
                 title: Text('Create Campaign'),
                 // Add functionality for raising funds
@@ -121,7 +121,8 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CampaignCreation(campaignService: campaignService)));
+                          builder: (context) => CampaignCreation(
+                              campaignService: campaignService)));
                 },
               ),
             ),
@@ -134,10 +135,8 @@ class _HomeDashboardState extends State<HomeDashboard> {
                 title: Text('My Campaigns'),
                 // Add functionality for raising funds
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MyCampaigns()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MyCampaigns()));
                 },
               ),
             ),
@@ -198,7 +197,8 @@ class _HomeDashboardState extends State<HomeDashboard> {
           children: [
             // Image at the top
             Image.network(
-              'https://firebasestorage.googleapis.com/v0/b/hrtaa-fund-raiser.appspot.com/o/images%2Fl.jpeg?alt=media&token=df3db6fa-894b-4c6c-97a0-869d4496d243', // Replace with your image URL
+              'https://firebasestorage.googleapis.com/v0/b/hrtaa-fund-raiser.appspot.com/o/images%2Fl.jpeg?alt=media&token=df3db6fa-894b-4c6c-97a0-869d4496d243',
+              // Replace with your image URL
               height: 200,
               fit: BoxFit.cover,
             ),
@@ -245,7 +245,8 @@ class _HomeDashboardState extends State<HomeDashboard> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => CampaignCreation(campaignService: campaignService)));
+                                  builder: (context) => CampaignCreation(
+                                      campaignService: campaignService)));
                         },
                         child: Text('Raise Fund'),
                       ),

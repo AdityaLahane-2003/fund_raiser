@@ -5,7 +5,7 @@ import 'package:fund_raiser_second/model/campaign_model.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/update_campaign.dart';
 
 import '../../../components/campaign_card.dart';
-import '../../../firebase_services/delete_campaign_services.dart';
+import '../../../firebase_services/campaign_services/delete_campaign_services.dart';
 
 class MyCampaigns extends StatefulWidget {
   @override
@@ -78,6 +78,16 @@ class _MyCampaignsState extends State<MyCampaigns> {
                   title: campaign['title'],
                   description: campaign['description'],
                   ownerId: campaign['ownerId'],
+                  category: campaign['category'],
+                  email: campaign['email'],
+                  relation: campaign['relation'],
+                  gender: campaign['gender'],
+                  age: campaign['age'],
+                  city: campaign['city'],
+                  schoolOrHospital: campaign['schoolOrHospital'],
+                  location: campaign['location'],
+                  coverPhoto: campaign['coverPhoto'],
+                  photoUrl: campaign['photoUrl'],
                 );
                 return CampaignCard(
                   campaign: campaign2,
@@ -131,26 +141,3 @@ class _MyCampaignsState extends State<MyCampaigns> {
     );
   }
 }
-
-// class CampaignCard extends StatelessWidget {
-//   final String title;
-//   final String description;
-//
-//   const CampaignCard({
-//     Key? key,
-//     required this.title,
-//     required this.description,
-//   }) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       margin: EdgeInsets.all(8),
-//       child: ListTile(
-//         title: Text(title),
-//         subtitle: Text(description),
-//         // Add more details or actions as needed
-//       ),
-//     );
-//   }
-// }

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fund_raiser_second/firebase_services/delete_campaign_services.dart';
+import 'package:fund_raiser_second/firebase_services/campaign_services/delete_campaign_services.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/update_campaign.dart';
 
 import '../../../components/campaign_card.dart';
@@ -34,6 +34,16 @@ class _CampaignsListState extends State<CampaignsList> {
           title: doc['title'],
           description: doc['description'],
           ownerId: doc['ownerId'],
+          category: doc['category'],
+          email: doc['email'],
+          relation: doc['relation'],
+          photoUrl: doc['photoUrl'],
+          gender: doc['gender'],
+          age: doc['age'],
+          city: doc['city'],
+          schoolOrHospital: doc['schoolOrHospital'],
+          location: doc['location'],
+          coverPhoto: doc['coverPhoto'],
         );
       }).toList();
     });

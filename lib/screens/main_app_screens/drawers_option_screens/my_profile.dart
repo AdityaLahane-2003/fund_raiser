@@ -6,8 +6,8 @@ import 'package:fund_raiser_second/screens/auth_screens/phone_auth/login_with_ph
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/update_profile.dart';
 import 'package:fund_raiser_second/screens/post_auth_screens/image_picker_screen.dart';
 import 'package:fund_raiser_second/utils/constants/isPhoneVerified.dart';
-import '../../../firebase_services/delete_user_services.dart';
-import '../../../firebase_services/update_user_info_services.dart'; // Import your FirebaseService
+import '../../../firebase_services/user_services/delete_user_services.dart';
+import '../../../firebase_services/user_services/update_user_info_services.dart'; // Import your FirebaseService
 
 class UserInfoPage extends StatefulWidget {
   final String userId;

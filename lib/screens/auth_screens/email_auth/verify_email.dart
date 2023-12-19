@@ -7,8 +7,6 @@ import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.
 import 'package:fund_raiser_second/screens/post_auth_screens/take_user_info.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
 
-import '../../../firebase_services/add_user_details_service.dart';
-
 class VerifyEmail extends StatefulWidget {
   final bool isSignUp;
 

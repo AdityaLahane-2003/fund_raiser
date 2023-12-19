@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 import 'package:fund_raiser_second/screens/post_auth_screens/take_user_info.dart';
 import '../../../components/round_button.dart';
-import '../../../utils/constants/isPhoneVerified.dart';
 import '../../../utils/utils_toast.dart';
 
 class VerifyCodeScreen extends StatefulWidget {
