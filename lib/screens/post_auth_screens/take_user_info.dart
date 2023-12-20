@@ -175,7 +175,7 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                   if (_formKey.currentState!.validate()) {
                     loading = true;
                     if (_selectedImage != null) {
-                      await ImageUploadUtils.uploadImageToFirebaseStorage(
+                      _imageUrl = await ImageUploadUtils.uploadImageToFirebaseStorage(
                           _selectedImage!, 'user_images');
                     } else {
                       _imageUrl='';
@@ -187,6 +187,7 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                       'phone': userPhone==''?phoneController.text.trim():userPhone,
                       'age': int.tryParse(ageController.text.trim()) ?? 0,
                       'bio': bioController.text.trim(),
+                      'imageUrl': _imageUrl!=''?_imageUrl:'',
                     });
                     Utils().toastMessage("Info Upadated", color: Colors.green);
                     // addUserDetails(

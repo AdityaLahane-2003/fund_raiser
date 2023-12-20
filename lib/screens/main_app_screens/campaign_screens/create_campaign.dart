@@ -3,24 +3,12 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/ste
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/step2.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/step3.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/step4.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 
 import '../../../firebase_services/campaign_services/campaign_services.dart';
+import '../../../provider/fundRaiserData_Provider.dart';
 
 
-class FundraiserData {
-  late String category='Medical';
-  late String name;
-  late String email;
-  late String relation='Myself';
-  late String photoUrl;
-  late String age;
-  late String gender;
-  late String city;
-  late String schoolOrHospital;
-  late String location;
-  late String coverPhoto;
-  late String story;
-}
 
 class CampaignCreation extends StatefulWidget {
   final CampaignService campaignService;
@@ -72,9 +60,11 @@ class _CampaignCreationState extends State<CampaignCreation> {
           onCategorySelected: (category) {
             fundraiserData.category = category;
           },
-          onNameEmailEntered: (name, email) {
+          onNameEmailEntered: (name, email,amount,endDate) {
             fundraiserData.name = name;
             fundraiserData.email = email;
+            fundraiserData.amountGoal=amount;
+            fundraiserData.dateEnd=endDate;
           },
           onNext: () {
             setState(() {
@@ -123,9 +113,10 @@ class _CampaignCreationState extends State<CampaignCreation> {
         );
       case 4:
         return Step4(
-          onCoverPhotoStoryEntered: (coverPhoto, story) {
+          onCoverPhotoStoryEntered: (coverPhoto, story,title) {
             fundraiserData.coverPhoto = coverPhoto;
             fundraiserData.story = story;
+            fundraiserData.title=title;
           },
           onRaiseFundPressed: () async {
             await widget.campaignService.createCampaign(fundraiserData);
@@ -134,12 +125,24 @@ class _CampaignCreationState extends State<CampaignCreation> {
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: Text("Campaign Created"),
-                  content: Text(
-                      "Congrats! Your campaign has been created. You can view it in the campaigns tab."),
+                  content: Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundImage: AssetImage('assets/img3.jpg'),
+                      ),
+                          Text(
+                          "Congrats! Your campaign has been created. You can view it in the campaigns tab."),
+                        ],
+                  ),
                   actions: [
                     TextButton(
                       onPressed: () async {
-                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomeDashboard(),
+                          ),);
                       },
                       child: Text("Share"),
                     ),
@@ -161,19 +164,3 @@ class _CampaignCreationState extends State<CampaignCreation> {
     }
   }
 }
-
-
-// ElevatedButton(
-// onPressed: () async {
-// String title = titleController.text;
-// String description = descriptionController.text;
-//
-// if (title.isNotEmpty && description.isNotEmpty) {
-// await widget.campaignService.createCampaign(title, description);
-// Navigator.pop(context); // Close the create campaign page after creation
-// } else {
-// // Show an error message or handle the case where fields are empty
-// }
-// },
-// child: Text('Create Campaign'),
-// ),

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../provider/fundRaiserData_Provider.dart';
 import '../../screens/main_app_screens/campaign_screens/create_campaign.dart';
 
 class CampaignService {
@@ -24,6 +25,12 @@ class CampaignService {
       'coverPhoto':fundraiserData.coverPhoto,
       'description':  fundraiserData.story,
       'ownerId': userId,
+      'amountRaised': fundraiserData.amountRaised,
+      'amountGoal': fundraiserData.amountGoal,
+      'amountDonors': fundraiserData.amountDonors,
+      'dateCreated': fundraiserData.dateCreated,
+      'status': fundraiserData.status,
+      'dateEnd': fundraiserData.dateEnd,
     });
 
     // Update user's campaigns field with the campaign ID

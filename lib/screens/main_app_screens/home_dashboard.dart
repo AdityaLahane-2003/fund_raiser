@@ -28,6 +28,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
   Widget build(BuildContext context) {
 
     String userId = getCurrentUserId();
+    // String userImageUrl = getCurrentUserImage();
     final auth = FirebaseAuth.instance;
     return Scaffold(
       appBar: AppBar(

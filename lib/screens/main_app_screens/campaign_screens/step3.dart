@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Step3 extends StatelessWidget {
@@ -29,10 +28,10 @@ class Step3 extends StatelessWidget {
             children: [
               TextFormField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: InputDecoration(labelText: 'School/Hospital Name',),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a name';
+                    return 'If not needed Eter NA';
                   }
                   return null;
                 },
@@ -40,10 +39,10 @@ class Step3 extends StatelessWidget {
               SizedBox(height: 16),
               TextFormField(
                 controller: locationController,
-                decoration: InputDecoration(labelText: 'Location'),
+                decoration: InputDecoration(labelText: 'Address'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter a location';
+                    return 'If not needed Eeter NA';
                   }
                   return null;
                 },

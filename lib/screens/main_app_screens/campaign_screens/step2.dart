@@ -1,7 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/components/loading.dart';
 
-class Step2 extends StatelessWidget {
+import '../../../firebase_services/Image_services/pick_image.dart';
+import '../../../firebase_services/Image_services/upload_image_to_storage.dart';
+import '../../../utils/utils_toast.dart';
+
+class Step2 extends StatefulWidget {
   final Function(String) onRelationSelected;
   final Function(String, String, String, String) onPersonalInfoEntered;
   final Function onPrevious;
@@ -14,16 +21,28 @@ class Step2 extends StatelessWidget {
     required this.onNext,
   });
 
+  @override
+  State<Step2> createState() => _Step2State();
+}
+
+class _Step2State extends State<Step2> {
   final List<String> relations = ['Myself', 'My Family', 'My Friend', 'Other'];
+  final List<String> genders = ['Male', 'Female', 'Prefer Not to tell', 'Other'];
+
   late String selectedRelation = 'Myself';
+  late String selectedGender = 'Male';
 
   final TextEditingController photoUrlController = TextEditingController();
+
   final TextEditingController ageController = TextEditingController();
+
   final TextEditingController genderController = TextEditingController();
+
   final TextEditingController cityController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-
+  File? _selectedImage;
+  String _imageUrl='';
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -44,24 +63,52 @@ class Step2 extends StatelessWidget {
                   );
                 }).toList(),
                 onChanged: (value) {
-                  onRelationSelected(value!);
+                  widget.onRelationSelected(value!);
                   selectedRelation = value;
+                  setState(() {});
                 },
               ),
               SizedBox(height: 16),
-              TextFormField(
-                controller: photoUrlController,
-                decoration: InputDecoration(labelText: 'Photo URL'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a photo URL';
-                  }
-                  return null;
-                },
+              Align(
+                child: Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    _selectedImage == null
+                        ? CircleAvatar(
+                        maxRadius: 50,
+                        backgroundImage:  AssetImage('assets/logo.png')
+                    )
+                        :  CircleAvatar(
+                      maxRadius: 50,
+                      backgroundImage: FileImage(_selectedImage!),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        _selectedImage = await ImagePickerUtils.pickImage();
+                        if (_selectedImage != null) {
+                          _imageUrl = await ImageUploadUtils.uploadImageToFirebaseStorage(
+                              _selectedImage!, 'campaigns_user');
+                        }else{
+                          Utils().toastMessage('Please pick an image first.');
+                        }
+                        setState(() {});
+                      },
+                      child: Icon(
+                        Icons.add_a_photo,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.topCenter,
+              child: Text("Benificiary Image"),
               ),
               SizedBox(height: 16),
               TextFormField(
                 controller: ageController,
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(labelText: 'Age'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -71,14 +118,20 @@ class Step2 extends StatelessWidget {
                 },
               ),
               SizedBox(height: 16),
-              TextFormField(
-                controller: genderController,
-                decoration: InputDecoration(labelText: 'Gender'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a gender';
-                  }
-                  return null;
+              DropdownButton<String>(
+                value: selectedGender,
+                hint: Text('Select Gender'),
+                items: genders.map((gender) {
+                  return DropdownMenuItem<String>(
+                    value: gender,
+                    child: Text(gender),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  selectedGender = value!;
+                  setState(() {
+                    genderController.text = value;
+                  });
                 },
               ),
               SizedBox(height: 16),
@@ -98,20 +151,20 @@ class Step2 extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      onPrevious();
+                      widget.onPrevious();
                     },
                     child: Text('Previous'),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
-                        onPersonalInfoEntered(
-                          photoUrlController.text,
+                        widget.onPersonalInfoEntered(
+                          _imageUrl==''?'notProvided' : _imageUrl,
                           ageController.text,
                           genderController.text,
                           cityController.text,
                         );
-                        onNext();
+                        widget.onNext();
                       }
                     },
                     child: Text('Next'),

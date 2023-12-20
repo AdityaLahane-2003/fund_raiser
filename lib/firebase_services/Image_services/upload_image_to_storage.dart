@@ -6,16 +6,17 @@ import 'package:uuid/uuid.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
 
 class ImageUploadUtils {
-  static Future<void> uploadImageToFirebaseStorage(File image, String folder) async {
+  static Future<String> uploadImageToFirebaseStorage(File image, String folder) async {
     final String uid = Uuid().v4();
     final Reference storageReference =
     FirebaseStorage.instance.ref().child('$folder/$uid.jpg');
     final UploadTask uploadTask = storageReference.putFile(image);
-
+var imageUrl;
     await uploadTask.whenComplete(() async {
       Utils().toastMessage('Image Updated Successfully !', color: Colors.green);
-      final imageUrl = await storageReference.getDownloadURL();
-      ImageStoreUtils.storeImageUrlInFirestore(imageUrl);
+       imageUrl = await storageReference.getDownloadURL();
+      // ImageStoreUtils.storeImageUrlInFirestore(imageUrl);
     });
+    return imageUrl;
   }
 }

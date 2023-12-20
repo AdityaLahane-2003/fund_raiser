@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/firebase_services/user_services/UserInfoUtils.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/verify_email.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/update_profile.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
+import '../../../components/loading.dart';
 import '../../../firebase_services/Image_services/pick_image.dart';
+import '../../../firebase_services/Image_services/store_img_url.dart';
 import '../../../firebase_services/Image_services/upload_image_to_storage.dart';
 import '../../../firebase_services/user_services/delete_user_services.dart';
 import '../../../firebase_services/user_services/update_user_info_services.dart'; // Import your FirebaseService
@@ -20,20 +23,21 @@ class UserInfoPage extends StatefulWidget {
 }
 
 class _UserInfoPageState extends State<UserInfoPage> {
-  final FirebaseService firebaseService = FirebaseService();
   late Map<String, dynamic> userData;
   DeleteUserServices deleteUserServices = DeleteUserServices();
   File? _selectedImage;
+  late UserInfoUtils userInfoUtils;
+  String? _imageUrl;
   @override
   void initState() {
-
     super.initState();
+    userInfoUtils = UserInfoUtils(userId: widget.userId);
     userData = {};
     loadUserInfo();
   }
 
   Future<void> loadUserInfo() async {
-    userData = await firebaseService.getUser(widget.userId);
+    userData = await userInfoUtils.loadUserInfo();
     setState(() {});
   }
 
@@ -69,8 +73,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
                             _selectedImage = await ImagePickerUtils.pickImage();
                             setState(() {});
                             if (_selectedImage != null) {
-                              await ImageUploadUtils.uploadImageToFirebaseStorage(
+                             _imageUrl = await ImageUploadUtils.uploadImageToFirebaseStorage(
                                   _selectedImage!, 'user_images');
+                              await ImageStoreUtils.storeImageUrlInFirestore(_imageUrl!, 'users');
                             }else{
                               Utils().toastMessage('Please pick an image first.');
                             }
@@ -182,7 +187,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
               ),
             )
           : Center(
-              child: CircularProgressIndicator(),
+              child: Loading(size:50,color: Colors.black,),
             ),
     );
   }
