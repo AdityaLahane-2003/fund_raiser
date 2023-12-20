@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 import 'package:fund_raiser_second/screens/post_auth_screens/take_user_info.dart';
 import '../../../components/round_button.dart';
+import '../../../firebase_services/user_services/add_user_details_service.dart';
 import '../../../utils/utils_toast.dart';
 
 class VerifyCodeScreen extends StatefulWidget {
@@ -67,18 +68,25 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                   setState(() {
                     loading = true;
                   });
-                  final crendital = PhoneAuthProvider.credential(
+                  final credential = PhoneAuthProvider.credential(
                       verificationId: widget.verificationId,
                       smsCode: verificationCodeController.text.toString());
 
                   try {
-                    await auth.signInWithCredential(crendital);
-                    widget.comingFrom=="signup"?Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => TakeUserInfoScreen())):
-                     await checkUserExists(widget.phone)?Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeDashboard())):
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => TakeUserInfoScreen()));
+                    await auth.signInWithCredential(credential);
+                    bool userExists = await checkUserExists(widget.phone);
+                    if(widget.comingFrom=="signup"){
+                      addUserDetails("User","email123", widget.phone.toString() ??"phone", 0, "bio");
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => TakeUserInfoScreen()));
+                    }else{
+                      if(userExists){
+                        Navigator.push(context,
+                                 MaterialPageRoute(builder: (context) => HomeDashboard()));
+                      }else{
+                        addUserDetails("User","email", widget.phone.toString() ??"phone", 0, "bio");
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => TakeUserInfoScreen()));
+                      }
+                    }
                   } catch (e) {
                     setState(() {
                       loading = false;

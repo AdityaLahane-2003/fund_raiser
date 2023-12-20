@@ -5,7 +5,6 @@ import 'package:fund_raiser_second/screens/auth_screens/email_auth/verify_email.
 
 import '../../../components/round_button.dart';
 import '../../../utils/utils_toast.dart';
-import '../../post_auth_screens/take_user_info.dart';
 import '../phone_auth/login_with_phone_number.dart';
 import 'login_screen.dart';
 
@@ -23,6 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isPasswordVisible = false;
 
   final  _auth = FirebaseAuth.instance;
 
@@ -34,7 +34,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     passwordController.dispose();
 
   }
-
 
   void signUp(){
     setState(() {
@@ -91,6 +90,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             if(value!.isEmpty){
                               return 'Enter email';
                             }
+                            final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
+                            if (!emailRegex.hasMatch(value)) {
+                              return 'Enter a valid email address';
+                            }
                             return null ;
                           },
                         ),
@@ -98,14 +101,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         TextFormField(
                           keyboardType: TextInputType.text,
                           controller: passwordController,
-                          obscureText: true,
-                          decoration: const  InputDecoration(
+                          obscureText: !isPasswordVisible,
+                          decoration: InputDecoration(
                               hintText: 'Password',
-                              prefixIcon: Icon(Icons.lock_open)
+                              prefixIcon: Icon(Icons.lock_open),
+                              suffix:IconButton(
+                                onPressed: () {
+                                setState(() {
+                                  isPasswordVisible = !isPasswordVisible;
+                                });
+                              },
+                                icon: Icon(
+                                  isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                ),)
                           ),
                           validator: (value){
                             if(value!.isEmpty){
                               return 'Enter password';
+                            }else if(value.length<6){
+                              return 'Password must be at least 6 characters';
                             }
                             return null ;
                           },
@@ -118,6 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 RoundButton(
                   title: 'Sign up',
                   loading: loading ,
+                  color: Colors.white,
                   onTap: (){
                     if(_formKey.currentState!.validate()){
                       signUp();
@@ -154,7 +169,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         borderRadius: BorderRadius.circular(50),
                         border: Border.all(color: Colors.black)),
                     child: Center(
-                      child: Text('Login with phone'),
+                      child: Text('SignUp with phone'),
                     ),
                   ),
                 )

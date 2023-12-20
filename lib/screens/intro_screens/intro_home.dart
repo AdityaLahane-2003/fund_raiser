@@ -41,7 +41,7 @@ class _IntroHomeState extends State<IntroHome> {
             ],
           ),
           Container(
-            alignment: Alignment(0,0.75),
+            alignment: const Alignment(0,0.75),
             child:  Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -50,7 +50,7 @@ class _IntroHomeState extends State<IntroHome> {
                     onTap: (){
                       controller.jumpToPage(2);
                     },
-                    child: Text("Skip")),
+                    child: const Text("Skip")),
                 //Dot indicators
                 SmoothPageIndicator(
                     controller: controller,
@@ -60,14 +60,14 @@ class _IntroHomeState extends State<IntroHome> {
                 //Next button
                 GestureDetector(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>AuthScreen1()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const AuthScreen1()));
                     },
-                    child: Text("Done"))
+                    child: const Text("Done"))
                     :GestureDetector(
                     onTap: (){
-                      controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+                      controller.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
                     },
-                    child: Text("Next")),
+                    child: const Text("Next")),
               ],
             ),
           )

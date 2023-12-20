@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/donate_screen.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 
 import '../model/campaign_model.dart';
 
@@ -61,10 +63,17 @@ class CampaignCard extends StatelessWidget {
                         ),
                     ],
                   )
-                : null,
+                : TextButton(
+                onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeDashboard()));
+                },
+                child: Text("Donate",
+                style: TextStyle(color: Colors.purple[200])),
           ),
           // Add other campaign details as needed
-        ],
+          )],
       ),
     );
   }

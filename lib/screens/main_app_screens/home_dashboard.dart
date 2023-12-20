@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/campaign_list.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/create_campaign.dart';
@@ -27,10 +26,6 @@ class _HomeDashboardState extends State<HomeDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    String getCurrentUserId() {
-      User? user = FirebaseAuth.instance.currentUser;
-      return user?.uid ?? '';
-    }
 
     String userId = getCurrentUserId();
     final auth = FirebaseAuth.instance;
@@ -69,7 +64,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                             'https://avatars.githubusercontent.com/u/108022893?v=4'),
                       ),
                       SizedBox(height: 8),
-                      Text('User Name'),
+                      Text("userName"),
                       InkWell(
                         onTap: () {
                           Utils().toastMessage("Opening - My Profile",
@@ -202,11 +197,6 @@ class _HomeDashboardState extends State<HomeDashboard> {
               height: 200,
               fit: BoxFit.cover,
             ),
-            SizedBox(height: 10),
-            Text(
-              "Update UI",
-              textAlign: TextAlign.center,
-            ),
             // Toggle button
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -216,6 +206,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   Text('Select Option:'),
                   SizedBox(width: 10),
                   ToggleButtons(
+                    borderRadius: BorderRadius.circular(50),
                     children: [
                       Text('Fundraiser'),
                       Text('Donate'),
@@ -271,6 +262,19 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       ),
                     ],
                   ),
+            SizedBox(height: 10),
+            Align(
+              alignment: Alignment.center,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MyCampaigns()));
+                },
+                child: Text('Explore Your Campaigns'),
+              ),
+            ),
           ],
         ),
       ),

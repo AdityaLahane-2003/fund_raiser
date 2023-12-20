@@ -21,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isPasswordVisible = false;
 
   final _auth = FirebaseAuth.instance;
 
@@ -88,6 +89,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Enter email';
+                            }final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
+                            if (!emailRegex.hasMatch(value)) {
+                              return 'Enter a valid email address';
                             }
                             return null;
                           },
@@ -98,15 +102,27 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextFormField(
                           keyboardType: TextInputType.text,
                           controller: passwordController,
-                          obscureText: true,
-                          decoration: const InputDecoration(
+                          obscureText: !isPasswordVisible,
+                          decoration: InputDecoration(
                               hintText: 'Password',
-                              prefixIcon: Icon(Icons.lock_open)),
-                          validator: (value) {
-                            if (value!.isEmpty) {
+                              prefixIcon: Icon(Icons.lock_open),
+                              suffix:IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isPasswordVisible = !isPasswordVisible;
+                                  });
+                                },
+                                icon: Icon(
+                                  isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                ),)
+                          ),
+                          validator: (value){
+                            if(value!.isEmpty){
                               return 'Enter password';
+                            }else if(value.length<6){
+                              return 'Password must be at least 6 characters';
                             }
-                            return null;
+                            return null ;
                           },
                         ),
                       ],

@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/components/loading.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.dart';
 import 'package:fund_raiser_second/screens/post_auth_screens/take_user_info.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
@@ -10,7 +10,7 @@ import 'package:fund_raiser_second/utils/utils_toast.dart';
 class VerifyEmail extends StatefulWidget {
   final bool isSignUp;
 
-  const VerifyEmail({Key? key, required this.isSignUp}) : super(key: key);
+  const VerifyEmail({super.key, required this.isSignUp});
 
   @override
   State<VerifyEmail> createState() => _VerifyEmailState();
@@ -27,7 +27,7 @@ late Timer timer;
     user = auth.currentUser!;
   // addUserDetails("User",user.email.toString(), "phone", 0, "bio");
     user.sendEmailVerification();
-    timer = Timer.periodic(Duration(seconds: 5), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 5), (timer) {
         checkEmailVerified();
     });
     super.initState();
@@ -46,7 +46,7 @@ late Timer timer;
         actions: [
           IconButton(onPressed: (){
             timer.cancel();
-            widget.isSignUp?Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()))
+            widget.isSignUp?Navigator.push(context, MaterialPageRoute(builder: (context)=>const LoginScreen()))
             :Navigator.pop(context);
           }, icon: Icon(Icons.close))
         ],
@@ -59,7 +59,7 @@ late Timer timer;
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const CircularProgressIndicator(color: Colors.green,),
+             Loading(size: 20, color: Colors.purpleAccent,),
             const Text("Verification link sent to your email ID"),
             const Text(" Please Verify Email!"),
             const SizedBox(height: 10,),

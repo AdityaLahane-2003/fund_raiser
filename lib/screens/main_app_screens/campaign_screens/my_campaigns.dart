@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fund_raiser_second/components/loading.dart';
+import 'package:fund_raiser_second/firebase_services/campaign_services/load_campaigns.dart';
 import 'package:fund_raiser_second/model/campaign_model.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/update_campaign.dart';
 
@@ -18,34 +19,7 @@ class _MyCampaignsState extends State<MyCampaigns> {
   @override
   void initState() {
     super.initState();
-    _campaigns = _loadCampaigns();
-  }
-
-  Future<List<DocumentSnapshot>> _loadCampaigns() async {
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      CollectionReference userCollection =
-      FirebaseFirestore.instance.collection('users');
-      DocumentSnapshot userDoc = await userCollection.doc(user.uid).get();
-
-      List<String> campaignIds =
-      List<String>.from(userDoc['campaigns'] ?? []);
-
-      if (campaignIds.isNotEmpty) {
-        CollectionReference campaignsCollection =
-        FirebaseFirestore.instance.collection('campaigns');
-        QuerySnapshot campaignQuery = await campaignsCollection
-            .where(FieldPath.documentId, whereIn: campaignIds)
-            .get();
-
-        return campaignQuery.docs;
-      } else {
-        return [];
-      }
-    } else {
-      return [];
-    }
+    _campaigns = loadCampaigns();
   }
 
   @override
@@ -58,7 +32,7 @@ class _MyCampaignsState extends State<MyCampaigns> {
         future: _campaigns,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return Loading(size: 25,color:Colors.black);
           } else if (snapshot.hasError) {
             print('Error: ${snapshot.error}');
             return Text('Error: ${snapshot.error}');
@@ -100,7 +74,7 @@ class _MyCampaignsState extends State<MyCampaigns> {
                         builder: (context) => UpdateCampaignPage(campaign: campaign2),
                       ),
                     ).then((_) {
-                      _loadCampaigns();
+                      loadCampaigns();
                     });
                   },
                   onDeletePressed: () async{
@@ -122,7 +96,7 @@ class _MyCampaignsState extends State<MyCampaigns> {
                             TextButton(
                               onPressed: () async {
                                 await DeleteCampaignServices.deleteCampaign(campaign.id);
-                                await _loadCampaigns();
+                                await loadCampaigns();
                                 Navigator.pop(context);
                               },
                               child: Text("Delete"),

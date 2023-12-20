@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/signup_screen.dart';
@@ -53,33 +52,33 @@ class AuthScreen1 extends StatelessWidget {
                 children: [
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          fixedSize: Size.fromHeight(40.0), backgroundColor: Colors.black26,
+                          fixedSize: const Size.fromHeight(40.0), backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => SignUpScreen()));
+                            MaterialPageRoute(builder: (context) => const SignUpScreen()));
                       },
-                      child: Text("Start Fundraising")),
+                      child: const Text("Start Fundraising",style: TextStyle(color: Colors.black),)),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          fixedSize: Size.fromHeight(40.0),
-                          primary: Colors.black45,
+                          fixedSize: const Size.fromHeight(40.0),
+                          backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => CampaignsList()));
+                            MaterialPageRoute(builder: (context) => const CampaignsList()));
                       },
-                      child: Text("Start Donating")),
-                  SizedBox(
+                      child: const Text("Start Donating",style: TextStyle(color: Colors.black))),
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       GestureDetector(
-                        child: Text(
+                        child: const Text(
                           "Already have an acoount? ",
                           style: TextStyle(
                               fontSize: 12,
@@ -91,9 +90,9 @@ class AuthScreen1 extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => LoginScreen()));
+                              MaterialPageRoute(builder: (context) => const LoginScreen()));
                         },
-                        child: Text(
+                        child: const Text(
                           "Login",
                           style: TextStyle(
                             fontSize: 12,

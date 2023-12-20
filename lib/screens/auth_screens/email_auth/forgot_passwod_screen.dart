@@ -30,14 +30,26 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
 
-            TextFormField(
-              controller: emailController,
-              decoration: InputDecoration(
-                  hintText: 'Email'
-              ),
-            ),
+          TextFormField(
+          keyboardType: TextInputType.emailAddress,
+          controller: emailController,
+          decoration: const  InputDecoration(
+              hintText: 'Email',
+              prefixIcon: Icon(Icons.alternate_email)
+          ),
+          validator: (value){
+            if(value!.isEmpty){
+              return 'Enter email';
+            }
+            final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
+            if (!emailRegex.hasMatch(value)) {
+              return 'Enter a valid email address';
+            }
+            return null ;
+          },
+        ),
             SizedBox(height: 40,),
-            RoundButton(title: 'Forgot', onTap: (){
+            RoundButton(title: 'Get Email', onTap: (){
               auth.sendPasswordResetEmail(email: emailController.text.toString()).then((value){
                 Utils().toastMessage('We have sent you email to recover password, please check email');
                 Utils().toastMessage('Also check in spam folder and login with your new password !');
