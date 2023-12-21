@@ -25,7 +25,6 @@ late Timer timer;
 @override
   void initState() {
     user = auth.currentUser!;
-  // addUserDetails("User",user.email.toString(), "phone", 0, "bio");
     user.sendEmailVerification();
     timer = Timer.periodic(const Duration(seconds: 5), (timer) {
         checkEmailVerified();
@@ -59,7 +58,7 @@ late Timer timer;
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-             Loading(size: 20, color: Colors.purpleAccent,),
+             Loading(size: 50, color: Colors.purpleAccent,),
             const Text("Verification link sent to your email ID"),
             const Text(" Please Verify Email!"),
             const SizedBox(height: 10,),

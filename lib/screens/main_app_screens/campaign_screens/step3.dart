@@ -28,7 +28,14 @@ class Step3 extends StatelessWidget {
             children: [
               TextFormField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'School/Hospital Name',),
+                cursorColor: Colors.black,
+                decoration: InputDecoration(
+                  labelText: 'School/Hospital Name',
+                  floatingLabelStyle: TextStyle(color: Colors.green),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'If not needed Eter NA';
@@ -39,7 +46,14 @@ class Step3 extends StatelessWidget {
               SizedBox(height: 16),
               TextFormField(
                 controller: locationController,
-                decoration: InputDecoration(labelText: 'Address'),
+                cursorColor: Colors.black,
+                decoration: InputDecoration(
+                  labelText: 'Address',
+                  floatingLabelStyle: TextStyle(color: Colors.green),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'If not needed Eeter NA';
@@ -52,19 +66,31 @@ class Step3 extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue[400],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
                     onPressed: () {
                       onPrevious();
                     },
-                    child: Text('Previous'),
+                    child: Text('Previous',style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.green[400],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
                         onSchoolOrHospitalEntered(nameController.text, locationController.text);
                         onNext();
                       }
                     },
-                    child: Text('Next'),
+                    child: Text('Next',style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
                 ],
               ),

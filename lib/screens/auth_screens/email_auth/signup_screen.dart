@@ -10,7 +10,7 @@ import 'login_screen.dart';
 
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  const SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -48,7 +48,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         loading = false ;
       });
       user = _auth.currentUser!;
-      addUserDetails("User",user!.email.toString() ?? "email", "phone", 0, "bio");
+      addUserDetails("User",user!.email.toString(), "phone", 0, "bio");
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const VerifyEmail(isSignUp: true,))
       );
@@ -64,10 +64,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign up'),
+        title: const Text('Sign up'),
       ),
       body: ListView(
-        padding: EdgeInsets.symmetric(vertical: 90,horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 90,horizontal: 10),
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -104,7 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           obscureText: !isPasswordVisible,
                           decoration: InputDecoration(
                               hintText: 'Password',
-                              prefixIcon: Icon(Icons.lock_open),
+                              prefixIcon: const Icon(Icons.lock_open),
                               suffix:IconButton(
                                 onPressed: () {
                                 setState(() {
@@ -133,6 +133,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   title: 'Sign up',
                   loading: loading ,
                   color: Colors.white,
+                  size: 20,
                   onTap: (){
                     if(_formKey.currentState!.validate()){
                       signUp();
@@ -143,14 +144,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Already have an account?"),
+                    const Text("Already have an account?"),
                     TextButton(onPressed: (){
                       Navigator.push(context,
                           MaterialPageRoute(
-                              builder:(context) => LoginScreen())
+                              builder:(context) => const LoginScreen())
                       );
                     },
-                        child: Text('Login'))
+                        child: const Text('Login'))
                   ],
                 ),
                 const SizedBox(
@@ -161,14 +162,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => LoginWithPhoneNumber(comingFrom: "signup",)));
+                            builder: (context) => const LoginWithPhoneNumber(comingFrom: "signup",)));
                   },
                   child: Container(
                     height: 50,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                         border: Border.all(color: Colors.black)),
-                    child: Center(
+                    child: const Center(
                       child: Text('SignUp with phone'),
                     ),
                   ),

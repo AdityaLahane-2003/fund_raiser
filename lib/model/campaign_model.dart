@@ -1,6 +1,7 @@
 class Campaign {
   final String id;
   final String title;
+  final String name;
   final String description;
   final String ownerId; // Added field for campaign owner
   final String category;
@@ -22,6 +23,7 @@ class Campaign {
   Campaign({
     required  this.gender,
     required this.age,
+    required this.name,
     required this.city,
     required  this.schoolOrHospital,
     required this.location,

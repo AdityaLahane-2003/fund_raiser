@@ -31,6 +31,7 @@ class _CampaignsListState extends State<CampaignsList> {
       campaigns = snapshot.docs.map((doc) {
         return Campaign(
           id: doc.id,
+          name: doc['name'],
           title: doc['title'],
           description: doc['description'],
           ownerId: doc['ownerId'],
@@ -90,34 +91,50 @@ class _CampaignsListState extends State<CampaignsList> {
               });
             },
             onDeletePressed: () async{
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Delete Campaign"),
-                      content: Text(
-                          "Are you sure you want to delete your campaign? This action is irreversible."),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(
-                                context); // Close the dialog
-                          },
-                          child: Text("Cancel"),
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Delete Campaign !!!"),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset(
+                          'assets/logo.png', // Replace with your image asset
+                          height: 100,
                         ),
-                        TextButton(
-                          onPressed: () async {
-                            await DeleteCampaignServices.deleteCampaign(campaign.id);
-                            await _loadCampaigns();
-                            Navigator.pop(
-                                context);
-                          },
-                          child: Text("Delete"),
+                        SizedBox(height: 10),
+                        Text(
+                          "Are you sure you want to delete your Campaign? This action is irreversible.",
+                          style: TextStyle(fontSize: 16),
                         ),
                       ],
-                    );
-                  },
-                );
+                    ),alignment: Alignment.center,
+                    actionsAlignment: MainAxisAlignment.spaceBetween,
+                    actions: [
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.grey[400],
+                        ),
+                        onPressed: () {
+                          Navigator.pop(
+                              context); // Close the dialog
+                        },
+                        child: Text("Cancel",style: TextStyle(color: Colors.white)),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          await DeleteCampaignServices.deleteCampaign(campaign.id);
+                          await _loadCampaigns();
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(primary: Colors.red),
+                        child: Text("Delete",style: TextStyle(color: Colors.white)),
+                      ),
+                    ],
+                  );
+                },
+              );
             },
           );
         },

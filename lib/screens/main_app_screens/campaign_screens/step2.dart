@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fund_raiser_second/components/loading.dart';
 
 import '../../../firebase_services/Image_services/pick_image.dart';
 import '../../../firebase_services/Image_services/upload_image_to_storage.dart';
@@ -53,22 +52,6 @@ class _Step2State extends State<Step2> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              DropdownButton<String>(
-                value: selectedRelation,
-                hint: Text('Select Relation'),
-                items: relations.map((relation) {
-                  return DropdownMenuItem<String>(
-                    value: relation,
-                    child: Text(relation),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  widget.onRelationSelected(value!);
-                  selectedRelation = value;
-                  setState(() {});
-                },
-              ),
-              SizedBox(height: 16),
               Align(
                 child: Stack(
                   alignment: Alignment.topRight,
@@ -103,13 +86,60 @@ class _Step2State extends State<Step2> {
               ),
               Align(
                 alignment: Alignment.topCenter,
-              child: Text("Benificiary Image"),
+                child: Text("Benificiary Image"),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Select Relation*',
+              ),
+              SizedBox(height: 10),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  border: Border.all(color: Colors.grey.shade800),
+                ),
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  borderRadius: BorderRadius.circular(20.0),
+                  icon: Icon(Icons.arrow_drop_down),
+                  iconSize: 36.0,
+                  elevation: 16,
+                  style: TextStyle(color: Colors.black),
+                  value: selectedRelation,
+                  hint: Text('Select Relation'),
+                  items: relations.map((relation) {
+                    return DropdownMenuItem<String>(
+                      value: relation,
+                      child: Center(
+                        child: Text(
+                          relation,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    widget.onRelationSelected(value!);
+                    selectedRelation = value;
+                    setState(() {});
+                  },
+                ),
               ),
               SizedBox(height: 16),
               TextFormField(
                 controller: ageController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: 'Age'),
+                cursorColor: Colors.black,
+                decoration: InputDecoration(
+                  labelText: 'Age',
+                  floatingLabelStyle: TextStyle(color: Colors.green),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter an age';
@@ -118,26 +148,57 @@ class _Step2State extends State<Step2> {
                 },
               ),
               SizedBox(height: 16),
-              DropdownButton<String>(
-                value: selectedGender,
-                hint: Text('Select Gender'),
-                items: genders.map((gender) {
-                  return DropdownMenuItem<String>(
-                    value: gender,
-                    child: Text(gender),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  selectedGender = value!;
-                  setState(() {
-                    genderController.text = value;
-                  });
-                },
+              Text(
+                'Select Gender*',
+              ),
+              SizedBox(height: 10),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  border: Border.all(color: Colors.grey.shade800),
+                ),
+                child: DropdownButton<String>(
+                  borderRadius: BorderRadius.circular(20.0),
+                  icon: Icon(Icons.arrow_drop_down),
+                  iconSize: 36.0,
+                  elevation: 16,
+                  style: TextStyle(color: Colors.black),
+                  value: selectedGender,
+                  hint: Text('Select Gender'),
+                  isExpanded: true,
+                  items: genders.map((gender) {
+                    return DropdownMenuItem<String>(
+                      value: gender,
+                      child: Center(
+                        child: Text(
+                          gender,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    selectedGender = value!;
+                    setState(() {
+                      genderController.text = value;
+                    });
+                  },
+                ),
               ),
               SizedBox(height: 16),
               TextFormField(
                 controller: cityController,
-                decoration: InputDecoration(labelText: 'City'),
+                cursorColor: Colors.black,
+                decoration: InputDecoration(
+                  labelText: 'City Of Resident',
+                  floatingLabelStyle: TextStyle(color: Colors.green),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a city';
@@ -150,12 +211,24 @@ class _Step2State extends State<Step2> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue[400],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
                     onPressed: () {
                       widget.onPrevious();
                     },
-                    child: Text('Previous'),
+                    child: Text('Previous',style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.green[400],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
                         widget.onPersonalInfoEntered(
@@ -167,7 +240,7 @@ class _Step2State extends State<Step2> {
                         widget.onNext();
                       }
                     },
-                    child: Text('Next'),
+                    child: Text('Next',style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
                 ],
               ),

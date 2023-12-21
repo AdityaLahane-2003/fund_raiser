@@ -31,7 +31,7 @@ class CampaignCard extends StatelessWidget {
         children: [
           // Displaying cover photo using URL
           Image.network(
-            campaign.coverPhoto,
+            campaign.coverPhoto==""?'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg':campaign.coverPhoto,
             height: 200,// Adjust the height as needed
             width: double.infinity,
             fit: BoxFit.fill,
@@ -40,12 +40,33 @@ class CampaignCard extends StatelessWidget {
           // Title of the campaign
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              campaign.title,
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  campaign.title,
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.share),
+                  onPressed: (){
+                    Share.share(
+                      'Check out this fundraising campaign: ${campaign.title}\n\n'
+                          'Amount Raised: ${campaign.amountRaised} ₹\n'
+                          'Goal Amount: ${campaign.amountGoal} ₹\n'
+                          'Start Date: ${campaign.dateCreated.day}/${campaign.dateCreated.month}/${campaign.dateCreated.year}\n'
+                          'End Date: ${campaign.dateEnd.day}/${campaign.dateEnd.month}/${campaign.dateEnd.year}\n'
+                          'Number of Donors: ${campaign.amountDonors}\n'
+                          'Place: ${campaign.schoolOrHospital}\n'
+                          'Location: ${campaign.location}\n\n'
+                          'Donate now and support the cause!',
+                    );
+                  },
+                ),
+              ],
             ),
           ),
           // Progress bar slider for amount raised
@@ -54,7 +75,7 @@ class CampaignCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(100.0),
             value: campaign.amountRaised / campaign.amountGoal,
             backgroundColor: Colors.grey[300],
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.green.shade400),
           ),
           SizedBox(height: 8.0),
           // Displaying amount raised and goal amount
@@ -69,8 +90,9 @@ class CampaignCard extends StatelessWidget {
           Text('Start Date: ${campaign.dateCreated.day}/${campaign.dateCreated.month}/${campaign.dateCreated.year}'),
           Text('End Date: ${campaign.dateEnd.day}/${campaign.dateEnd.month}/${campaign.dateEnd.year}'),
           Text('Number of Donors: ${campaign.amountDonors}'),
-          Text('Place: ${campaign.schoolOrHospital}'),
           Text('Location: ${campaign.location}'),
+          Text('Beneficiary Name: ${campaign.name}'),
+          Text('Story: ${campaign.description}'),
 
           Row(
             children: [
@@ -93,21 +115,6 @@ class CampaignCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.share),
-                    onPressed: (){
-                      Share.share(
-                        'Check out this fundraising campaign: ${campaign.title}\n\n'
-                            'Amount Raised: ${campaign.amountRaised} ₹\n'
-                            'Goal Amount: ${campaign.amountGoal} ₹\n'
-                            'Start Date: ${campaign.dateCreated.day}/${campaign.dateCreated.month}/${campaign.dateCreated.year}\n'
-                            'End Date: ${campaign.dateEnd.day}/${campaign.dateEnd.month}/${campaign.dateEnd.year}\n'
-                            'Number of Donors: ${campaign.amountDonors}\n'
-                            'Place: ${campaign.schoolOrHospital}\n'
-                            'Location: ${campaign.location}\n\n'
-                            'Donate now and support the cause!',
-                      );
-                    },
-                  ), IconButton(
                     icon: Icon(Icons.question_mark),
                     onPressed: (){
                       showDialog(
@@ -158,6 +165,9 @@ class CampaignCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.green[400],
+                    ),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -166,7 +176,7 @@ class CampaignCard extends StatelessWidget {
                     },
                     child: Text(
                       'Donate',
-                      style: TextStyle(color: Colors.purple[200]),
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ],

@@ -9,7 +9,7 @@ import '../../../utils/utils_toast.dart';
 import 'forgot_passwod_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
         .then((value) {
       Utils().toastMessage(value.user!.email.toString(), color: Colors.green);
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomeDashboard()));
+          context, MaterialPageRoute(builder: (context) => const HomeDashboard()));
       setState(() {
         loading = false;
       });
@@ -66,12 +66,12 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text('Login'),
+          // automaticallyImplyLeading: false,
+          title: const Text('Login'),
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 90),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           obscureText: !isPasswordVisible,
                           decoration: InputDecoration(
                               hintText: 'Password',
-                              prefixIcon: Icon(Icons.lock_open),
+                              prefixIcon: const Icon(Icons.lock_open),
                               suffix:IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -146,9 +146,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ForgotPasswordScreen()));
+                                builder: (context) => const ForgotPasswordScreen()));
                       },
-                      child: Text('Forgot Password?')),
+                      child: const Text('Forgot Password?')),
                 ),
                 // const SizedBox(height: 10,),
                 Row(
@@ -160,31 +160,31 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SignUpScreen()));
+                                  builder: (context) => const SignUpScreen()));
                         },
-                        child: Text('Sign up'))
+                        child: const Text('Sign up'))
                   ],
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LoginWithPhoneNumber(comingFrom: "login",)));
-                  },
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(color: Colors.black)),
-                    child: Center(
-                      child: Text('Login with phone'),
-                    ),
-                  ),
-                )
+                // const SizedBox(
+                //   height: 10,
+                // ),
+                // InkWell(
+                //   onTap: () {
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => const LoginWithPhoneNumber(comingFrom: "login",)));
+                //   },
+                //   child: Container(
+                //     height: 50,
+                //     decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(50),
+                //         border: Border.all(color: Colors.black)),
+                //     child: const Center(
+                //       child: Text('Login with phone'),
+                //     ),
+                //   ),
+                // )
               ],
             ),
           ),

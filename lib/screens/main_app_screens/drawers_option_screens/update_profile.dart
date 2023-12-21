@@ -54,31 +54,104 @@ class _UpdateUserInfoPageState extends State<UpdateUserInfoPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              CircleAvatar(
+                backgroundColor: Colors.green[100],
+                minRadius: 30,
+                maxRadius: 65,
+                child: Image.asset('assets/logo.png'),),
+              SizedBox(height: 15.0),
               TextField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Name'),
-              ),
+                keyboardType: TextInputType.text, // Text color
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                  labelStyle: TextStyle(color: Colors.green[800]),
+                  // Label color
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  prefixIcon: Icon(Icons.person), // Prefix icon
+                ),
+              ),SizedBox(height: 12.0),
               TextField(
                 controller: emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                keyboardType: TextInputType.emailAddress, // Text color
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  labelStyle: TextStyle(color: Colors.green[800]),
+                  // Label color
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  prefixIcon: Icon(Icons.email_outlined), // Prefix icon
+                ),
               ),
+              SizedBox(height: 12.0),
               TextField(
                 controller: phoneController,
-                decoration: InputDecoration(labelText: 'Phone'),
+                keyboardType: TextInputType.number, // Text color
+                decoration: InputDecoration(
+                  labelText: 'Phone',
+                  labelStyle: TextStyle(color: Colors.green[800]),
+                  // Label color
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  prefixIcon: Icon(Icons.phone), // Prefix icon
+                ),
               ),
+              SizedBox(height: 12.0),
               TextField(
                 controller: ageController,
-                decoration: InputDecoration(labelText: 'Age'),
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.number, // Text color
+                decoration: InputDecoration(
+                  labelText: 'Age',
+                  labelStyle: TextStyle(color: Colors.green[800]),// Label color
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black!),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  prefixIcon: Icon(Icons.calendar_today), // Prefix icon
+                ),
               ),
+              SizedBox(height: 12.0),
               TextField(
                 controller: bioController,
-                decoration: InputDecoration(labelText: 'Bio'),
+                keyboardType: TextInputType.number, // Text color
+                decoration: InputDecoration(
+                  labelText: 'Bio',
+                  labelStyle: TextStyle(color: Colors.green[800]),// Label color
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black!),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  prefixIcon: Icon(Icons.abc_outlined), // Prefix icon
+                ),
               ),
               SizedBox(height: 16.0),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green[400],
+                ),
                 onPressed: () async {
-
                   await firebaseService.updateUser(widget.userId, {
                     'name': nameController.text.trim(),
                     'email': emailController.text.trim(),
@@ -89,7 +162,7 @@ class _UpdateUserInfoPageState extends State<UpdateUserInfoPage> {
                   Utils().toastMessage("Info Upadated", color: Colors.green);
                   Navigator.pop(context); // Pop this page to go back to UserInfoPage
                 },
-                child: Text('Update Info'),
+                child: Text('Update Info',style: TextStyle(color: Colors.white)),
               ),
             ],
           ),

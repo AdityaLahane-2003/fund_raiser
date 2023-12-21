@@ -54,13 +54,30 @@ class _Step1State extends State<Step1> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Text(
+                'Select Cause',
+              ),
               DropdownButton<String>(
+                borderRadius: BorderRadius.circular(12.0),
+                icon: Icon(Icons.arrow_drop_down),
+                iconSize: 36.0,
+                elevation: 16,
+                style: TextStyle(color: Colors.black),
                 value: selectedCategory,
                 hint: Text('Select Category'),
+                isExpanded: true,
                 items: categories.map((category) {
                   return DropdownMenuItem<String>(
                     value: category,
-                    child: Text(category),
+                    child: Center(
+                      child: Text(
+                        category,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ),
                   );
                 }).toList(),
                 onChanged: (value) {
@@ -69,10 +86,18 @@ class _Step1State extends State<Step1> {
                   setState(() {});
                 },
               ),
+
               SizedBox(height: 16),
               TextFormField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Name'),
+                cursorColor: Colors.black,
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                  floatingLabelStyle: TextStyle(color: Colors.green),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a name';
@@ -84,7 +109,14 @@ class _Step1State extends State<Step1> {
               TextFormField(
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(labelText: 'Email'),
+                cursorColor: Colors.black,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  floatingLabelStyle: TextStyle(color: Colors.green),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter an email';
@@ -100,7 +132,14 @@ class _Step1State extends State<Step1> {
               TextFormField(
                 controller: amountController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: 'Rs.Amount'),
+                cursorColor: Colors.black,
+                decoration: InputDecoration(
+                  labelText: 'Rs. Amount',
+                  floatingLabelStyle: TextStyle(color: Colors.green),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter amount';
@@ -110,12 +149,16 @@ class _Step1State extends State<Step1> {
               ),
               SizedBox(height: 16),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.green[100],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
                     onPressed: () => _selectDate(context),
-                    child: Text('End Date',style: TextStyle(fontSize: 16),),
+                    child: Text('Select End Date', style: TextStyle(fontSize: 16, color: Colors.black)),
                   ),
                   SizedBox(width: 16),
                   GestureDetector(
@@ -133,14 +176,24 @@ class _Step1State extends State<Step1> {
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
                     widget.onNameEmailEntered(
-                        nameController.text,
-                        emailController.text,
-                        int.parse(amountController.text),
-                        selectedDate ?? DateTime.now().add(Duration(days: 30)));
+                      nameController.text,
+                      emailController.text,
+                      int.parse(amountController.text),
+                      selectedDate ?? DateTime.now().add(Duration(days: 30)),
+                    );
                     widget.onNext();
                   }
                 },
-                child: Text('Next'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green[400],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+                child: Text(
+                  'Next',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
               ),
             ],
           ),

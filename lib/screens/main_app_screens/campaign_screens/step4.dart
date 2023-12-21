@@ -45,17 +45,6 @@ class _Step4State extends State<Step4> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextFormField(
-                controller: titleController,
-                decoration: InputDecoration(labelText: 'Title(Help Hari complete his education)',labelStyle: TextStyle(fontSize: 13)),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a Title';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
               Align(
                 child: Stack(
                   alignment: Alignment.topRight,
@@ -92,11 +81,37 @@ class _Step4State extends State<Step4> {
                 alignment: Alignment.topCenter,
                 child: Text("Cover Image"),
               ),
-              SizedBox(height: 5),
+              SizedBox(height: 16),
+              TextFormField(
+                controller: titleController,
+                cursorColor: Colors.black,
+                decoration: InputDecoration(
+                  labelText: 'Title(Help Hari complete his education)',
+                  floatingLabelStyle: TextStyle(color: Colors.green),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a Title';
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(height: 16),
               TextFormField(
                 controller: storyController,
-                maxLines: 5,
-                decoration: InputDecoration(labelText: 'Story'),
+                maxLines: 3,
+                cursorColor: Colors.black,
+                decoration: InputDecoration(
+                  labelText: 'Write Story Here ...',
+                  floatingLabelStyle: TextStyle(color: Colors.green),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a story';
@@ -109,19 +124,31 @@ class _Step4State extends State<Step4> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue[400],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
                     onPressed: () {
                       widget.onPrevious();
                     },
-                    child: Text('Previous'),
+                    child: Text('Previous',style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.green[400],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
                         widget.onCoverPhotoStoryEntered(_imageUrl, storyController.text,titleController.text);
                         widget.onRaiseFundPressed();
                       }
                     },
-                    child: Text('Raise Fund'),
+                    child: Text('Raise Fund',style: TextStyle(fontSize: 18, color: Colors.white)),
                   ),
                 ],
               ),

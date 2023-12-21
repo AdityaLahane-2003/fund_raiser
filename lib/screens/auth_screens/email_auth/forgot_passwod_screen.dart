@@ -6,7 +6,7 @@ import '../../../components/round_button.dart';
 import '../../../utils/utils_toast.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({Key? key}) : super(key: key);
+  const ForgotPasswordScreen({super.key});
 
   @override
   State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
@@ -21,7 +21,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Forgot Password'),
+        title: const Text('Forgot Password'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -48,14 +48,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             return null ;
           },
         ),
-            SizedBox(height: 40,),
+            const SizedBox(height: 40,),
             RoundButton(title: 'Get Email', onTap: (){
               auth.sendPasswordResetEmail(email: emailController.text.toString()).then((value){
                 Utils().toastMessage('We have sent you email to recover password, please check email');
                 Utils().toastMessage('Also check in spam folder and login with your new password !');
                 Navigator.push(context,
                     MaterialPageRoute(
-                        builder:(context) => LoginScreen())
+                        builder:(context) => const LoginScreen())
                 );
               }).onError((error, stackTrace){
                 Utils().toastMessage(error.toString());

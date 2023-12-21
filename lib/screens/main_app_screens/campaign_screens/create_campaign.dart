@@ -9,12 +9,11 @@ import 'package:share/share.dart';
 import '../../../firebase_services/campaign_services/campaign_services.dart';
 import '../../../provider/fundRaiserData_Provider.dart';
 
-
-
 class CampaignCreation extends StatefulWidget {
   final CampaignService campaignService;
 
-  const CampaignCreation({Key? key, required this.campaignService}) : super(key: key);
+  const CampaignCreation({Key? key, required this.campaignService})
+      : super(key: key);
 
   @override
   State<CampaignCreation> createState() => _CampaignCreationState();
@@ -28,21 +27,48 @@ class _CampaignCreationState extends State<CampaignCreation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fundraiser Setup'),
+        title: Text('Create Campaign'),
       ),
       body: Column(
         children: [
           LinearProgressIndicator(
+            borderRadius: BorderRadius.circular(50),
+            minHeight: 10,
             value: (currentStep - 1) / 4,
-            backgroundColor: Colors.grey,
+            backgroundColor: Colors.grey[300],
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.green[400]!),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text('Fundraiser Setup', style: TextStyle(fontWeight: FontWeight.bold)),
-                Text('Step $currentStep of 4'),
+                RichText(
+                  text: TextSpan(
+                    text: 'Step ',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: '$currentStep',
+                        style: TextStyle(
+                          color: Colors.green[400],
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' of 4',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -61,11 +87,11 @@ class _CampaignCreationState extends State<CampaignCreation> {
           onCategorySelected: (category) {
             fundraiserData.category = category;
           },
-          onNameEmailEntered: (name, email,amount,endDate) {
+          onNameEmailEntered: (name, email, amount, endDate) {
             fundraiserData.name = name;
             fundraiserData.email = email;
-            fundraiserData.amountGoal=amount;
-            fundraiserData.dateEnd=endDate;
+            fundraiserData.amountGoal = amount;
+            fundraiserData.dateEnd = endDate;
           },
           onNext: () {
             setState(() {
@@ -114,10 +140,10 @@ class _CampaignCreationState extends State<CampaignCreation> {
         );
       case 4:
         return Step4(
-          onCoverPhotoStoryEntered: (coverPhoto, story,title) {
+          onCoverPhotoStoryEntered: (coverPhoto, story, title) {
             fundraiserData.coverPhoto = coverPhoto;
             fundraiserData.story = story;
-            fundraiserData.title=title;
+            fundraiserData.title = title;
           },
           onRaiseFundPressed: () async {
             await widget.campaignService.createCampaign(fundraiserData);
@@ -125,38 +151,58 @@ class _CampaignCreationState extends State<CampaignCreation> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text("Campaign Created"),
+                  title: Text("Campaign Created ! ! !"),
                   content: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      // CircleAvatar(
-                      //   radius: 50,
-                      //   backgroundImage: AssetImage('assets/img3.jpg'),
-                      // ),
-                      Image(image: AssetImage('assets/img3.jpg'),),
-                          Text(
+                      Image(
+                        image: AssetImage('assets/img3.jpg'),
+                      ),
+                      Text(
                           "Congrats! Your campaign has been created. You can view it in the campaigns tab."),
-                        ],
+                    ],
                   ),
+                  alignment: Alignment.center,
+                  actionsAlignment: MainAxisAlignment.spaceBetween,
                   actions: [
                     TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.grey[400],
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomeDashboard(),
+                          ),
+                        );
+                      },
+                      child: Text("Skip", style: TextStyle(color: Colors.white),),
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.green[400],
+                      ),
                       onPressed: () async {
                         Share.share(
-                              'Donate now and support the cause!',
+                          'Donate now and support the cause!',
                         );
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => HomeDashboard(),
-                          ),);
+                          ),
+                        );
                       },
-                      child: Text("Share"),
+                      child: Text("Share", style: TextStyle(color: Colors.white),),
                     ),
+
                   ],
                 );
               },
             );
 
-              // Navigator.pop(context);
+            // Navigator.pop(context);
           },
           onPrevious: () {
             setState(() {

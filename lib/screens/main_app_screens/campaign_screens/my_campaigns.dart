@@ -50,6 +50,7 @@ class _MyCampaignsState extends State<MyCampaigns> {
                 Campaign campaign2 = Campaign(
                   id: campaign.id,
                   title: campaign['title'],
+                  name: campaign['name'],
                   description: campaign['description'],
                   ownerId: campaign['ownerId'],
                   category: campaign['category'],
@@ -88,16 +89,32 @@ class _MyCampaignsState extends State<MyCampaigns> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text("Delete Campaign"),
-                          content: Text(
-                              "Are you sure you want to delete your campaign? This action is irreversible."),
+                          title: Text("Delete Campaign !!!"),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset(
+                                'assets/logo.png', // Replace with your image asset
+                                height: 100,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                "Are you sure you want to delete your Campaign? This action is irreversible.",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),alignment: Alignment.center,
+                          actionsAlignment: MainAxisAlignment.spaceBetween,
                           actions: [
                             TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.grey[400],
+                              ),
                               onPressed: () {
                                 Navigator.pop(
                                     context); // Close the dialog
                               },
-                              child: Text("Cancel"),
+                              child: Text("Cancel",style: TextStyle(color: Colors.white)),
                             ),
                             TextButton(
                               onPressed: () async {
@@ -105,7 +122,8 @@ class _MyCampaignsState extends State<MyCampaigns> {
                                 await loadCampaigns();
                                 Navigator.pop(context);
                               },
-                              child: Text("Delete"),
+                              style: ElevatedButton.styleFrom(primary: Colors.red),
+                              child: Text("Delete",style: TextStyle(color: Colors.white)),
                             ),
                           ],
                         );

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../provider/fundRaiserData_Provider.dart';
-import '../../screens/main_app_screens/campaign_screens/create_campaign.dart';
 
 class CampaignService {
   final String userId;
@@ -12,7 +11,8 @@ class CampaignService {
 
     // Add a new campaign document
     DocumentReference campaignRef = await campaigns.add({
-      'title': fundraiserData.name,
+      'name': fundraiserData.name,
+      'title': fundraiserData.title,
       'category': fundraiserData.category,
       'email': fundraiserData.email,
       'relation': fundraiserData.relation,

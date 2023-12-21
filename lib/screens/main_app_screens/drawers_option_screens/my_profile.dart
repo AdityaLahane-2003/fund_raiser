@@ -11,7 +11,6 @@ import '../../../firebase_services/Image_services/pick_image.dart';
 import '../../../firebase_services/Image_services/store_img_url.dart';
 import '../../../firebase_services/Image_services/upload_image_to_storage.dart';
 import '../../../firebase_services/user_services/delete_user_services.dart';
-import '../../../firebase_services/user_services/update_user_info_services.dart'; // Import your FirebaseService
 
 class UserInfoPage extends StatefulWidget {
   final String userId;
@@ -45,7 +44,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Information'),
+        title: Text('My Profile'),
       ),
       body: userData.isNotEmpty
           ? SingleChildScrollView(
@@ -80,7 +79,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                               Utils().toastMessage('Please pick an image first.');
                             }
                           },
-                          child: Text('UPDATE'),
+                          child: Text('UPDATE',style: TextStyle(color: Colors.green),)
                         )
                       ),
                   ListTile(
@@ -95,7 +94,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                           ? Text('Email: ${userData['email']}')
                           : const Text('Email: Not provided}'),
                       subtitle:FirebaseAuth.instance.currentUser!.emailVerified
-                          ? SizedBox(height: 0,):const Text("we've sent link to verify email, please check and verify!"),
+                          ? SizedBox(height: 0,):Text("we've sent link to verify email, please check and verify!",style: TextStyle(color: Colors.red.shade200)),
                       trailing: FirebaseAuth.instance.currentUser!.emailVerified
                           ? const Icon(Icons.verified_outlined, color: Colors.green)
                           : TextButton(
@@ -119,15 +118,15 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     leading: Icon(Icons.abc_outlined),
                     title: Text('Bio: ${userData['bio']}'),
                   ),
-                  ListTile(
-                    leading: Icon(Icons.numbers),
-                    title: Text('Age: ${userData['age']}'),
-                  ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.green.shade400,
+                          ),
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -146,39 +145,74 @@ class _UserInfoPageState extends State<UserInfoPage> {
                               loadUserInfo();
                             });
                           },
-                          child: Text('Update Info'),
+                          child: Row(
+                            children: [
+                              Icon(Icons.update,color: Colors.white,),
+                              SizedBox(width: 3,),
+                              Text('Update Info',style: TextStyle(color: Colors.white),),
+                            ],
+                          )
                         ),
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.red.shade300,
+                          ),
                           onPressed: () {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: Text("Delete Account"),
-                                  content: Text(
-                                      "Are you sure you want to delete your account? This action is irreversible."),
+                                  title: Text("Delete Account !!!"),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.asset(
+                                        'assets/logo.png', // Replace with your image asset
+                                        height: 100,
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        "Are you sure you want to delete your account? This action is irreversible.",
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
+                                  alignment: Alignment.center,
+                                  actionsAlignment: MainAxisAlignment.spaceBetween,
                                   actions: [
                                     TextButton(
+                                      style: TextButton.styleFrom(
+                                        backgroundColor: Colors.grey[400],
+                                      ),
                                       onPressed: () {
-                                        Navigator.pop(
-                                            context); // Close the dialog
+                                        Navigator.pop(context); // Close the dialog
                                       },
-                                      child: Text("Cancel"),
+                                      child: Text(
+                                        "Cancel",
+                                style: TextStyle(color: Colors.white),
+                                      ),
                                     ),
-                                    TextButton(
+                                    ElevatedButton(
                                       onPressed: () async {
                                         // Call a function to delete the account and data
-                                        await deleteUserServices
-                                            .deleteAccountAndData(context);
+                                        await deleteUserServices.deleteAccountAndData(context);
                                       },
-                                      child: Text("Delete"),
+                                      style: ElevatedButton.styleFrom(primary: Colors.red),
+                                      child: Text("Delete",style: TextStyle(color: Colors.white)),
                                     ),
                                   ],
                                 );
                               },
                             );
+
                           },
-                          child: Text("Delete Account"),
+                          child: Row(
+                            children: [
+                              Icon(Icons.delete,color: Colors.white,),
+                              SizedBox(width: 3,),
+                              Text('Delete Account',style: TextStyle(color: Colors.white),),
+                            ],
+                          )
                         )
                       ],
                     ),
@@ -187,7 +221,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
               ),
             )
           : Center(
-              child: Loading(size:50,color: Colors.black,),
+              child: Loading(size:50,color: Colors.green.shade400,),
             ),
     );
   }
