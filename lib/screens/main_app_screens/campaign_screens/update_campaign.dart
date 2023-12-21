@@ -53,7 +53,6 @@ class _UpdateCampaignPageState extends State<UpdateCampaignPage> {
                   'title': titleController.text,
                   'description': descriptionController.text,
                 });
-
                 Navigator.pop(context);
               },
               child: Text('Save Changes'),

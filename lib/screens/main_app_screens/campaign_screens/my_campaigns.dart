@@ -62,6 +62,12 @@ class _MyCampaignsState extends State<MyCampaigns> {
                   location: campaign['location'],
                   coverPhoto: campaign['coverPhoto'],
                   photoUrl: campaign['photoUrl'],
+                  amountRaised: campaign['amountRaised'],
+                  amountGoal: campaign['amountGoal'],
+                  amountDonors: campaign['amountDonors'],
+                  dateCreated: campaign['dateCreated'].toDate(),
+                  status: campaign['status'],
+                  dateEnd: campaign['dateEnd'].toDate(),
                 );
                 return CampaignCard(
                   campaign: campaign2,

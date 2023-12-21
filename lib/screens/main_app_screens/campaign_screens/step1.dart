@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class Step1 extends StatefulWidget {
   final Function(String) onCategorySelected;
-  final Function(String, String, String, DateTime) onNameEmailEntered;
+  final Function(String, String, int, DateTime) onNameEmailEntered;
   final Function onNext;
 
   Step1({
@@ -135,24 +135,13 @@ class _Step1State extends State<Step1> {
                     widget.onNameEmailEntered(
                         nameController.text,
                         emailController.text,
-                        amountController.text,
+                        int.parse(amountController.text),
                         selectedDate ?? DateTime.now().add(Duration(days: 30)));
                     widget.onNext();
                   }
                 },
                 child: Text('Next'),
               ),
-
-              // ElevatedButton(
-              //   onPressed: () => _selectDate(context),
-              //   child: Text('Select Date'),
-              // ),
-              // SizedBox(height: 16),
-              // Text(
-              //   selectedDate != null
-              //       ? 'Selected Date: ${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}'
-              //       : 'No Date Selected',
-              // ),
             ],
           ),
         ),

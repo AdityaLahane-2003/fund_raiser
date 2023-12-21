@@ -44,6 +44,12 @@ class _CampaignsListState extends State<CampaignsList> {
           schoolOrHospital: doc['schoolOrHospital'],
           location: doc['location'],
           coverPhoto: doc['coverPhoto'],
+          amountRaised: doc['amountRaised'],
+          amountGoal: doc['amountGoal'],
+          amountDonors: doc['amountDonors'],
+          dateCreated: doc['dateCreated'].toDate(),
+          status: doc['status'],
+          dateEnd: doc['dateEnd'].toDate(),
         );
       }).toList();
     });
@@ -62,7 +68,12 @@ class _CampaignsListState extends State<CampaignsList> {
         itemCount: campaigns.length,
         itemBuilder: (context, index) {
           Campaign campaign = campaigns[index];
-          bool isCurrentUserCampaign = campaign.ownerId == currentUser?.uid;
+          bool isCurrentUserCampaign;
+          if(currentUser==null){
+            isCurrentUserCampaign=false;
+          }else{
+            isCurrentUserCampaign = campaign.ownerId == currentUser?.uid;
+          }
 
           return CampaignCard(
             campaign: campaign,

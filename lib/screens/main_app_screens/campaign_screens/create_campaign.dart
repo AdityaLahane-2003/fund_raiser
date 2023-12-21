@@ -4,6 +4,7 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/ste
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/step3.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/step4.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
+import 'package:share/share.dart';
 
 import '../../../firebase_services/campaign_services/campaign_services.dart';
 import '../../../provider/fundRaiserData_Provider.dart';
@@ -127,10 +128,11 @@ class _CampaignCreationState extends State<CampaignCreation> {
                   title: Text("Campaign Created"),
                   content: Column(
                     children: [
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundImage: AssetImage('assets/img3.jpg'),
-                      ),
+                      // CircleAvatar(
+                      //   radius: 50,
+                      //   backgroundImage: AssetImage('assets/img3.jpg'),
+                      // ),
+                      Image(image: AssetImage('assets/img3.jpg'),),
                           Text(
                           "Congrats! Your campaign has been created. You can view it in the campaigns tab."),
                         ],
@@ -138,6 +140,9 @@ class _CampaignCreationState extends State<CampaignCreation> {
                   actions: [
                     TextButton(
                       onPressed: () async {
+                        Share.share(
+                              'Donate now and support the cause!',
+                        );
                         Navigator.push(
                           context,
                           MaterialPageRoute(

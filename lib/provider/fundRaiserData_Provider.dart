@@ -12,9 +12,9 @@ class FundraiserData  {
   String location = '';
   String coverPhoto = '';
   String story = '';
-  String amountRaised = '0';
-  String amountGoal = '100';
-  String amountDonors = '0';
+  int amountRaised = 20;
+  int amountGoal = 100;
+  int amountDonors = 3;
   DateTime dateCreated = DateTime.now();
   String status = 'Active';
   DateTime dateEnd = DateTime.now().add(Duration(days: 30));
