@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/donate_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/help.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/our_suggestions.dart';
+import 'package:readmore/readmore.dart';
 import 'package:share/share.dart';
 import '../model/campaign_model.dart';
+import 'button.dart';
 
 class CampaignCard extends StatelessWidget {
   final Campaign campaign;
@@ -25,6 +27,11 @@ class CampaignCard extends StatelessWidget {
     status='Active':DateTime.now().isAfter(campaign.dateEnd)?
     status='Expired':status='Pending';
     return Card(
+      color: Colors.blue[50],
+      shadowColor: Colors.blue[900],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(45.0),
+      ),
       margin: EdgeInsets.all(8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,11 +50,14 @@ class CampaignCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  campaign.title,
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
+                Container(
+                  width: MediaQuery.of(context).size.width*0.75,
+                  child: Text(
+                    campaign.title,
+                    style: TextStyle(
+                      fontSize: 19.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 IconButton(
@@ -78,36 +88,87 @@ class CampaignCard extends StatelessWidget {
             valueColor: AlwaysStoppedAnimation<Color>(Colors.green.shade400),
           ),
           SizedBox(height: 8.0),
-          // Displaying amount raised and goal amount
-          Text(
-            'Amount Raised: ${campaign.amountRaised} ₹ / ${campaign.amountGoal} ₹',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    'Amount Raised:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),  Text(
+                    ' ${campaign.amountRaised} ₹ / ${campaign.amountGoal} ₹',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    'Start Date:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),  Text(
+                    '  ${campaign.dateCreated.day}/${campaign.dateCreated.month}/${campaign.dateCreated.year}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    'No. of Donors:',
+                    style: TextStyle(
+                      color: Colors.blue.shade700,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),  Text(
+                    ' ${campaign.amountDonors}',
+                    style: TextStyle(
+                      color: Colors.blue.shade700,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text('Beneficiary Name:'),
+                  Text('${campaign.name}'),
+                  SizedBox(height: 8.0),
+                  Text('End Date:'),
+                  Text(' ${campaign.dateEnd.day}/${campaign.dateEnd.month}/${campaign.dateEnd.year}'),
+                  SizedBox(height: 8.0),
+                  Text('Location: '),
+                  Text('${campaign.location}'),
+                ],
+              ),
+            ],
           ),
-          SizedBox(height: 8.0),
-          // Other campaign details
-          Text('Start Date: ${campaign.dateCreated.day}/${campaign.dateCreated.month}/${campaign.dateCreated.year}'),
-          Text('End Date: ${campaign.dateEnd.day}/${campaign.dateEnd.month}/${campaign.dateEnd.year}'),
-          Text('Number of Donors: ${campaign.amountDonors}'),
-          Text('Location: ${campaign.location}'),
-          Text('Beneficiary Name: ${campaign.name}'),
-          Text('Story: ${campaign.description}'),
-
           Row(
             children: [
               Text('Status: ${status}'),
               SizedBox(width: 3,),
               status=='Active' ?
-                Icon(Icons.circle, size: 15.0, color: Colors.green):
+              Icon(Icons.circle, size: 15.0, color: Colors.green):
               status=='Expired'?
-                Icon(Icons.circle, size: 15.0, color: Colors.red):
-                Icon(Icons.circle, size: 15.0, color: Colors.yellow),
+              Icon(Icons.circle, size: 15.0, color: Colors.red):
+              Icon(Icons.circle, size: 15.0, color: Colors.yellow),
 
             ],
           ),
           SizedBox(height: 3.0),
-          // If the user is the owner, show update and delete buttons
+        ReadMoreText(
+          'Story: ${campaign.description}',
+          trimLines: 2,
+          colorClickableText: Colors.pink,
+          trimMode: TrimMode.Line,
+          trimCollapsedText: 'Show more',
+          trimExpandedText: ' ...Show less',
+          moreStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        ),
+          SizedBox(height: 3.0),
           if (isCurrentUserCampaign)
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -164,20 +225,15 @@ class CampaignCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.green[400],
-                    ),
-                    onPressed: () {
+                  Button(
+                    onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => DonateScreen(campaignId: campaign.id)),
                       );
                     },
-                    child: Text(
-                      'Donate',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                    title: 'Donate Now',
+                    color: Colors.green.shade700,
                   ),
                 ],
               ),

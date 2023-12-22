@@ -4,7 +4,32 @@ class OurSuggestionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      persistentFooterButtons: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/logo.png',
+              height: 50,
+            ),
+            Text(
+              'Made with ',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+              ),
+            ),
+            Icon(
+              Icons.favorite,
+              color: Colors.red,
+              size: 12,
+            ),
+          ],
+        ),
+      ],
       appBar: AppBar(
+        backgroundColor: Colors.green.shade300,
         title: Text('Our Suggestions'),
       ),
       body: SingleChildScrollView(

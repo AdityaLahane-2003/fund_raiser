@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/components/button.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/signup_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/campaign_list.dart';
@@ -50,42 +51,33 @@ class AuthScreen1 extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          fixedSize: const Size.fromHeight(40.0), backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => const SignUpScreen()));
-                      },
-                      child: const Text("Start Fundraising",style: TextStyle(color: Colors.black),)),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          fixedSize: const Size.fromHeight(40.0),
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => const CampaignsList()));
-                      },
-                      child: const Text("Start Donating",style: TextStyle(color: Colors.black))),
+                  Button(
+                    color: Colors.green.shade600,
+                      title: 'Start Fundraising',
+                      onTap: (){
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const SignUpScreen()));
+                  }),
+                  Button(
+                    color: Colors.blue.shade700,
+                      title: 'Start Donating',
+                      onTap: (){
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const CampaignsList()));
+                  }),
                   const SizedBox(
                     height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      GestureDetector(
-                        child: const Text(
-                          "Already have an acoount? ",
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              decoration: TextDecoration.none),
-                        ),
+                      const Text(
+                        "Already have an acoount? ",
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            decoration: TextDecoration.none),
                       ),
                       GestureDetector(
                         onTap: () {

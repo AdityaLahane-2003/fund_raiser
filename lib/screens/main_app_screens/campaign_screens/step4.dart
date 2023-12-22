@@ -1,8 +1,7 @@
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:fund_raiser_second/components/text_filed_area.dart';
+import '../../../components/button.dart';
 import '../../../firebase_services/Image_services/pick_image.dart';
 import '../../../firebase_services/Image_services/upload_image_to_storage.dart';
 import '../../../utils/utils_toast.dart';
@@ -35,6 +34,7 @@ class _Step4State extends State<Step4> {
 
   String _imageUrl='';
 
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -51,6 +51,7 @@ class _Step4State extends State<Step4> {
                   children: [
                     _selectedImage == null
                         ? CircleAvatar(
+                      backgroundColor: Colors.white,
                         maxRadius: 50,
                         backgroundImage:  AssetImage('assets/logo.png')
                     )
@@ -82,16 +83,11 @@ class _Step4State extends State<Step4> {
                 child: Text("Cover Image"),
               ),
               SizedBox(height: 16),
-              TextFormField(
+              TextFormFieldArea(
+                prefixIcon: Icons.title,
                 controller: titleController,
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                  labelText: 'Title(Help Hari complete his education)',
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
+                  title: 'Title(Help Hari complete his education)',
+                textInputType: TextInputType.text,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a Title';
@@ -99,16 +95,20 @@ class _Step4State extends State<Step4> {
                   return null;
                 },
               ),
-
               SizedBox(height: 16),
               TextFormField(
                 controller: storyController,
                 maxLines: 3,
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.edit,
+                    color: Colors.black,
+                  ),
                   labelText: 'Write Story Here ...',
                   floatingLabelStyle: TextStyle(color: Colors.green),
                   border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                 ),
@@ -123,32 +123,26 @@ class _Step4State extends State<Step4> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.blue[400],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                    ),
-                    onPressed: () {
+                  Button(
+                    onTap: () {
                       widget.onPrevious();
                     },
-                    child: Text('Previous',style: TextStyle(fontSize: 18, color: Colors.white)),
+                    title: 'Previous',
+                    color: Colors.blue.shade700,
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.green[400],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                    ),
-                    onPressed: () {
+                 Button(
+                   loading: loading,
+                    onTap: () {
                       if (_formKey.currentState?.validate() ?? false) {
+                        setState(() {
+                          loading = true;
+                        });
                         widget.onCoverPhotoStoryEntered(_imageUrl, storyController.text,titleController.text);
                         widget.onRaiseFundPressed();
                       }
                     },
-                    child: Text('Raise Fund',style: TextStyle(fontSize: 18, color: Colors.white)),
+                    title: 'Raise Fund',
+                   color: Colors.green.shade700,
                   ),
                 ],
               ),

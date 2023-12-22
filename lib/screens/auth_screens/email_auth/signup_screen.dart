@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/components/button.dart';
 import 'package:fund_raiser_second/firebase_services/user_services/add_user_details_service.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/verify_email.dart';
 
 import '../../../components/round_button.dart';
+import '../../../components/text_filed_area.dart';
 import '../../../utils/utils_toast.dart';
 import '../phone_auth/login_with_phone_number.dart';
 import 'login_screen.dart';
@@ -67,25 +69,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
         title: const Text('Sign up'),
       ),
       body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 90,horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const CircleAvatar(
+                  radius: 50,
+                  backgroundImage: const AssetImage('assets/logo.png'),
+                  backgroundColor: Colors.transparent,
+                ),
+                const SizedBox(height: 20,),
                 Form(
                     key: _formKey,
                     child: Column(
                       children: [
-                        TextFormField(
-                          keyboardType: TextInputType.emailAddress,
+                        TextFormFieldArea(
+                          title: 'Email',
                           controller: emailController,
-                          decoration: const  InputDecoration(
-                              hintText: 'Email',
-                              prefixIcon: Icon(Icons.alternate_email)
-                          ),
+                          textInputType: TextInputType.emailAddress,
+                          prefixIcon: Icons.email,
                           validator: (value){
                             if(value!.isEmpty){
                               return 'Enter email';
@@ -98,22 +104,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           },
                         ),
                         const SizedBox(height: 10,),
-                        TextFormField(
-                          keyboardType: TextInputType.text,
+                        TextFormFieldArea(
+                          title: 'Password',
                           controller: passwordController,
+                          textInputType: TextInputType.text,
+                          prefixIcon: Icons.lock_open,
                           obscureText: !isPasswordVisible,
-                          decoration: InputDecoration(
-                              hintText: 'Password',
-                              prefixIcon: const Icon(Icons.lock_open),
-                              suffix:IconButton(
-                                onPressed: () {
-                                setState(() {
-                                  isPasswordVisible = !isPasswordVisible;
-                                });
-                              },
-                                icon: Icon(
-                                  isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                                ),)
+                          suffix: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isPasswordVisible = !isPasswordVisible;
+                              });
+                            },
+                            icon: Icon(
+                              isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                            ),
                           ),
                           validator: (value){
                             if(value!.isEmpty){
@@ -124,23 +129,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             return null ;
                           },
                         ),
-
                       ],
                     )
                 ),
-                const SizedBox(height: 50,),
-                RoundButton(
-                  title: 'Sign up',
+                const SizedBox(height: 15,),
+                Button(
+                    title: '           Sign up           ',
                   loading: loading ,
-                  color: Colors.white,
-                  size: 20,
-                  onTap: (){
-                    if(_formKey.currentState!.validate()){
-                      signUp();
-                    }
-                  },
-                ),
-                const SizedBox(height: 30,),
+                    color: Colors.green.shade700,
+                    onTap:  (){
+                      if(_formKey.currentState!.validate()){
+                        signUp();
+                      }
+                    },),
+                const SizedBox(height: 15,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -151,29 +153,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               builder:(context) => const LoginScreen())
                       );
                     },
-                        child: const Text('Login'))
+                        child: Text('Login',style: TextStyle(fontSize:17,color: Colors.blue.shade700),))
                   ],
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                InkWell(
+                Button(
+                  title: '   SignUp With Phone   ',
+                  color: Colors.blue.shade700,
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginWithPhoneNumber(comingFrom: "signup",)));
-                  },
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(color: Colors.black)),
-                    child: const Center(
-                      child: Text('SignUp with phone'),
-                    ),
-                  ),
-                )
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginWithPhoneNumber(comingFrom: "signup",)));
+                },),
 
               ],
             ),

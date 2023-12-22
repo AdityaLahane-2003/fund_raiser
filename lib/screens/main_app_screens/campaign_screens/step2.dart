@@ -1,8 +1,7 @@
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:fund_raiser_second/components/text_filed_area.dart';
+import '../../../components/button.dart';
 import '../../../firebase_services/Image_services/pick_image.dart';
 import '../../../firebase_services/Image_services/upload_image_to_storage.dart';
 import '../../../utils/utils_toast.dart';
@@ -26,7 +25,12 @@ class Step2 extends StatefulWidget {
 
 class _Step2State extends State<Step2> {
   final List<String> relations = ['Myself', 'My Family', 'My Friend', 'Other'];
-  final List<String> genders = ['Male', 'Female', 'Prefer Not to tell', 'Other'];
+  final List<String> genders = [
+    'Male',
+    'Female',
+    'Prefer Not to tell',
+    'Other'
+  ];
 
   late String selectedRelation = 'Myself';
   late String selectedGender = 'Male';
@@ -41,7 +45,8 @@ class _Step2State extends State<Step2> {
 
   final _formKey = GlobalKey<FormState>();
   File? _selectedImage;
-  String _imageUrl='';
+  String _imageUrl = '';
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -58,20 +63,21 @@ class _Step2State extends State<Step2> {
                   children: [
                     _selectedImage == null
                         ? CircleAvatar(
-                        maxRadius: 50,
-                        backgroundImage:  AssetImage('assets/logo.png')
-                    )
-                        :  CircleAvatar(
-                      maxRadius: 50,
-                      backgroundImage: FileImage(_selectedImage!),
-                    ),
+                            backgroundColor: Colors.white,
+                            maxRadius: 50,
+                            backgroundImage: AssetImage('assets/logo.png'))
+                        : CircleAvatar(
+                            maxRadius: 50,
+                            backgroundImage: FileImage(_selectedImage!),
+                          ),
                     GestureDetector(
                       onTap: () async {
                         _selectedImage = await ImagePickerUtils.pickImage();
                         if (_selectedImage != null) {
-                          _imageUrl = await ImageUploadUtils.uploadImageToFirebaseStorage(
-                              _selectedImage!, 'campaigns_user');
-                        }else{
+                          _imageUrl = await ImageUploadUtils
+                              .uploadImageToFirebaseStorage(
+                                  _selectedImage!, 'campaigns_user');
+                        } else {
                           Utils().toastMessage('Please pick an image first.');
                         }
                         setState(() {});
@@ -129,25 +135,6 @@ class _Step2State extends State<Step2> {
                 ),
               ),
               SizedBox(height: 16),
-              TextFormField(
-                controller: ageController,
-                keyboardType: TextInputType.number,
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                  labelText: 'Age',
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter an age';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
               Text(
                 'Select Gender*',
               ),
@@ -189,16 +176,24 @@ class _Step2State extends State<Step2> {
                 ),
               ),
               SizedBox(height: 16),
-              TextFormField(
+              TextFormFieldArea(
+                controller: ageController,
+                textInputType: TextInputType.number,
+                title: 'Age',
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter an age';
+                  }
+                  return null;
+                },
+                prefixIcon: Icons.numbers,
+              ),
+              SizedBox(height: 16),
+              TextFormFieldArea(
+                prefixIcon: Icons.location_city,
                 controller: cityController,
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                  labelText: 'City Of Resident',
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
+                textInputType: TextInputType.text,
+                title: 'City Of Resident',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a city';
@@ -210,29 +205,18 @@ class _Step2State extends State<Step2> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.blue[400],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                    ),
-                    onPressed: () {
+                  Button(
+                    onTap: () {
                       widget.onPrevious();
                     },
-                    child: Text('Previous',style: TextStyle(fontSize: 18, color: Colors.white)),
+                    title: 'Previous',
+                    color: Colors.blue.shade700,
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.green[400],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                    ),
-                    onPressed: () {
+                  Button(
+                    onTap: () {
                       if (_formKey.currentState?.validate() ?? false) {
                         widget.onPersonalInfoEntered(
-                          _imageUrl==''?'notProvided' : _imageUrl,
+                          _imageUrl == '' ? 'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg' : _imageUrl,
                           ageController.text,
                           genderController.text,
                           cityController.text,
@@ -240,7 +224,8 @@ class _Step2State extends State<Step2> {
                         widget.onNext();
                       }
                     },
-                    child: Text('Next',style: TextStyle(fontSize: 18, color: Colors.white)),
+                    title: 'Next',
+                    color: Colors.green.shade700,
                   ),
                 ],
               ),

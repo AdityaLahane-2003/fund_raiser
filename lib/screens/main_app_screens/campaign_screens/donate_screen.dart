@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
@@ -43,15 +42,31 @@ class _DonateScreenState extends State<DonateScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Success'),
-          content: Text('Payment successful!'),
+          title: Text("Thank You For Donating ! ! !"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image(
+                image: AssetImage('assets/thank_you.png'),
+              ),
+              Text(
+                  "Thank you for your generous donation of Rs. ${_amountController.text.trim()}."),
+              Text(
+                  "Your support means a lot to us and contributes to making a positive impact on our cause."),
+            ],
+          ),
+          alignment: Alignment.center,
+          actionsAlignment: MainAxisAlignment.spaceBetween,
           actions: [
             TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.green[700],
+              ),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
                 Navigator.of(context).pop(); // Navigate back to home screen
               },
-              child: Text('OK'),
+              child: Text("Go Back", style: TextStyle(color: Colors.white),),
             ),
           ],
         );
@@ -63,7 +78,7 @@ class _DonateScreenState extends State<DonateScreen> {
       'amountRaised': FieldValue.increment(
         int.parse(_amountController.text) + (int.parse(_tipController.text.isEmpty ? '0' : _tipController.text)),
       ),
-      'amountDonars': FieldValue.increment(1),
+      'amountDonors': FieldValue.increment(1),
     });
   }
 
@@ -85,10 +100,11 @@ class _DonateScreenState extends State<DonateScreen> {
       ));
       return;
     }
-
+int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.text);
+    int total_amount = int.parse(_amountController.text) + tipAmount;
     var options = {
       'key': 'rzp_test_AY5O7zD0ofIwaU', // Replace with your Razorpay key
-      'amount': int.parse(_amountController.text) * 100, // Convert to smallest currency unit
+      'amount': total_amount * 100, // Convert to smallest currency unit
       'name': 'Fund Raiser',
       'description': 'Donation to the cause',
       'timeout': 60, // in seconds
@@ -124,6 +140,7 @@ class _DonateScreenState extends State<DonateScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green.shade300,
         title: Text('Donate'),
       ),
       body: SingleChildScrollView(
@@ -133,42 +150,38 @@ class _DonateScreenState extends State<DonateScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Display a random donation-related image
-              Image.network(
-                'https://source.unsplash.com/800x400/?donation',
-                height: 200,
-                fit: BoxFit.cover,
+              Image(
+                  image: AssetImage('assets/donate_money.png'),
+                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
               ),
               SizedBox(height: 16),
-              TextField(
+              TextFormFieldArea(
+                prefixIcon: Icons.attach_money,
                 controller: _amountController,
-                keyboardType: TextInputType.number,
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                  labelText: 'Enter Amount',
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
+                textInputType: TextInputType.number,
+                  title: 'Enter Amount',
               ),
               SizedBox(height: 16),
               // Add a TextField for tip amount
-              TextField(
+              TextFormFieldArea(
                 controller: _tipController,
-                keyboardType: TextInputType.number,
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                  labelText: 'Enter Tip Amount (Optional)',
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
+                textInputType: TextInputType.number,
+                  title: 'Enter Tip Amount (Optional)',
+                prefixIcon: Icons.attach_money,
               ),
               SizedBox(height: 16),
               ElevatedButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.green[400],
+                  backgroundColor: Colors.green[700],
                 ),
                 onPressed: _isDonating
                     ? null

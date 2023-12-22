@@ -1,11 +1,11 @@
 import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/firebase_services/user_services/UserInfoUtils.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/verify_email.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/update_profile.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
+import '../../../components/button.dart';
 import '../../../components/loading.dart';
 import '../../../firebase_services/Image_services/pick_image.dart';
 import '../../../firebase_services/Image_services/store_img_url.dart';
@@ -27,6 +27,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   File? _selectedImage;
   late UserInfoUtils userInfoUtils;
   String? _imageUrl;
+
   @override
   void initState() {
     super.initState();
@@ -44,6 +45,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green.shade300,
         title: Text('My Profile'),
       ),
       body: userData.isNotEmpty
@@ -51,58 +53,71 @@ class _UserInfoPageState extends State<UserInfoPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                      Container(
-                        width: double.infinity,
-                        height: 200,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: userData['imageUrl'] != ""
-                                ? NetworkImage(userData['imageUrl'])
-                                : NetworkImage(
-                                    "https://firebasestorage.googleapis.com/v0/b/hrtaa-fund-raiser.appspot.com/o/images%2Fl2.webp?alt=media&token=7be46cf5-ec6b-42b3-9a2b-9d8d6e1a4be3"), // Provide a default image
-                          ),
-                        ),
+                  SizedBox(height: 30),
+                  Container(
+                    width: double.infinity,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.contain,
+                        image: userData['imageUrl'] != ""
+                            ? NetworkImage(userData['imageUrl'])
+                            : NetworkImage(
+                                "https://firebasestorage.googleapis.com/v0/b/hrtaa-fund-raiser.appspot.com/o/images%2Fl2.webp?alt=media&token=7be46cf5-ec6b-42b3-9a2b-9d8d6e1a4be3"), // Provide a default image
                       ),
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child:TextButton(
+                    ),
+                  ),
+                  Align(
+                      alignment: Alignment.topCenter,
+                      child: TextButton(
                           onPressed: () async {
                             _selectedImage = await ImagePickerUtils.pickImage();
                             setState(() {});
                             if (_selectedImage != null) {
-                             _imageUrl = await ImageUploadUtils.uploadImageToFirebaseStorage(
-                                  _selectedImage!, 'user_images');
-                              await ImageStoreUtils.storeImageUrlInFirestore(_imageUrl!, 'users');
-                            }else{
-                              Utils().toastMessage('Please pick an image first.');
+                              _imageUrl = await ImageUploadUtils
+                                  .uploadImageToFirebaseStorage(
+                                      _selectedImage!, 'user_images');
+                              await ImageStoreUtils.storeImageUrlInFirestore(
+                                  _imageUrl!, 'users');
+                            } else {
+                              Utils()
+                                  .toastMessage('Please pick an image first.');
                             }
                           },
-                          child: Text('UPDATE',style: TextStyle(color: Colors.green),)
-                        )
-                      ),
+                          child: Text(
+                            'UPDATE',
+                            style: TextStyle(
+                              color: Colors.green.shade700,
+                              fontSize: 12,
+                            ),
+                          ))),
                   ListTile(
-                    leading: Icon(Icons.person),
-                    title: userData['name'] != ""
-                        ? Text('Name: ${userData['name']}')
-                        : Text('Name: User}'),
-                  ),
+                      leading: Icon(Icons.person),
+                      title: Text('Name: ${userData['name']}')),
                   ListTile(
                       leading: Icon(Icons.email_outlined),
                       title: userData['email'] != ""
                           ? Text('Email: ${userData['email']}')
-                          : const Text('Email: Not provided}'),
-                      subtitle:FirebaseAuth.instance.currentUser!.emailVerified
-                          ? SizedBox(height: 0,):Text("we've sent link to verify email, please check and verify!",style: TextStyle(color: Colors.red.shade200)),
+                          : const Text('Email: Not provided'),
+                      subtitle: FirebaseAuth.instance.currentUser!.emailVerified
+                          ? SizedBox(
+                              height: 0,
+                            )
+                          : Text(
+                              "We've sent link to verify email, please check and verify!",
+                              style: TextStyle(color: Colors.red.shade200)),
                       trailing: FirebaseAuth.instance.currentUser!.emailVerified
-                          ? const Icon(Icons.verified_outlined, color: Colors.green)
+                          ? const Icon(Icons.verified_outlined,
+                              color: Colors.green)
                           : TextButton(
                               onPressed: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const VerifyEmail(isSignUp: false,),
+                                    builder: (context) => const VerifyEmail(
+                                      isSignUp: false,
+                                    ),
                                   ),
                                 );
                               },
@@ -118,16 +133,12 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     leading: Icon(Icons.abc_outlined),
                     title: Text('Bio: ${userData['bio']}'),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.green.shade400,
-                          ),
-                          onPressed: () {
+                  SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Button(
+                          onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -145,19 +156,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
                               loadUserInfo();
                             });
                           },
-                          child: Row(
-                            children: [
-                              Icon(Icons.update,color: Colors.white,),
-                              SizedBox(width: 3,),
-                              Text('Update Info',style: TextStyle(color: Colors.white),),
-                            ],
-                          )
+                         title: 'Update Info',
+                        color: Colors.green.shade700,
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.red.shade300,
-                          ),
-                          onPressed: () {
+                      Button(
+                          onTap: () {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
@@ -167,7 +170,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Image.asset(
-                                        'assets/logo.png', // Replace with your image asset
+                                        'assets/logo.png',
+                                        // Replace with your image asset
                                         height: 100,
                                       ),
                                       SizedBox(height: 10),
@@ -178,50 +182,51 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                     ],
                                   ),
                                   alignment: Alignment.center,
-                                  actionsAlignment: MainAxisAlignment.spaceBetween,
+                                  actionsAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   actions: [
                                     TextButton(
                                       style: TextButton.styleFrom(
                                         backgroundColor: Colors.grey[400],
                                       ),
                                       onPressed: () {
-                                        Navigator.pop(context); // Close the dialog
+                                        Navigator.pop(
+                                            context); // Close the dialog
                                       },
                                       child: Text(
                                         "Cancel",
-                                style: TextStyle(color: Colors.white),
+                                        style: TextStyle(color: Colors.white),
                                       ),
                                     ),
                                     ElevatedButton(
                                       onPressed: () async {
                                         // Call a function to delete the account and data
-                                        await deleteUserServices.deleteAccountAndData(context);
+                                        await deleteUserServices
+                                            .deleteAccountAndData(context);
                                       },
-                                      style: ElevatedButton.styleFrom(primary: Colors.red),
-                                      child: Text("Delete",style: TextStyle(color: Colors.white)),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.red),
+                                      child: Text("Delete",
+                                          style:
+                                              TextStyle(color: Colors.white)),
                                     ),
                                   ],
                                 );
                               },
                             );
-
                           },
-                          child: Row(
-                            children: [
-                              Icon(Icons.delete,color: Colors.white,),
-                              SizedBox(width: 3,),
-                              Text('Delete Account',style: TextStyle(color: Colors.white),),
-                            ],
-                          )
-                        )
-                      ],
-                    ),
+                          title: 'Delete Account',
+                      color: Colors.red.shade500,)
+                    ],
                   ),
                 ],
               ),
             )
           : Center(
-              child: Loading(size:50,color: Colors.green.shade400,),
+              child: Loading(
+                size: 50,
+                color: Colors.green.shade700,
+              ),
             ),
     );
   }

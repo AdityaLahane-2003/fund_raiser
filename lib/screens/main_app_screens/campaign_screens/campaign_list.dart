@@ -59,6 +59,7 @@ class _CampaignsListState extends State<CampaignsList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green.shade300,
         title: Text('Campaigns List'),
       ),
       body:campaigns.isEmpty
@@ -66,6 +67,7 @@ class _CampaignsListState extends State<CampaignsList> {
         child: Text("No Campaigns right now."),
       )
           : ListView.builder(
+        physics: BouncingScrollPhysics(),
         itemCount: campaigns.length,
         itemBuilder: (context, index) {
           Campaign campaign = campaigns[index];

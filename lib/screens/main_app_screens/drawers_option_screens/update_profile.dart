@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/components/text_filed_area.dart';
 
+import '../../../components/button.dart';
 import '../../../firebase_services/user_services/update_user_info_services.dart';
 import '../../../utils/utils_toast.dart';
 class UpdateUserInfoPage extends StatefulWidget {
@@ -30,7 +32,7 @@ class _UpdateUserInfoPageState extends State<UpdateUserInfoPage> {
   late TextEditingController phoneController;
   late TextEditingController ageController;
   late TextEditingController bioController;
-
+bool loading = false;
   @override
   void initState() {
     super.initState();
@@ -46,6 +48,7 @@ class _UpdateUserInfoPageState extends State<UpdateUserInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green.shade300,
         title: Text('Update User Information'),
       ),
       body: SingleChildScrollView(
@@ -55,103 +58,51 @@ class _UpdateUserInfoPageState extends State<UpdateUserInfoPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               CircleAvatar(
-                backgroundColor: Colors.green[100],
+                backgroundColor: Colors.white,
                 minRadius: 30,
                 maxRadius: 65,
                 child: Image.asset('assets/logo.png'),),
               SizedBox(height: 15.0),
-              TextField(
+              TextFormFieldArea(
                 controller: nameController,
-                keyboardType: TextInputType.text, // Text color
-                decoration: InputDecoration(
-                  labelText: 'Name',
-                  labelStyle: TextStyle(color: Colors.green[800]),
-                  // Label color
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  prefixIcon: Icon(Icons.person), // Prefix icon
-                ),
+                textInputType: TextInputType.text, // Text color
+                title: 'Name',
+                prefixIcon: Icons.person,
               ),SizedBox(height: 12.0),
-              TextField(
+              TextFormFieldArea(
                 controller: emailController,
-                keyboardType: TextInputType.emailAddress, // Text color
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  labelStyle: TextStyle(color: Colors.green[800]),
-                  // Label color
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  prefixIcon: Icon(Icons.email_outlined), // Prefix icon
-                ),
+                textInputType: TextInputType.emailAddress,
+                  title: 'Email',
+                  prefixIcon: Icons.email_outlined
               ),
               SizedBox(height: 12.0),
-              TextField(
+              TextFormFieldArea(
                 controller: phoneController,
-                keyboardType: TextInputType.number, // Text color
-                decoration: InputDecoration(
-                  labelText: 'Phone',
-                  labelStyle: TextStyle(color: Colors.green[800]),
-                  // Label color
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  prefixIcon: Icon(Icons.phone), // Prefix icon
-                ),
+                textInputType: TextInputType.number,
+                  title: 'Phone',
+                  prefixIcon: Icons.phone,
               ),
               SizedBox(height: 12.0),
-              TextField(
+              TextFormFieldArea(
                 controller: ageController,
-                keyboardType: TextInputType.number, // Text color
-                decoration: InputDecoration(
-                  labelText: 'Age',
-                  labelStyle: TextStyle(color: Colors.green[800]),// Label color
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black!),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  prefixIcon: Icon(Icons.calendar_today), // Prefix icon
-                ),
+                textInputType: TextInputType.number,
+                  title: 'Age',
+                  prefixIcon:Icons.calendar_today,
               ),
               SizedBox(height: 12.0),
-              TextField(
+              TextFormFieldArea(
                 controller: bioController,
-                keyboardType: TextInputType.number, // Text color
-                decoration: InputDecoration(
-                  labelText: 'Bio',
-                  labelStyle: TextStyle(color: Colors.green[800]),// Label color
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black!),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  prefixIcon: Icon(Icons.abc_outlined), // Prefix icon
-                ),
+                textInputType: TextInputType.number,
+                  title: 'Bio',
+                  prefixIcon: Icons.abc_outlined,
               ),
               SizedBox(height: 16.0),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.green[400],
-                ),
-                onPressed: () async {
+              Button(
+                loading: loading,
+                onTap: () async {
+                  setState(() {
+                    loading = true;
+                  });
                   await firebaseService.updateUser(widget.userId, {
                     'name': nameController.text.trim(),
                     'email': emailController.text.trim(),
@@ -159,10 +110,12 @@ class _UpdateUserInfoPageState extends State<UpdateUserInfoPage> {
                     'age': int.tryParse(ageController.text.trim()) ?? 0,
                     'bio': bioController.text.trim(),
                   });
+
                   Utils().toastMessage("Info Upadated", color: Colors.green);
                   Navigator.pop(context); // Pop this page to go back to UserInfoPage
                 },
-                child: Text('Update Info',style: TextStyle(color: Colors.white)),
+                title: 'Update Info',
+                color: Colors.green.shade700,
               ),
             ],
           ),

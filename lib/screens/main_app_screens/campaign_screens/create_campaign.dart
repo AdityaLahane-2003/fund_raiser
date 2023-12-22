@@ -27,6 +27,7 @@ class _CampaignCreationState extends State<CampaignCreation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green[300],
         title: Text('Create Campaign'),
       ),
       body: Column(
@@ -36,7 +37,7 @@ class _CampaignCreationState extends State<CampaignCreation> {
             minHeight: 10,
             value: (currentStep - 1) / 4,
             backgroundColor: Colors.grey[300],
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.green[400]!),
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[700]!),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -54,7 +55,7 @@ class _CampaignCreationState extends State<CampaignCreation> {
                       TextSpan(
                         text: '$currentStep',
                         style: TextStyle(
-                          color: Colors.green[400],
+                          color: Colors.green[700],
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
                         ),
@@ -181,7 +182,7 @@ class _CampaignCreationState extends State<CampaignCreation> {
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                        backgroundColor: Colors.green[400],
+                        backgroundColor: Colors.green[700],
                       ),
                       onPressed: () async {
                         Share.share(
@@ -196,13 +197,10 @@ class _CampaignCreationState extends State<CampaignCreation> {
                       },
                       child: Text("Share", style: TextStyle(color: Colors.white),),
                     ),
-
                   ],
                 );
               },
             );
-
-            // Navigator.pop(context);
           },
           onPrevious: () {
             setState(() {

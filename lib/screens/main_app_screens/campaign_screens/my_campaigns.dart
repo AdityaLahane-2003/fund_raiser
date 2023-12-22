@@ -26,6 +26,7 @@ class _MyCampaignsState extends State<MyCampaigns> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green[300],
         title: Text('My Campaigns'),
       ),
       body: FutureBuilder<List<DocumentSnapshot>>(
@@ -74,7 +75,6 @@ class _MyCampaignsState extends State<MyCampaigns> {
                   campaign: campaign2,
                   isCurrentUserCampaign: true,
                   onUpdatePressed: () {
-                    // Navigate to the update campaign page
                     Navigator.push(
                       context,
                       MaterialPageRoute(

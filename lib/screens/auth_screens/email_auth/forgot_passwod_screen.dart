@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.dart';
 
-import '../../../components/round_button.dart';
+import '../../../components/button.dart';
 import '../../../utils/utils_toast.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -26,17 +27,20 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-
-          TextFormField(
-          keyboardType: TextInputType.emailAddress,
+            const CircleAvatar(
+              radius: 50,
+              backgroundImage: const AssetImage('assets/logo.png'),
+              backgroundColor: Colors.transparent,
+            ),
+          SizedBox(height: 20,),
+          TextFormFieldArea(
+            title:'Email',
+            prefixIcon:Icons.email,
+          textInputType: TextInputType.emailAddress,
           controller: emailController,
-          decoration: const  InputDecoration(
-              hintText: 'Email',
-              prefixIcon: Icon(Icons.alternate_email)
-          ),
           validator: (value){
             if(value!.isEmpty){
               return 'Enter email';
@@ -49,7 +53,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           },
         ),
             const SizedBox(height: 40,),
-            RoundButton(title: 'Get Email', onTap: (){
+            Button(
+                title: '   Get Email   ',
+                color: Colors.blue.shade700,
+                onTap: (){
               auth.sendPasswordResetEmail(email: emailController.text.toString()).then((value){
                 Utils().toastMessage('We have sent you email to recover password, please check email');
                 Utils().toastMessage('Also check in spam folder and login with your new password !');

@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/signup_screen.dart';
-import 'package:fund_raiser_second/screens/auth_screens/phone_auth/login_with_phone_number.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
+import '../../../components/button.dart';
 import '../../../components/round_button.dart';
 import '../../../utils/utils_toast.dart';
 import 'forgot_passwod_screen.dart';
@@ -43,8 +44,8 @@ class _LoginScreenState extends State<LoginScreen> {
             password: passwordController.text.toString())
         .then((value) {
       Utils().toastMessage(value.user!.email.toString(), color: Colors.green);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const HomeDashboard()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const HomeDashboard()));
       setState(() {
         loading = false;
       });
@@ -71,25 +72,32 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 90),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const CircleAvatar(
+                  radius: 50,
+                  backgroundImage: const AssetImage('assets/logo.png'),
+                  backgroundColor: Colors.transparent,
+                ),
+                const SizedBox(height: 20,),
                 Form(
                     key: _formKey,
                     child: Column(
                       children: [
-                        TextFormField(
-                          keyboardType: TextInputType.emailAddress,
+                        TextFormFieldArea(
+                          title: 'Email',
                           controller: emailController,
-                          decoration: const InputDecoration(
-                              hintText: 'Email',
-                              prefixIcon: Icon(Icons.alternate_email)),
+                          prefixIcon: Icons.alternate_email,
+                          textInputType: TextInputType.emailAddress,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Enter email';
-                            }final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
+                            }
+                            final emailRegex = RegExp(
+                                r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
                             if (!emailRegex.hasMatch(value)) {
                               return 'Enter a valid email address';
                             }
@@ -99,22 +107,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        TextFormField(
-                          keyboardType: TextInputType.text,
+                        TextFormFieldArea(
+                          title: 'Password',
                           controller: passwordController,
+                          textInputType: TextInputType.text,
+                          prefixIcon: Icons.lock_open,
                           obscureText: !isPasswordVisible,
-                          decoration: InputDecoration(
-                              hintText: 'Password',
-                              prefixIcon: const Icon(Icons.lock_open),
-                              suffix:IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    isPasswordVisible = !isPasswordVisible;
-                                  });
-                                },
-                                icon: Icon(
-                                  isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                                ),)
+                          suffix: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isPasswordVisible = !isPasswordVisible;
+                              });
+                            },
+                            icon: Icon(
+                              isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                            ),
                           ),
                           validator: (value){
                             if(value!.isEmpty){
@@ -130,15 +137,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                RoundButton(
-                  title: 'Login',
-                  loading: loading,
-                  onTap: () {
+                Button(
+                  title: '         Login        ',
+                  loading: loading ,
+                  color: Colors.green.shade700,
+                  onTap:() {
                     if (_formKey.currentState!.validate()) {
                       login();
                     }
-                  },
-                ),
+                  },),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: TextButton(
@@ -146,9 +153,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ForgotPasswordScreen()));
+                                builder: (context) =>
+                                    const ForgotPasswordScreen()));
                       },
-                      child: const Text('Forgot Password?')),
+                      child: Text('Forgot Password?',style: TextStyle(color: Colors.blue.shade700),)),
                 ),
                 // const SizedBox(height: 10,),
                 Row(
@@ -162,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               MaterialPageRoute(
                                   builder: (context) => const SignUpScreen()));
                         },
-                        child: const Text('Sign up'))
+                        child: Text('Sign up',style: TextStyle(fontSize:18.0,color: Colors.blue.shade700),))
                   ],
                 ),
                 // const SizedBox(

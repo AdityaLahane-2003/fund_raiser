@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/components/text_filed_area.dart';
+
+import '../../../components/button.dart';
 
 class Step3 extends StatelessWidget {
   final Function(String, String) onSchoolOrHospitalEntered;
@@ -26,16 +29,11 @@ class Step3 extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TextFormField(
+              TextFormFieldArea(
+                prefixIcon: Icons.school_outlined,
                 controller: nameController,
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                  labelText: 'School/Hospital Name',
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
+                  title: 'School/Hospital Name',
+                textInputType: TextInputType.name,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'If not needed Eter NA';
@@ -44,19 +42,14 @@ class Step3 extends StatelessWidget {
                 },
               ),
               SizedBox(height: 16),
-              TextFormField(
+              TextFormFieldArea(
+                prefixIcon: Icons.location_on_outlined,
                 controller: locationController,
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                  labelText: 'Address',
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
+                  title: 'Address',
+                textInputType: TextInputType.streetAddress,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'If not needed Eeter NA';
+                    return 'If not needed Enter NA';
                   }
                   return null;
                 },
@@ -65,32 +58,21 @@ class Step3 extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.blue[400],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                    ),
-                    onPressed: () {
+                 Button(
+                    onTap: () {
                       onPrevious();
                     },
-                    child: Text('Previous',style: TextStyle(fontSize: 18, color: Colors.white)),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.green[400],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                    ),
-                    onPressed: () {
+                    title: 'Previous',
+                   color: Colors.blue.shade700,
+                  ), Button(
+                    onTap: () {
                       if (_formKey.currentState?.validate() ?? false) {
                         onSchoolOrHospitalEntered(nameController.text, locationController.text);
                         onNext();
                       }
                     },
-                    child: Text('Next',style: TextStyle(fontSize: 18, color: Colors.white)),
+                    title: 'Next',
+                   color: Colors.green.shade700,
                   ),
                 ],
               ),

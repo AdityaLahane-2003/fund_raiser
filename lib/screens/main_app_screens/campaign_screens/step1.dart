@@ -1,5 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/components/text_filed_area.dart';
+
+import '../../../components/button.dart';
 
 class Step1 extends StatefulWidget {
   final Function(String) onCategorySelected;
@@ -88,16 +90,11 @@ class _Step1State extends State<Step1> {
               ),
 
               SizedBox(height: 16),
-              TextFormField(
+              TextFormFieldArea(
+                prefixIcon: Icons.person,
                 controller: nameController,
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                  labelText: 'Name',
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
+                  title: 'Name',
+                textInputType: TextInputType.name,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a name';
@@ -106,17 +103,11 @@ class _Step1State extends State<Step1> {
                 },
               ),
               SizedBox(height: 16),
-              TextFormField(
+              TextFormFieldArea(
+                prefixIcon: Icons.email,
                 controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
+                textInputType: TextInputType.emailAddress,
+                  title: 'Email',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter an email';
@@ -129,17 +120,11 @@ class _Step1State extends State<Step1> {
                 },
               ),
               SizedBox(height: 16),
-              TextFormField(
+              TextFormFieldArea(
+                prefixIcon: Icons.money,
                 controller: amountController,
-                keyboardType: TextInputType.number,
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                  labelText: 'Rs. Amount',
-                  floatingLabelStyle: TextStyle(color: Colors.green),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
+                textInputType: TextInputType.number,
+                  title: 'Rs. Amount',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter amount';
@@ -150,15 +135,10 @@ class _Step1State extends State<Step1> {
               SizedBox(height: 16),
               Row(
                 children: [
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.green[100],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                    ),
-                    onPressed: () => _selectDate(context),
-                    child: Text('Select End Date', style: TextStyle(fontSize: 16, color: Colors.black)),
+                  Button(
+                    onTap: () => _selectDate(context),
+                    title: 'Select End Date',
+                    color: Colors.blue.shade700,
                   ),
                   SizedBox(width: 16),
                   GestureDetector(
@@ -172,8 +152,8 @@ class _Step1State extends State<Step1> {
                 ],
               ),
               SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
+             Button(
+                onTap: () {
                   if (_formKey.currentState?.validate() ?? false) {
                     widget.onNameEmailEntered(
                       nameController.text,
@@ -184,16 +164,8 @@ class _Step1State extends State<Step1> {
                     widget.onNext();
                   }
                 },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.green[400],
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                ),
-                child: Text(
-                  'Next',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
+                title: 'Next',
+                color: Colors.green.shade700,
               ),
             ],
           ),

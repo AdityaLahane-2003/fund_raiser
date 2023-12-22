@@ -7,6 +7,8 @@ import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.
 import 'package:fund_raiser_second/screens/post_auth_screens/take_user_info.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
 
+import '../../../components/button.dart';
+
 class VerifyEmail extends StatefulWidget {
   final bool isSignUp;
 
@@ -58,16 +60,24 @@ late Timer timer;
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-             Loading(size: 50, color: Colors.purpleAccent,),
+            const CircleAvatar(
+              radius: 50,
+              backgroundImage: const AssetImage('assets/logo.png'),
+              backgroundColor: Colors.transparent,
+            ),
+            SizedBox(height: 10,),
+             Loading(size: 90, color: Colors.lightGreen.shade700,),
+            SizedBox(height: 20,),
             const Text("Verification link sent to your email ID"),
             const Text(" Please Verify Email!"),
             const SizedBox(height: 10,),
-            ElevatedButton(
-                onPressed: () {
+            Button(
+              color: Colors.green.shade700,
+              title:"Resend Verification Link ",
+                onTap: () {
                   user = auth.currentUser!;
                   user.sendEmailVerification();
-                },
-                child: const Text("Resend Verification Link "))
+                },),
           ],
         )),
       ),

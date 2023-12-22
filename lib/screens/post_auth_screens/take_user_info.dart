@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/loading.dart';
+import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
+import '../../components/button.dart';
 import '../../firebase_services/Image_services/pick_image.dart';
 import '../../firebase_services/Image_services/upload_image_to_storage.dart';
 import '../../firebase_services/user_services/add_user_details_service.dart';
@@ -34,6 +36,17 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
   String? _imageUrl;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(userEmail!=''){
+    emailController = TextEditingController(text: userEmail);
+    }
+    if(userPhone!=''){
+      phoneController = TextEditingController(text: userPhone);
+    }
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -54,7 +67,8 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                   _selectedImage == null
                       ? CircleAvatar(
                           maxRadius: 70,
-                          backgroundImage:  AssetImage('assets/logo.png')
+                          backgroundImage:  AssetImage('assets/logo.png'),
+                          backgroundColor: Colors.green.shade100,
                   )
                       :  CircleAvatar(
                       maxRadius: 70,
@@ -72,16 +86,14 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                   ),
                 ],
               ),
-
-              SizedBox(height: 16.0),
-              Text("Update UI"),
               SizedBox(height: 16.0),
               Form(
                 key: _formKey,
                 child: Column(
                   children: [
                     // Name TextField
-                    TextFormField(
+                    TextFormFieldArea(
+                      prefixIcon: Icons.person,
                       controller: nameController,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -89,15 +101,14 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                         }
                         return null;
                       },
-                      decoration: InputDecoration(
-                        labelText: 'Name',
-                        border: OutlineInputBorder(),
-                      ),
+                      title: 'Name',
+                      textInputType: TextInputType.name,
                     ),
                     SizedBox(height: 16.0),
 
                     // Age TextField
-                    TextFormField(
+                    TextFormFieldArea(
+                      prefixIcon: Icons.format_list_numbered,
                       controller: ageController,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -105,18 +116,15 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                         }
                         return null;
                       },
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        labelText: 'Age',
-                        border: OutlineInputBorder(),
-                      ),
+                      title: 'Age',
+                      textInputType: TextInputType.number,
                     ),
                     SizedBox(height: 16.0),
-
                     // Phone TextField
-                    TextFormField(
+                    TextFormFieldArea(
+                      prefixIcon: Icons.email,
                       controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
+                      textInputType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Enter Email';
@@ -125,16 +133,14 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                         }
                         return null;
                       },
-                      decoration: InputDecoration(
-                        labelText: userEmail!=''?userEmail:'Email',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),SizedBox(height: 16.0),
-
+                      title:'Email',
+                    ),
+                    SizedBox(height: 16.0),
                     // Phone TextField
-                    TextFormField(
+                    TextFormFieldArea(
+                      prefixIcon: Icons.phone,
                       controller: phoneController,
-                      keyboardType: TextInputType.phone,
+                      textInputType: TextInputType.phone,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Enter Phone';
@@ -143,15 +149,13 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                         }
                         return null;
                       },
-                      decoration: InputDecoration(
-                        labelText: userPhone!=''?userPhone:'Phone',
-                        border: OutlineInputBorder(),
-                      ),
+                       title:'Phone',
                     ),
                     SizedBox(height: 16.0),
-                    TextFormField(
+                    TextFormFieldArea(
+                      prefixIcon: Icons.info,
                       controller: bioController,
-                      keyboardType: TextInputType.text,
+                      textInputType: TextInputType.text,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Enter Bio';
@@ -160,20 +164,20 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                         }
                         return null;
                       },
-                      decoration: InputDecoration(
-                        labelText: 'Bio',
-                        border: OutlineInputBorder(),
-                      ),
+                        title: 'Bio',
                     ),
                     SizedBox(height: 16.0),
                   ],
                 ),
               ),
               // Button to display entered values
-              ElevatedButton(
-                onPressed: () async {
+             Button(
+               loading: loading,
+                onTap: () async {
                   if (_formKey.currentState!.validate()) {
-                    loading = true;
+                    setState(() {
+                      loading = true;
+                    });
                     if (_selectedImage != null) {
                       _imageUrl = await ImageUploadUtils.uploadImageToFirebaseStorage(
                           _selectedImage!, 'user_images');
@@ -210,14 +214,8 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                             builder: (context) => HomeDashboard()));
                   }
                 },
-                child: Center(
-                  child: loading
-                      ? Loading(size: 15,color: Colors.black,)
-                      : Text(
-                          'Save My Data',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                ),
+                title: 'Save My Data',
+                color: Colors.green.shade700,
               ),
             ],
           ),
