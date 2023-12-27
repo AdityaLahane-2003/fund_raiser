@@ -1,6 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/components/footer.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/auth_screens/phone_auth/verify_code.dart';
 import '../../../components/button.dart';
@@ -26,7 +27,11 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      persistentFooterButtons: [
+       Footer(),
+      ],
       appBar: AppBar(
+        backgroundColor: Colors.green[300],
         title: Text( widget.comingFrom=='signup'?"SignUp":'Login'),
       ),
       body: ListView(

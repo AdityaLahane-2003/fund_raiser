@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
             children:
             [Image(image: AssetImage('assets/logo.png')),
               SizedBox(height: 20.0,),
-              Loading(size: 50.0, color: Colors.green.shade400)
+              Loading(size: 50.0, color: Colors.green.shade700)
             ],
         ),
       ),

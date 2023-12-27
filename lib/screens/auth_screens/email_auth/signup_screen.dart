@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/button.dart';
+import 'package:fund_raiser_second/components/footer.dart';
 import 'package:fund_raiser_second/firebase_services/user_services/add_user_details_service.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/verify_email.dart';
 
@@ -65,7 +66,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      persistentFooterButtons: [
+      Footer()
+      ],
       appBar: AppBar(
+        backgroundColor: Colors.green[300],
         title: const Text('Sign up'),
       ),
       body: ListView(

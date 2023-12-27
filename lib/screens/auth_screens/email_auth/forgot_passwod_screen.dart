@@ -4,6 +4,7 @@ import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.dart';
 
 import '../../../components/button.dart';
+import '../../../components/footer.dart';
 import '../../../utils/utils_toast.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -21,7 +22,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      persistentFooterButtons: [
+        Footer(),
+      ],
       appBar: AppBar(
+        backgroundColor: Colors.green[300],
         title: const Text('Forgot Password'),
       ),
       body: Padding(
@@ -41,32 +46,32 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             prefixIcon:Icons.email,
           textInputType: TextInputType.emailAddress,
           controller: emailController,
-          validator: (value){
-            if(value!.isEmpty){
-              return 'Enter email';
-            }
-            final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
-            if (!emailRegex.hasMatch(value)) {
-              return 'Enter a valid email address';
-            }
-            return null ;
-          },
         ),
             const SizedBox(height: 40,),
             Button(
                 title: '   Get Email   ',
                 color: Colors.blue.shade700,
                 onTap: (){
-              auth.sendPasswordResetEmail(email: emailController.text.toString()).then((value){
-                Utils().toastMessage('We have sent you email to recover password, please check email');
-                Utils().toastMessage('Also check in spam folder and login with your new password !');
-                Navigator.push(context,
-                    MaterialPageRoute(
-                        builder:(context) => const LoginScreen())
-                );
-              }).onError((error, stackTrace){
-                Utils().toastMessage(error.toString());
-              });
+                  if(emailController.text.toString().isEmpty){
+                    Utils().toastMessage('Enter email');
+                    return ;
+                  }else if(!emailController.text.toString().contains('@')){
+                    Utils().toastMessage('Enter valid email');
+                    return ;
+                  }else{
+                    Utils().toastMessage('Please wait...');
+                    auth.sendPasswordResetEmail(email: emailController.text.toString()).then((value){
+                      Utils().toastMessage('We have sent you email to recover password, please check email');
+                      Utils().toastMessage('Also check in spam folder and login with your new password !');
+                      Navigator.push(context,
+                          MaterialPageRoute(
+                              builder:(context) => const LoginScreen())
+                      );
+                    }).onError((error, stackTrace){
+                      Utils().toastMessage(error.toString());
+                    });
+                  }
+
             })
           ],
         ),

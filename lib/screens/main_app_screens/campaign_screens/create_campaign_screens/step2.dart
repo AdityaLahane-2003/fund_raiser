@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
-import '../../../components/button.dart';
-import '../../../firebase_services/Image_services/pick_image.dart';
-import '../../../firebase_services/Image_services/upload_image_to_storage.dart';
-import '../../../utils/utils_toast.dart';
+import '../../../../components/button.dart';
+import '../../../../firebase_services/Image_services/pick_image.dart';
+import '../../../../firebase_services/Image_services/upload_image_to_storage.dart';
+import '../../../../utils/utils_toast.dart';
 
 class Step2 extends StatefulWidget {
   final Function(String) onRelationSelected;

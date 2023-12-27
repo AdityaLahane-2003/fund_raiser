@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../provider/fundRaiserData_Provider.dart';
+import '../../providers/fundRaiserData_Provider.dart';
 
 class CampaignService {
   final String userId;

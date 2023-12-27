@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/campaign_model.dart';
+import '../../../models/campaign_model.dart';
 
 class UpdateCampaignPage extends StatefulWidget {
   final Campaign campaign;

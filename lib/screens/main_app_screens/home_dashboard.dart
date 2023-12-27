@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/campaign_list.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/create_campaign.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/my_campaigns.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/display_campaigns_screen/campaign_list.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/create_campaign_screens/create_campaign.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/display_campaigns_screen/my_campaigns.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/help.dart';
 import '../../components/button.dart';

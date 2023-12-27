@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fund_raiser_second/components/loading.dart';
 import 'package:fund_raiser_second/firebase_services/campaign_services/load_campaigns.dart';
-import 'package:fund_raiser_second/model/campaign_model.dart';
+import 'package:fund_raiser_second/models/campaign_model.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/update_campaign.dart';
 
-import '../../../components/campaign_card.dart';
-import '../../../firebase_services/campaign_services/delete_campaign_services.dart';
+import '../../../../components/campaign_card.dart';
+import '../../../../firebase_services/campaign_services/delete_campaign_services.dart';
 
 class MyCampaigns extends StatefulWidget {
   @override

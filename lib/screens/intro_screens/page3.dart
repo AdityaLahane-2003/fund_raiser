@@ -5,21 +5,19 @@ class IntroPage3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blue[200],
-      // margin: EdgeInsets.only(left: 25, right: 25),
       alignment: Alignment.center,
       child: Stack(
         alignment: Alignment.center,
         children: [
           Positioned(
-            top: 50,
+            top: 20,
             child: Image.asset(
               "assets/logo.png",
-              height: 125,
-              width: 125,
+              height: 100,
+              width: 100,
             ),
           ),  Positioned(
-            top: 250,
+            top: 150,
             child: Image.asset(
               "assets/img1.png",
               height: 200,
@@ -27,7 +25,7 @@ class IntroPage3 extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 500,
+            top: 370,
             left: 3,
             right: 3,
             child: Text(
@@ -36,7 +34,7 @@ class IntroPage3 extends StatelessWidget {
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
           ),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/step1.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/step2.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/step3.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/step4.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/create_campaign_screens/step1.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/create_campaign_screens/step2.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/create_campaign_screens/step3.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/create_campaign_screens/step4.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 import 'package:share/share.dart';
 
-import '../../../firebase_services/campaign_services/campaign_services.dart';
-import '../../../provider/fundRaiserData_Provider.dart';
+import '../../../../firebase_services/campaign_services/campaign_services.dart';
+import '../../../../providers/fundRaiserData_Provider.dart';
 
 class CampaignCreation extends StatefulWidget {
   final CampaignService campaignService;

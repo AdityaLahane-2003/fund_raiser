@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
 
-import '../../../components/button.dart';
+import '../../../../components/button.dart';
 
 class Step3 extends StatelessWidget {
   final Function(String, String) onSchoolOrHospitalEntered;

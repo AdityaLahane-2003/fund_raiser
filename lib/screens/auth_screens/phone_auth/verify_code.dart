@@ -3,8 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
-import 'package:fund_raiser_second/screens/post_auth_screens/take_user_info.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/take_user_info.dart';
 import '../../../components/button.dart';
+import '../../../components/footer.dart';
 import '../../../components/round_button.dart';
 import '../../../firebase_services/user_services/add_user_details_service.dart';
 import '../../../utils/utils_toast.dart';
@@ -51,7 +52,11 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      persistentFooterButtons: [
+      Footer(),
+    ],
       appBar: AppBar(
+        backgroundColor: Colors.green[300],
         title: Text('Verify'),
       ),
       body: Padding(

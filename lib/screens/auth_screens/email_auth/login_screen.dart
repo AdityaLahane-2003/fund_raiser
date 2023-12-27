@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fund_raiser_second/components/footer.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/signup_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 import '../../../components/button.dart';
-import '../../../components/round_button.dart';
 import '../../../utils/utils_toast.dart';
 import 'forgot_passwod_screen.dart';
 
@@ -66,7 +66,11 @@ class _LoginScreenState extends State<LoginScreen> {
         return true;
       },
       child: Scaffold(
+        persistentFooterButtons: [
+        Footer(),
+        ],
         appBar: AppBar(
+          backgroundColor: Colors.green[300],
           // automaticallyImplyLeading: false,
           title: const Text('Login'),
         ),

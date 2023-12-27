@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
 
-import '../../../components/button.dart';
+import '../../../../components/button.dart';
 
 class Step1 extends StatefulWidget {
   final Function(String) onCategorySelected;

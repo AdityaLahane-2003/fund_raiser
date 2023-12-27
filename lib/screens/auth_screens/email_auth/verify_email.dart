@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/components/footer.dart';
 import 'package:fund_raiser_second/components/loading.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.dart';
-import 'package:fund_raiser_second/screens/post_auth_screens/take_user_info.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/take_user_info.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
 
 import '../../../components/button.dart';
@@ -42,7 +43,11 @@ late Timer timer;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      persistentFooterButtons: const [
+         Footer(),
+      ],
       appBar: AppBar(
+        backgroundColor: Colors.green[300],
         automaticallyImplyLeading: false,
         actions: [
           IconButton(onPressed: (){

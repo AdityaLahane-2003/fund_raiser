@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/components/footer.dart';
 import 'package:fund_raiser_second/screens/auth_screens/auth_screen1.dart';
 import 'package:fund_raiser_second/screens/intro_screens/page1.dart';
 import 'package:fund_raiser_second/screens/intro_screens/page2.dart';
@@ -13,12 +14,21 @@ class IntroHome extends StatefulWidget {
 
 class _IntroHomeState extends State<IntroHome> {
 
-  //Controller to keep count of pages and to ckeck onn which page we are
+  //Controller to keep count of pages and to check onn which page we are
   PageController controller = PageController();
   bool onLastPage= false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      persistentFooterButtons: [
+        Footer(),
+      ],
+      appBar: AppBar(
+        titleSpacing: MediaQuery.of(context).size.width/3,
+        title: Text("Welcome",textAlign: TextAlign.center,),
+        backgroundColor: Colors.green.shade300,
+        automaticallyImplyLeading: false,
+      ),
       body: Stack(
         children: [
           PageView(
@@ -65,7 +75,7 @@ class _IntroHomeState extends State<IntroHome> {
                     child: const Text("Done"))
                     :GestureDetector(
                     onTap: (){
-                      controller.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+                      controller.nextPage(duration: const Duration(milliseconds: 700), curve: Curves.fastEaseInToSlowEaseOut);
                     },
                     child: const Text("Next")),
               ],
