@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fund_raiser_second/components/loading.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 import '../../components/button.dart';
@@ -50,13 +49,13 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.verified_user),
+        leading: const Icon(Icons.verified_user),
         automaticallyImplyLeading: false,
-        title: Text('User Details'),
+        title: const Text('User Details'),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,7 +66,7 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                   _selectedImage == null
                       ? CircleAvatar(
                           maxRadius: 70,
-                          backgroundImage:  AssetImage('assets/logo.png'),
+                          backgroundImage:  const AssetImage('assets/logo.png'),
                           backgroundColor: Colors.green.shade100,
                   )
                       :  CircleAvatar(
@@ -79,14 +78,14 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                       _selectedImage = await ImagePickerUtils.pickImage();
                       setState(() {});
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.add_a_photo,
                       color: Colors.black,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Form(
                 key: _formKey,
                 child: Column(
@@ -104,7 +103,7 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                       title: 'Name',
                       textInputType: TextInputType.name,
                     ),
-                    SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
 
                     // Age TextField
                     TextFormFieldArea(
@@ -119,7 +118,7 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                       title: 'Age',
                       textInputType: TextInputType.number,
                     ),
-                    SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
                     // Phone TextField
                     TextFormFieldArea(
                       prefixIcon: Icons.email,
@@ -135,7 +134,7 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                       },
                       title:'Email',
                     ),
-                    SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
                     // Phone TextField
                     TextFormFieldArea(
                       prefixIcon: Icons.phone,
@@ -151,7 +150,7 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                       },
                        title:'Phone',
                     ),
-                    SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
                     TextFormFieldArea(
                       prefixIcon: Icons.info,
                       controller: bioController,
@@ -166,7 +165,7 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                       },
                         title: 'Bio',
                     ),
-                    SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
                   ],
                 ),
               ),
@@ -211,7 +210,7 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => HomeDashboard()));
+                            builder: (context) => const HomeDashboard()));
                   }
                 },
                 title: 'Save My Data',

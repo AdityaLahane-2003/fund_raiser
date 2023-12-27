@@ -8,7 +8,7 @@ class Step1 extends StatefulWidget {
   final Function(String, String, int, DateTime) onNameEmailEntered;
   final Function onNext;
 
-  Step1({
+  const Step1({super.key,
     required this.onCategorySelected,
     required this.onNameEmailEntered,
     required this.onNext,
@@ -56,17 +56,17 @@ class _Step1State extends State<Step1> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
+              const Text(
                 'Select Cause',
               ),
               DropdownButton<String>(
                 borderRadius: BorderRadius.circular(12.0),
-                icon: Icon(Icons.arrow_drop_down),
+                icon: const Icon(Icons.arrow_drop_down),
                 iconSize: 36.0,
                 elevation: 16,
-                style: TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.black),
                 value: selectedCategory,
-                hint: Text('Select Category'),
+                hint: const Text('Select Category'),
                 isExpanded: true,
                 items: categories.map((category) {
                   return DropdownMenuItem<String>(
@@ -74,7 +74,7 @@ class _Step1State extends State<Step1> {
                     child: Center(
                       child: Text(
                         category,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16.0,
                         ),
@@ -89,7 +89,7 @@ class _Step1State extends State<Step1> {
                 },
               ),
 
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormFieldArea(
                 prefixIcon: Icons.person,
                 controller: nameController,
@@ -102,7 +102,7 @@ class _Step1State extends State<Step1> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormFieldArea(
                 prefixIcon: Icons.email,
                 controller: emailController,
@@ -119,7 +119,7 @@ class _Step1State extends State<Step1> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormFieldArea(
                 prefixIcon: Icons.money,
                 controller: amountController,
@@ -132,7 +132,7 @@ class _Step1State extends State<Step1> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 children: [
                   Button(
@@ -140,7 +140,7 @@ class _Step1State extends State<Step1> {
                     title: 'Select End Date',
                     color: Colors.blue.shade700,
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   GestureDetector(
                     onTap: () => _selectDate(context),
                     child: Text(
@@ -151,7 +151,7 @@ class _Step1State extends State<Step1> {
                   ),
                 ],
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
              Button(
                 onTap: () {
                   if (_formKey.currentState?.validate() ?? false) {
@@ -159,7 +159,7 @@ class _Step1State extends State<Step1> {
                       nameController.text,
                       emailController.text,
                       int.parse(amountController.text),
-                      selectedDate ?? DateTime.now().add(Duration(days: 30)),
+                      selectedDate ?? DateTime.now().add(const Duration(days: 30)),
                     );
                     widget.onNext();
                   }

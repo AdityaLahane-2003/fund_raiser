@@ -12,7 +12,7 @@ class Step2 extends StatefulWidget {
   final Function onPrevious;
   final Function onNext;
 
-  Step2({
+  const Step2({super.key,
     required this.onRelationSelected,
     required this.onPersonalInfoEntered,
     required this.onPrevious,
@@ -62,7 +62,7 @@ class _Step2State extends State<Step2> {
                   alignment: Alignment.topRight,
                   children: [
                     _selectedImage == null
-                        ? CircleAvatar(
+                        ? const CircleAvatar(
                             backgroundColor: Colors.white,
                             maxRadius: 50,
                             backgroundImage: AssetImage('assets/logo.png'))
@@ -82,7 +82,7 @@ class _Step2State extends State<Step2> {
                         }
                         setState(() {});
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.add_a_photo,
                         color: Colors.black,
                       ),
@@ -90,15 +90,15 @@ class _Step2State extends State<Step2> {
                   ],
                 ),
               ),
-              Align(
+              const Align(
                 alignment: Alignment.topCenter,
                 child: Text("Benificiary Image"),
               ),
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 'Select Relation*',
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12.0),
@@ -107,19 +107,19 @@ class _Step2State extends State<Step2> {
                 child: DropdownButton<String>(
                   isExpanded: true,
                   borderRadius: BorderRadius.circular(20.0),
-                  icon: Icon(Icons.arrow_drop_down),
+                  icon: const Icon(Icons.arrow_drop_down),
                   iconSize: 36.0,
                   elevation: 16,
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                   value: selectedRelation,
-                  hint: Text('Select Relation'),
+                  hint: const Text('Select Relation'),
                   items: relations.map((relation) {
                     return DropdownMenuItem<String>(
                       value: relation,
                       child: Center(
                         child: Text(
                           relation,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16.0,
                           ),
@@ -134,11 +134,11 @@ class _Step2State extends State<Step2> {
                   },
                 ),
               ),
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 'Select Gender*',
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12.0),
@@ -146,12 +146,12 @@ class _Step2State extends State<Step2> {
                 ),
                 child: DropdownButton<String>(
                   borderRadius: BorderRadius.circular(20.0),
-                  icon: Icon(Icons.arrow_drop_down),
+                  icon: const Icon(Icons.arrow_drop_down),
                   iconSize: 36.0,
                   elevation: 16,
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                   value: selectedGender,
-                  hint: Text('Select Gender'),
+                  hint: const Text('Select Gender'),
                   isExpanded: true,
                   items: genders.map((gender) {
                     return DropdownMenuItem<String>(
@@ -159,7 +159,7 @@ class _Step2State extends State<Step2> {
                       child: Center(
                         child: Text(
                           gender,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16.0,
                           ),
@@ -175,7 +175,7 @@ class _Step2State extends State<Step2> {
                   },
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormFieldArea(
                 controller: ageController,
                 textInputType: TextInputType.number,
@@ -188,7 +188,7 @@ class _Step2State extends State<Step2> {
                 },
                 prefixIcon: Icons.numbers,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormFieldArea(
                 prefixIcon: Icons.location_city,
                 controller: cityController,
@@ -201,7 +201,7 @@ class _Step2State extends State<Step2> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

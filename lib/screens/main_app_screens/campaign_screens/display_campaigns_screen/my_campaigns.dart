@@ -4,11 +4,14 @@ import 'package:fund_raiser_second/components/loading.dart';
 import 'package:fund_raiser_second/firebase_services/campaign_services/load_campaigns.dart';
 import 'package:fund_raiser_second/models/campaign_model.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/update_campaign.dart';
+import 'package:fund_raiser_second/utils/utils_toast.dart';
 
 import '../../../../components/campaign_card.dart';
 import '../../../../firebase_services/campaign_services/delete_campaign_services.dart';
 
 class MyCampaigns extends StatefulWidget {
+  const MyCampaigns({super.key});
+
   @override
   _MyCampaignsState createState() => _MyCampaignsState();
 }
@@ -27,19 +30,19 @@ class _MyCampaignsState extends State<MyCampaigns> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[300],
-        title: Text('My Campaigns'),
+        title: const Text('My Campaigns'),
       ),
       body: FutureBuilder<List<DocumentSnapshot>>(
         future: _campaigns,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Loading(size: 25,color:Colors.black);
+            return const Loading(size: 25,color:Colors.black);
           } else if (snapshot.hasError) {
-            print('Error: ${snapshot.error}');
+            Utils().toastMessage('Error: ${snapshot.error}');
             return Text('Error: ${snapshot.error}');
           } else if (snapshot.data!.isEmpty) {
             // User has no campaigns
-            return Center(
+            return const Center(
               child: Text('You have no campaigns yet.'),
             );
           } else {
@@ -89,7 +92,7 @@ class _MyCampaignsState extends State<MyCampaigns> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text("Delete Campaign !!!"),
+                          title: const Text("Delete Campaign !!!"),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -97,8 +100,8 @@ class _MyCampaignsState extends State<MyCampaigns> {
                                 'assets/logo.png', // Replace with your image asset
                                 height: 100,
                               ),
-                              SizedBox(height: 10),
-                              Text(
+                              const SizedBox(height: 10),
+                              const Text(
                                 "Are you sure you want to delete your Campaign? This action is irreversible.",
                                 style: TextStyle(fontSize: 16),
                               ),
@@ -114,7 +117,7 @@ class _MyCampaignsState extends State<MyCampaigns> {
                                 Navigator.pop(
                                     context); // Close the dialog
                               },
-                              child: Text("Cancel",style: TextStyle(color: Colors.white)),
+                              child: const Text("Cancel",style: TextStyle(color: Colors.white)),
                             ),
                             TextButton(
                               onPressed: () async {
@@ -122,8 +125,8 @@ class _MyCampaignsState extends State<MyCampaigns> {
                                 await loadCampaigns();
                                 Navigator.pop(context);
                               },
-                              style: ElevatedButton.styleFrom(primary: Colors.red),
-                              child: Text("Delete",style: TextStyle(color: Colors.white)),
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                              child: const Text("Delete",style: TextStyle(color: Colors.white)),
                             ),
                           ],
                         );

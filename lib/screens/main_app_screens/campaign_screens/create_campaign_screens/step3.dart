@@ -8,7 +8,7 @@ class Step3 extends StatelessWidget {
   final Function onPrevious;
   final Function onNext;
 
-  Step3({
+  Step3({super.key,
     required this.onSchoolOrHospitalEntered,
     required this.onPrevious,
     required this.onNext,
@@ -41,7 +41,7 @@ class Step3 extends StatelessWidget {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormFieldArea(
                 prefixIcon: Icons.location_on_outlined,
                 controller: locationController,
@@ -54,7 +54,7 @@ class Step3 extends StatelessWidget {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

@@ -12,8 +12,7 @@ import '../../../../providers/fundRaiserData_Provider.dart';
 class CampaignCreation extends StatefulWidget {
   final CampaignService campaignService;
 
-  const CampaignCreation({Key? key, required this.campaignService})
-      : super(key: key);
+  const CampaignCreation({super.key, required this.campaignService});
 
   @override
   State<CampaignCreation> createState() => _CampaignCreationState();
@@ -28,7 +27,7 @@ class _CampaignCreationState extends State<CampaignCreation> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[300],
-        title: Text('Create Campaign'),
+        title: const Text('Create Campaign'),
       ),
       body: Column(
         children: [
@@ -47,7 +46,7 @@ class _CampaignCreationState extends State<CampaignCreation> {
                 RichText(
                   text: TextSpan(
                     text: 'Step ',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 16,
                     ),
@@ -60,7 +59,7 @@ class _CampaignCreationState extends State<CampaignCreation> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      TextSpan(
+                      const TextSpan(
                         text: ' of 4',
                         style: TextStyle(
                           color: Colors.black,
@@ -152,8 +151,8 @@ class _CampaignCreationState extends State<CampaignCreation> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text("Campaign Created ! ! !"),
-                  content: Column(
+                  title: const Text("Campaign Created ! ! !"),
+                  content: const Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Image(
@@ -174,11 +173,11 @@ class _CampaignCreationState extends State<CampaignCreation> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => HomeDashboard(),
+                            builder: (context) => const HomeDashboard(),
                           ),
                         );
                       },
-                      child: Text("Skip", style: TextStyle(color: Colors.white),),
+                      child: const Text("Skip", style: TextStyle(color: Colors.white),),
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
@@ -191,11 +190,11 @@ class _CampaignCreationState extends State<CampaignCreation> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => HomeDashboard(),
+                            builder: (context) => const HomeDashboard(),
                           ),
                         );
                       },
-                      child: Text("Share", style: TextStyle(color: Colors.white),),
+                      child: const Text("Share", style: TextStyle(color: Colors.white),),
                     ),
                   ],
                 );

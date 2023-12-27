@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class IntroPage2 extends StatelessWidget {
+  const IntroPage2({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +25,7 @@ class IntroPage2 extends StatelessWidget {
               width: 200,
             ),
           ),
-          Positioned(
+          const Positioned(
             top: 370,
             left: 3,
             right: 3,

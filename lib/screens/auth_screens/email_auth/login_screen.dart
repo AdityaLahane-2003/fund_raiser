@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
         return true;
       },
       child: Scaffold(
-        persistentFooterButtons: [
+        persistentFooterButtons: const [
         Footer(),
         ],
         appBar: AppBar(
@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 const CircleAvatar(
                   radius: 50,
-                  backgroundImage: const AssetImage('assets/logo.png'),
+                  backgroundImage: AssetImage('assets/logo.png'),
                   backgroundColor: Colors.transparent,
                 ),
                 const SizedBox(height: 20,),

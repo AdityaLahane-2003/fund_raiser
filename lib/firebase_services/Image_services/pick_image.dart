@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:fund_raiser_second/utils/utils_toast.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerUtils {
@@ -9,7 +10,7 @@ class ImagePickerUtils {
     if (pickedImage != null) {
       return File(pickedImage.path);
     } else {
-      print('No image selected.');
+      Utils().toastMessage('No image selected.');
       return null;
     }
   }

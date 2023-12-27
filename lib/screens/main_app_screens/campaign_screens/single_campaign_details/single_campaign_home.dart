@@ -6,6 +6,8 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/sin
 import 'campaign_details_home.dart';
 
 class SingleCampaignHomeScreen extends StatefulWidget {
+  const SingleCampaignHomeScreen({super.key});
+
   @override
   _SingleCampaignHomeScreenState createState() => _SingleCampaignHomeScreenState();
 }
@@ -14,11 +16,11 @@ class _SingleCampaignHomeScreenState extends State<SingleCampaignHomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    CampaignDetailsPage(),
+    const CampaignDetailsPage(),
     UpdateCampaignScreen(),
     WithdrawScreen(),
     ThankDonorsPage(),
-    ShareCampaignScreen(),
+    const ShareCampaignScreen(),
   ];
 
   @override
@@ -32,30 +34,30 @@ class _SingleCampaignHomeScreenState extends State<SingleCampaignHomeScreen> {
           BottomNavigationBarItem(
             activeIcon: Icon(Icons.info, color: Colors.green.shade700,),
             backgroundColor: Colors.green.shade300,
-            icon: Icon(Icons.info, ),
+            icon: const Icon(Icons.info, ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             backgroundColor: Colors.blue.shade300,
             activeIcon: Icon(Icons.edit, color: Colors.blue.shade700,),
-            icon: Icon(Icons.edit),
+            icon: const Icon(Icons.edit),
             label: 'Story',
           ),
           BottomNavigationBarItem(
             activeIcon: Icon(Icons.monetization_on, color: Colors.yellow.shade700,),
             backgroundColor: Colors.yellow.shade300,
-            icon: Icon(Icons.monetization_on),
+            icon: const Icon(Icons.monetization_on),
             label: 'Withdraw',
           ),
           BottomNavigationBarItem(
             activeIcon: Icon(Icons.favorite, color: Colors.red.shade700,),
             backgroundColor: Colors.red.shade300,
-            icon: Icon(Icons.favorite),
+            icon: const Icon(Icons.favorite),
             label: 'Thank Donors',
           ), BottomNavigationBarItem(
             activeIcon: Icon(Icons.share, color: Colors.orange.shade700,),
             backgroundColor: Colors.orange.shade300,
-            icon: Icon(Icons.share),
+            icon: const Icon(Icons.share),
             label: 'Share Campaign',
           ),
         ],

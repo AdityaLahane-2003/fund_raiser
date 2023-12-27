@@ -6,7 +6,7 @@ import '../../../models/campaign_model.dart';
 class UpdateCampaignPage extends StatefulWidget {
   final Campaign campaign;
 
-  UpdateCampaignPage({required this.campaign});
+  const UpdateCampaignPage({super.key, required this.campaign});
 
   @override
   _UpdateCampaignPageState createState() => _UpdateCampaignPageState();
@@ -27,7 +27,7 @@ class _UpdateCampaignPageState extends State<UpdateCampaignPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Campaign'),
+        title: const Text('Update Campaign'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -36,13 +36,13 @@ class _UpdateCampaignPageState extends State<UpdateCampaignPage> {
           children: [
             TextField(
               controller: titleController,
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(labelText: 'Title'),
             ),
             TextField(
               controller: descriptionController,
-              decoration: InputDecoration(labelText: 'Description'),
+              decoration: const InputDecoration(labelText: 'Description'),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () async {
                 await FirebaseFirestore.instance
@@ -54,7 +54,7 @@ class _UpdateCampaignPageState extends State<UpdateCampaignPage> {
                 });
                 Navigator.pop(context);
               },
-              child: Text('Save Changes'),
+              child: const Text('Save Changes'),
             ),
           ],
         ),

@@ -11,7 +11,7 @@ class Step4 extends StatefulWidget {
   final Function onRaiseFundPressed;
   final Function onPrevious;
 
-  Step4({
+  const Step4({super.key,
     required this.onCoverPhotoStoryEntered,
     required this.onRaiseFundPressed,
     required this.onPrevious,
@@ -50,7 +50,7 @@ class _Step4State extends State<Step4> {
                   alignment: Alignment.topRight,
                   children: [
                     _selectedImage == null
-                        ? CircleAvatar(
+                        ? const CircleAvatar(
                       backgroundColor: Colors.white,
                         maxRadius: 50,
                         backgroundImage:  AssetImage('assets/logo.png')
@@ -70,7 +70,7 @@ class _Step4State extends State<Step4> {
                         }
                         setState(() {});
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.add_a_photo,
                         color: Colors.black,
                       ),
@@ -78,11 +78,11 @@ class _Step4State extends State<Step4> {
                   ],
                 ),
               ),
-              Align(
+              const Align(
                 alignment: Alignment.topCenter,
                 child: Text("Cover Image"),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormFieldArea(
                 prefixIcon: Icons.title,
                 controller: titleController,
@@ -95,20 +95,20 @@ class _Step4State extends State<Step4> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: storyController,
                 maxLines: 3,
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
-                  prefixIcon: Icon(
+                  prefixIcon: const Icon(
                     Icons.edit,
                     color: Colors.black,
                   ),
                   labelText: 'Write Story Here ...',
-                  floatingLabelStyle: TextStyle(color: Colors.green),
+                  floatingLabelStyle: const TextStyle(color: Colors.green),
                   border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: const BorderSide(color: Colors.black),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                 ),
@@ -119,7 +119,7 @@ class _Step4State extends State<Step4> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Footer extends StatelessWidget {
-  const Footer({Key? key ,
-  }) : super(key: key);
+  const Footer({super.key ,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class Footer extends StatelessWidget {
           'assets/logo.png',
           height: 50,
         ),
-        Text(
+        const Text(
           'Made with ',
           style: TextStyle(
             fontSize: 12,
@@ -21,7 +21,7 @@ class Footer extends StatelessWidget {
             color: Colors.grey,
           ),
         ),
-        Icon(
+        const Icon(
           Icons.favorite,
           color: Colors.red,
           size: 12,

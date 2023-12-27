@@ -60,14 +60,14 @@ class _CampaignsListState extends State<CampaignsList> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green.shade300,
-        title: Text('Campaigns List'),
+        title: const Text('Campaigns List'),
       ),
       body:campaigns.isEmpty
-          ? Center(
+          ? const Center(
         child: Text("No Campaigns right now."),
       )
           : ListView.builder(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         itemCount: campaigns.length,
         itemBuilder: (context, index) {
           Campaign campaign = campaigns[index];
@@ -97,7 +97,7 @@ class _CampaignsListState extends State<CampaignsList> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text("Delete Campaign !!!"),
+                    title: const Text("Delete Campaign !!!"),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -105,8 +105,8 @@ class _CampaignsListState extends State<CampaignsList> {
                           'assets/logo.png', // Replace with your image asset
                           height: 100,
                         ),
-                        SizedBox(height: 10),
-                        Text(
+                        const SizedBox(height: 10),
+                        const Text(
                           "Are you sure you want to delete your Campaign? This action is irreversible.",
                           style: TextStyle(fontSize: 16),
                         ),
@@ -122,7 +122,7 @@ class _CampaignsListState extends State<CampaignsList> {
                           Navigator.pop(
                               context); // Close the dialog
                         },
-                        child: Text("Cancel",style: TextStyle(color: Colors.white)),
+                        child: const Text("Cancel",style: TextStyle(color: Colors.white)),
                       ),
                       TextButton(
                         onPressed: () async {
@@ -130,8 +130,8 @@ class _CampaignsListState extends State<CampaignsList> {
                           await _loadCampaigns();
                           Navigator.pop(context);
                         },
-                        style: ElevatedButton.styleFrom(primary: Colors.red),
-                        child: Text("Delete",style: TextStyle(color: Colors.white)),
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                        child: const Text("Delete",style: TextStyle(color: Colors.white)),
                       ),
                     ],
                   );

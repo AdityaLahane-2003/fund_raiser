@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class OurSuggestionsPage extends StatelessWidget {
+  const OurSuggestionsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +14,7 @@ class OurSuggestionsPage extends StatelessWidget {
               'assets/logo.png',
               height: 50,
             ),
-            Text(
+            const Text(
               'Made with ',
               style: TextStyle(
                 fontSize: 12,
@@ -20,7 +22,7 @@ class OurSuggestionsPage extends StatelessWidget {
                 color: Colors.grey,
               ),
             ),
-            Icon(
+            const Icon(
               Icons.favorite,
               color: Colors.red,
               size: 12,
@@ -30,7 +32,7 @@ class OurSuggestionsPage extends StatelessWidget {
       ],
       appBar: AppBar(
         backgroundColor: Colors.green.shade300,
-        title: Text('Our Suggestions'),
+        title: const Text('Our Suggestions'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -38,14 +40,14 @@ class OurSuggestionsPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
+              const Text(
                 'Our Suggestions to Raise More Funds',
                 style: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               buildSuggestionPoint(
                 '1. Share on Social Media:',
                 'Leverage the power of social media platforms to spread the word about your campaign. Share updates, photos, and success stories to engage your audience.',
@@ -82,11 +84,11 @@ class OurSuggestionsPage extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           Text(description),
         ],
       ),

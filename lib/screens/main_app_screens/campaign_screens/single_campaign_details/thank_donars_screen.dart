@@ -9,11 +9,13 @@ class ThankDonorsPage extends StatelessWidget {
     // Add more dummy data as needed
   ];
 
+   ThankDonorsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Thank Donars'),
+        title: const Text('Thank Donars'),
         backgroundColor: Colors.red[300],
       ),
       body: Padding(
@@ -21,11 +23,11 @@ class ThankDonorsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'List of Donors:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             // Display the list of donors
             Expanded(
               child: ListView.builder(
@@ -33,10 +35,10 @@ class ThankDonorsPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   Donor donor = donors[index];
                   return ListTile(
-                    title: Text('${donor.name}'),
+                    title: Text(donor.name),
                     subtitle: Text('Amount Donated: ${donor.amountDonated} ₹'),
                     trailing: IconButton(
-                      icon: Icon(Icons.message),
+                      icon: const Icon(Icons.message),
                       onPressed: () {
                         // Handle sending a message to the donor
                         // You can navigate to a messaging screen or implement your logic
@@ -57,7 +59,7 @@ class ThankDonorsPage extends StatelessWidget {
   void showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message),
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     ));
   }
 }

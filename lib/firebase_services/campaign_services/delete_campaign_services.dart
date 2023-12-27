@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fund_raiser_second/utils/utils_toast.dart';
 
 class DeleteCampaignServices {
   static Future<void> deleteCampaign(String campaignId) async {
@@ -17,7 +18,7 @@ class DeleteCampaignServices {
         FirebaseFirestore.instance.collection('campaigns');
         await campaignsCollection.doc(campaignId).delete();
       } catch (e) {
-        print('Error deleting campaign: $e');
+      Utils().toastMessage('Error deleting campaign: $e');
         // Handle error as needed
         throw Exception('Error deleting campaign');
       }

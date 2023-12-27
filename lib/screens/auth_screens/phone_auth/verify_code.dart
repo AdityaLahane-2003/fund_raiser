@@ -6,7 +6,6 @@ import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart'
 import 'package:fund_raiser_second/screens/main_app_screens/take_user_info.dart';
 import '../../../components/button.dart';
 import '../../../components/footer.dart';
-import '../../../components/round_button.dart';
 import '../../../firebase_services/user_services/add_user_details_service.dart';
 import '../../../utils/utils_toast.dart';
 
@@ -16,7 +15,7 @@ class VerifyCodeScreen extends StatefulWidget {
   final String comingFrom;
 
   const VerifyCodeScreen(
-      {required this.verificationId,
+      {super.key, required this.verificationId,
       required this.phone,
       required this.comingFrom});
 
@@ -44,7 +43,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
       return querySnapshot.docs.isNotEmpty;
     } catch (e) {
       // Handle errors (e.g., network issues, Firebase errors)
-      print('Error checking user existence: $e');
+      Utils().toastMessage('Error checking user existence: $e');
       return false;
     }
   }
@@ -52,12 +51,12 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      persistentFooterButtons: [
+      persistentFooterButtons: const [
       Footer(),
     ],
       appBar: AppBar(
         backgroundColor: Colors.green[300],
-        title: Text('Verify'),
+        title: const Text('Verify'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -66,10 +65,10 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
           children: [
             const CircleAvatar(
               radius: 50,
-              backgroundImage: const AssetImage('assets/logo.png'),
+              backgroundImage: AssetImage('assets/logo.png'),
               backgroundColor: Colors.transparent,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             TextFormFieldArea(
@@ -78,7 +77,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
               textInputType: TextInputType.number,
               title: '6 Digit Verification Code',
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Button(
@@ -98,24 +97,24 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                     bool userExists = await checkUserExists(widget.phone);
                     if (widget.comingFrom == "signup") {
                       addUserDetails("User", "email123",
-                          widget.phone.toString() ?? "phone", 0, "bio");
+                          widget.phone.toString(), 0, "bio");
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => TakeUserInfoScreen()));
+                              builder: (context) => const TakeUserInfoScreen()));
                     } else {
                       if (userExists) {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomeDashboard()));
+                                builder: (context) => const HomeDashboard()));
                       } else {
                         addUserDetails("User", "email",
-                            widget.phone.toString() ?? "phone", 0, "bio");
+                            widget.phone.toString(), 0, "bio");
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => TakeUserInfoScreen()));
+                                builder: (context) => const TakeUserInfoScreen()));
                       }
                     }
                   } catch (e) {

@@ -37,7 +37,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
               'assets/logo.png',
               height: 50,
             ),
-            Text(
+            const Text(
               'Made with ',
               style: TextStyle(
                 fontSize: 12,
@@ -45,7 +45,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                 color: Colors.grey,
               ),
             ),
-            Icon(
+            const Icon(
               Icons.favorite,
               color: Colors.red,
               size: 12,
@@ -82,7 +82,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                 color: Colors.green[200],
               ),
               child: ListView(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   children: [
                     Center(
                       child: Column(
@@ -159,7 +159,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                 );
               },
             ),
-            Divider(
+            const Divider(
               height: 2, // You can adjust the height of the divider
               color: Colors.grey, // You can set the color of the divider
             ),
@@ -202,11 +202,11 @@ class _HomeDashboardState extends State<HomeDashboard> {
                 // Add functionality for raising funds
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MyCampaigns()));
+                      MaterialPageRoute(builder: (context) => const MyCampaigns()));
                 },
               ),
             ),
-            Divider(
+            const Divider(
               height: 2, // You can adjust the height of the divider
               color: Colors.grey, // You can set the color of the divider
             ),
@@ -221,7 +221,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                         builder: (context) => const CampaignsList()));
               },
             ),
-            Divider(
+            const Divider(
               height: 2, // You can adjust the height of the divider
               color: Colors.grey, // You can set the color of the divider
             ),
@@ -233,7 +233,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                 // Add your logic for donating
               },
             ),
-            Divider(
+            const Divider(
               height: 2, // You can adjust the height of the divider
               color: Colors.grey, // You can set the color of the divider
             ),
@@ -244,10 +244,10 @@ class _HomeDashboardState extends State<HomeDashboard> {
               // Add functionality for about us
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AboutUsScreen()));
+                    MaterialPageRoute(builder: (context) => const AboutUsScreen()));
               },
             ),
-            Divider(
+            const Divider(
               height: 2, // You can adjust the height of the divider
               color: Colors.grey, // You can set the color of the divider
             ),
@@ -257,10 +257,10 @@ class _HomeDashboardState extends State<HomeDashboard> {
               // Add functionality for help
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HelpScreen()));
+                    MaterialPageRoute(builder: (context) => const HelpScreen()));
               },
             ),
-            Divider(
+            const Divider(
               height: 2, // You can adjust the height of the divider
               color: Colors.grey, // You can set the color of the divider
             ),
@@ -385,7 +385,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MyCampaigns(),
+                      builder: (context) => const MyCampaigns(),
                     ),
                   );
                 },

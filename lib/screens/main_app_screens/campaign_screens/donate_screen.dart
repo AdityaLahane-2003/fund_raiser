@@ -6,7 +6,7 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class DonateScreen extends StatefulWidget {
   final String campaignId;
-  DonateScreen({required this.campaignId});
+  const DonateScreen({super.key, required this.campaignId});
 
   @override
   _DonateScreenState createState() => _DonateScreenState();
@@ -35,23 +35,23 @@ class _DonateScreenState extends State<DonateScreen> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     // Handle payment success
-    print("Payment Success: ${response.paymentId}");
+    Utils().toastMessage("Payment Success: ${response.paymentId}");
 
     // Show a success dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Thank You For Donating ! ! !"),
+          title: const Text("Thank You For Donating ! ! !"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image(
+              const Image(
                 image: AssetImage('assets/thank_you.png'),
               ),
               Text(
                   "Thank you for your generous donation of Rs. ${_amountController.text.trim()}."),
-              Text(
+              const Text(
                   "Your support means a lot to us and contributes to making a positive impact on our cause."),
             ],
           ),
@@ -66,7 +66,7 @@ class _DonateScreenState extends State<DonateScreen> {
                 Navigator.of(context).pop(); // Close the dialog
                 Navigator.of(context).pop(); // Navigate back to home screen
               },
-              child: Text("Go Back", style: TextStyle(color: Colors.white),),
+              child: const Text("Go Back", style: TextStyle(color: Colors.white),),
             ),
           ],
         );
@@ -95,16 +95,16 @@ class _DonateScreenState extends State<DonateScreen> {
   void _initiatePayment() {
     if (_amountController.text.isEmpty) {
       // Show an error message if the amount is empty
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Please enter a valid donation amount.'),
       ));
       return;
     }
 int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.text);
-    int total_amount = int.parse(_amountController.text) + tipAmount;
+    int totalAmount = int.parse(_amountController.text) + tipAmount;
     var options = {
       'key': 'rzp_test_AY5O7zD0ofIwaU', // Replace with your Razorpay key
-      'amount': total_amount * 100, // Convert to smallest currency unit
+      'amount': totalAmount * 100, // Convert to smallest currency unit
       'name': 'Fund Raiser',
       'description': 'Donation to the cause',
       'timeout': 60, // in seconds
@@ -113,21 +113,21 @@ int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.tex
     try {
       _razorpay.open(options);
     } catch (e) {
-      print("Error: $e");
+      Utils().toastMessage("Error: $e");
 
       // Show an error dialog
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Error'),
-            content: Text('Error initiating payment. Please try again.'),
+            title: const Text('Error'),
+            content: const Text('Error initiating payment. Please try again.'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the dialog
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -141,7 +141,7 @@ int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.tex
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green.shade300,
-        title: Text('Donate'),
+        title: const Text('Donate'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -151,7 +151,7 @@ int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.tex
             children: [
               // Display a random donation-related image
               Image(
-                  image: AssetImage('assets/donate_money.png'),
+                  image: const AssetImage('assets/donate_money.png'),
                   loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                     if (loadingProgress == null) return child;
                     return Center(
@@ -163,14 +163,14 @@ int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.tex
                     );
                   },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormFieldArea(
                 prefixIcon: Icons.attach_money,
                 controller: _amountController,
                 textInputType: TextInputType.number,
                   title: 'Enter Amount',
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               // Add a TextField for tip amount
               TextFormFieldArea(
                 controller: _tipController,
@@ -178,7 +178,7 @@ int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.tex
                   title: 'Enter Tip Amount (Optional)',
                 prefixIcon: Icons.attach_money,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               ElevatedButton(
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.green[700],
@@ -191,7 +191,7 @@ int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.tex
                   });
                   _initiatePayment();
                 },
-                child: Text('Donate Now', style: TextStyle(color: Colors.white),),
+                child: const Text('Donate Now', style: TextStyle(color: Colors.white),),
               ),
             ],
           ),

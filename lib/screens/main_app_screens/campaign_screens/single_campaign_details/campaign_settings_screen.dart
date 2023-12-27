@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class CampaignSettingsScreen extends StatelessWidget {
+  const CampaignSettingsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 30,
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

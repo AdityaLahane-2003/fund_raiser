@@ -8,7 +8,7 @@ import '../../../../models/campaign_model.dart';
 class OnlyCampaignDetailsPage extends StatelessWidget {
   final Campaign campaign;
 
-  OnlyCampaignDetailsPage({required this.campaign});
+  const OnlyCampaignDetailsPage({super.key, required this.campaign});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class OnlyCampaignDetailsPage extends StatelessWidget {
       ],
       appBar: AppBar(
         backgroundColor: Colors.green.shade300,
-        title: Text('Campaign Details'),
+        title: const Text('Campaign Details'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -69,7 +69,7 @@ class OnlyCampaignDetailsPage extends StatelessWidget {
                 'Text 3',
               ].map((item) {
                 return Container(
-                  margin: EdgeInsets.all(5.0),
+                  margin: const EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     color: Colors.blue,
@@ -77,7 +77,7 @@ class OnlyCampaignDetailsPage extends StatelessWidget {
                   child: Center(
                     child: Text(
                       item,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,
@@ -95,21 +95,21 @@ class OnlyCampaignDetailsPage extends StatelessWidget {
                 children: [
                   Text(
                     campaign.title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Text(
                     'Amount Raised: ${campaign.amountRaised} ₹',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
                     'Goal Amount: ${campaign.amountGoal} ₹',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -123,17 +123,17 @@ class OnlyCampaignDetailsPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Story:',
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Text(
                     campaign.description,
-                    style: TextStyle(fontSize: 16.0),
+                    style: const TextStyle(fontSize: 16.0),
                   ),
                 ],
               ),

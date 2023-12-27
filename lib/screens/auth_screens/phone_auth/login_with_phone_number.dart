@@ -5,12 +5,11 @@ import 'package:fund_raiser_second/components/footer.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/auth_screens/phone_auth/verify_code.dart';
 import '../../../components/button.dart';
-import '../../../components/round_button.dart';
 import '../../../utils/utils_toast.dart';
 
 class LoginWithPhoneNumber extends StatefulWidget {
   final String comingFrom;
-  const LoginWithPhoneNumber({Key? key, required this.comingFrom}) : super(key: key);
+  const LoginWithPhoneNumber({super.key, required this.comingFrom});
 
   @override
   State<LoginWithPhoneNumber> createState() => _LoginWithPhoneNumberState();
@@ -27,7 +26,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      persistentFooterButtons: [
+      persistentFooterButtons: const [
        Footer(),
       ],
       appBar: AppBar(
@@ -49,10 +48,10 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                 children: [
                   const CircleAvatar(
                     radius: 50,
-                    backgroundImage: const AssetImage('assets/logo.png'),
+                    backgroundImage: AssetImage('assets/logo.png'),
                     backgroundColor: Colors.transparent,
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class WithdrawScreen extends StatefulWidget {
+  const WithdrawScreen({super.key});
+
   @override
   _WithdrawScreen createState() => _WithdrawScreen();
 }
@@ -13,7 +15,7 @@ class _WithdrawScreen extends State<WithdrawScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Withdraw Money'),
+        title: const Text('Withdraw Money'),
         backgroundColor: Colors.yellow[300],
       ),
       body: Padding(
@@ -23,17 +25,17 @@ class _WithdrawScreen extends State<WithdrawScreen> {
           children: [
             // Display KYC status at the top
             Container(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
                 color: isKYCDone ? Colors.green : Colors.red,
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Text(
                 isKYCDone ? 'KYC Done' : 'KYC Not Done',
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             // Button to do KYC
             ElevatedButton(
               onPressed: () {
@@ -44,9 +46,9 @@ class _WithdrawScreen extends State<WithdrawScreen> {
                   isKYCDone = true;
                 });
               },
-              child: Text('Do KYC'),
+              child: const Text('Do KYC'),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             // If KYC is done, allow the user to add account details and proceed
             if (isKYCDone)
               Column(
@@ -54,14 +56,14 @@ class _WithdrawScreen extends State<WithdrawScreen> {
                   // Add account details form or components here
                   // ...
 
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   // Button to proceed for money withdrawal
                   ElevatedButton(
                     onPressed: () {
                       // Handle money withdrawal process
                       // You can implement the logic to withdraw money here
                     },
-                    child: Text('Withdraw Money'),
+                    child: const Text('Withdraw Money'),
                   ),
                 ],
               ),

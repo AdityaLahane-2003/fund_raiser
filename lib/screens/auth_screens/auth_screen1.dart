@@ -12,12 +12,12 @@ class AuthScreen1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      persistentFooterButtons: [
+      persistentFooterButtons: const [
         Footer(),
       ],
       appBar: AppBar(
         titleSpacing: MediaQuery.of(context).size.width/3,
-        title: Text("Welcome",textAlign: TextAlign.center,),
+        title: const Text("Welcome",textAlign: TextAlign.center,),
         backgroundColor: Colors.green.shade300,
         automaticallyImplyLeading: false,
       ),

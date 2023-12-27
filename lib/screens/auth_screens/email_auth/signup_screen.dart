@@ -4,8 +4,6 @@ import 'package:fund_raiser_second/components/button.dart';
 import 'package:fund_raiser_second/components/footer.dart';
 import 'package:fund_raiser_second/firebase_services/user_services/add_user_details_service.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/verify_email.dart';
-
-import '../../../components/round_button.dart';
 import '../../../components/text_filed_area.dart';
 import '../../../utils/utils_toast.dart';
 import '../phone_auth/login_with_phone_number.dart';
@@ -66,7 +64,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      persistentFooterButtons: [
+      persistentFooterButtons: const [
       Footer()
       ],
       appBar: AppBar(
@@ -84,7 +82,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               children: [
                 const CircleAvatar(
                   radius: 50,
-                  backgroundImage: const AssetImage('assets/logo.png'),
+                  backgroundImage: AssetImage('assets/logo.png'),
                   backgroundColor: Colors.transparent,
                 ),
                 const SizedBox(height: 20,),

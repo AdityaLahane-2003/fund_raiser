@@ -12,7 +12,7 @@ class UpdateUserInfoPage extends StatefulWidget {
   final String? currentAge;
   final String currentBio;
 
-  const UpdateUserInfoPage({
+  const UpdateUserInfoPage({super.key,
     required this.userId,
     required this.currentName,
     required this.currentEmail,
@@ -49,7 +49,7 @@ bool loading = false;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green.shade300,
-        title: Text('Update User Information'),
+        title: const Text('Update User Information'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -62,41 +62,41 @@ bool loading = false;
                 minRadius: 30,
                 maxRadius: 65,
                 child: Image.asset('assets/logo.png'),),
-              SizedBox(height: 15.0),
+              const SizedBox(height: 15.0),
               TextFormFieldArea(
                 controller: nameController,
                 textInputType: TextInputType.text, // Text color
                 title: 'Name',
                 prefixIcon: Icons.person,
-              ),SizedBox(height: 12.0),
+              ),const SizedBox(height: 12.0),
               TextFormFieldArea(
                 controller: emailController,
                 textInputType: TextInputType.emailAddress,
                   title: 'Email',
                   prefixIcon: Icons.email_outlined
               ),
-              SizedBox(height: 12.0),
+              const SizedBox(height: 12.0),
               TextFormFieldArea(
                 controller: phoneController,
                 textInputType: TextInputType.number,
                   title: 'Phone',
                   prefixIcon: Icons.phone,
               ),
-              SizedBox(height: 12.0),
+              const SizedBox(height: 12.0),
               TextFormFieldArea(
                 controller: ageController,
                 textInputType: TextInputType.number,
                   title: 'Age',
                   prefixIcon:Icons.calendar_today,
               ),
-              SizedBox(height: 12.0),
+              const SizedBox(height: 12.0),
               TextFormFieldArea(
                 controller: bioController,
                 textInputType: TextInputType.number,
                   title: 'Bio',
                   prefixIcon: Icons.abc_outlined,
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Button(
                 loading: loading,
                 onTap: () async {

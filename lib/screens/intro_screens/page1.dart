@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class IntroPage1 extends StatelessWidget {
+  const IntroPage1({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +25,7 @@ children: [
               width: 200,
             ),
           ),
-          Positioned(
+          const Positioned(
             top: 370,
             left: 4,
             right: 4,

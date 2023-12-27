@@ -17,5 +17,5 @@ class FundraiserData  {
   int amountDonors = 3;
   DateTime dateCreated = DateTime.now();
   String status = 'Active';
-  DateTime dateEnd = DateTime.now().add(Duration(days: 30));
+  DateTime dateEnd = DateTime.now().add(const Duration(days: 30));
 }

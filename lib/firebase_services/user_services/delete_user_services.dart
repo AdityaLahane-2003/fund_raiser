@@ -23,9 +23,9 @@ class DeleteUserServices {
         await FirebaseAuth.instance.signOut();
         Utils().toastMessage("Account Deleted Successfully", color:Colors.green);
         Navigator.pop(context); // Close the dialog
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
       } else {
-        print("Error deleting account: User is not signed in.");
+        Utils().toastMessage("Error deleting account: User is not signed in.");
         Utils().toastMessage("User is not signed in.", color:Colors.red);
         // Handle the case where the user is not signed in.
       }

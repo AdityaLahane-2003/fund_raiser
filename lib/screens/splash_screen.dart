@@ -3,7 +3,7 @@ import 'package:fund_raiser_second/components/loading.dart';
 import '../firebase_services/splash_services.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -27,8 +27,8 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children:
-            [Image(image: AssetImage('assets/logo.png')),
-              SizedBox(height: 20.0,),
+            [const Image(image: AssetImage('assets/logo.png')),
+              const SizedBox(height: 20.0,),
               Loading(size: 50.0, color: Colors.green.shade700)
             ],
         ),

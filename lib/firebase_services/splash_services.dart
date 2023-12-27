@@ -14,11 +14,11 @@ class SplashServices{
 
     if(user != null){
       Timer(const Duration(seconds: 3),
-              ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => HomeDashboard()))
+              ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeDashboard()))
       );
     }else {
       Timer(const Duration(seconds: 3),
-              ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => IntroHome()))
+              ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => const IntroHome()))
       );
     }
 

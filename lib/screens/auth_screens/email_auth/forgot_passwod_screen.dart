@@ -22,7 +22,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      persistentFooterButtons: [
+      persistentFooterButtons: const [
         Footer(),
       ],
       appBar: AppBar(
@@ -37,10 +37,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           children: [
             const CircleAvatar(
               radius: 50,
-              backgroundImage: const AssetImage('assets/logo.png'),
+              backgroundImage: AssetImage('assets/logo.png'),
               backgroundColor: Colors.transparent,
             ),
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
           TextFormFieldArea(
             title:'Email',
             prefixIcon:Icons.email,

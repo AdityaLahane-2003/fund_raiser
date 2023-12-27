@@ -8,18 +8,18 @@ class Button extends StatelessWidget {
   final Color color ;
   final VoidCallback onTap ;
   final bool loading ;
-  const Button({Key? key ,
+  const Button({super.key ,
     required this.title,
     required this.onTap,
     this.loading = false,
     this.color=Colors.orange,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: color,
+        backgroundColor: color,
         shape: RoundedRectangleBorder(
 
           borderRadius: BorderRadius.circular(20.0),
@@ -29,7 +29,7 @@ class Button extends StatelessWidget {
         onTap();
       },
       child:
-      loading ? Loading(size: 17, color: Colors.white,) :
+      loading ? const Loading(size: 17, color: Colors.white,) :
       Text(
         title,
         style: const TextStyle(color: Colors.white),

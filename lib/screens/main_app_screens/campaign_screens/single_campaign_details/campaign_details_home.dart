@@ -5,11 +5,13 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/sin
 // import 'package:fl_chart/fl_chart.dart';
 
 class CampaignDetailsPage extends StatelessWidget {
+  const CampaignDetailsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: const Text('Home'),
         backgroundColor: Colors.green[300],
       ),
       bottomSheet:  // Checklist
@@ -20,51 +22,51 @@ class CampaignDetailsPage extends StatelessWidget {
             topRight: Radius.circular(20.0),
           ),
         ),
-        leading: Icon(Icons.check),
-        subtitle: Text('Follow the following instructions'),
-        trailing: Icon(Icons.arrow_forward_ios),
-        title: Text('Checklist'),
+        leading: const Icon(Icons.check),
+        subtitle: const Text('Follow the following instructions'),
+        trailing: const Icon(Icons.arrow_forward_ios),
+        title: const Text('Checklist'),
         onTap: () {
           // Open checklist from the bottom
           showModalBottomSheet(
             context: context,
             builder: (context) {
-              return Container(
-                height: MediaQuery.of(context).size.height * 0.4,
+              return SizedBox(
+                height: MediaQuery.of(context).size.height * 0.75,
                 child: Column(
                   children: [
                     ListTile(
-                      leading: Icon(Icons.share),
-                      subtitle: Text('Follow the following instructions'),
-                      trailing: Icon(Icons.arrow_forward_ios),
-                      title: Text('Share'),
+                      leading: const Icon(Icons.share),
+                      subtitle: const Text('Follow the following instructions'),
+                      trailing: const Icon(Icons.arrow_forward_ios),
+                      title: const Text('Share'),
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => ShareCampaignScreen()));
                       },
                     ),ListTile(
-                      leading: Icon(Icons.document_scanner),
-                      subtitle: Text('Follow the following instructions'),
-                      trailing: Icon(Icons.arrow_forward_ios),
-                      title: Text('Upload Documents'),
+                      leading: const Icon(Icons.document_scanner),
+                      subtitle: const Text('Follow the following instructions'),
+                      trailing: const Icon(Icons.arrow_forward_ios),
+                      title: const Text('Upload Documents'),
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => UploadMediaScreen()));
                       },
                     ),ListTile(
-                      leading: Icon(Icons.photo),
-                      subtitle: Text('Follow the following instructions'),
-                      trailing: Icon(Icons.arrow_forward_ios),
-                      title: Text('Add Media'),
+                      leading: const Icon(Icons.photo),
+                      subtitle: const Text('Follow the following instructions'),
+                      trailing: const Icon(Icons.arrow_forward_ios),
+                      title: const Text('Add Media'),
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => UploadMediaScreen()));
                       },
                     ),ListTile(
-                      leading: Icon(Icons.update),
-                      subtitle: Text('Follow the following instructions'),
-                      trailing: Icon(Icons.arrow_forward_ios),
-                      title: Text('Write updates'),
+                      leading: const Icon(Icons.update),
+                      subtitle: const Text('Follow the following instructions'),
+                      trailing: const Icon(Icons.arrow_forward_ios),
+                      title: const Text('Write updates'),
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => WriteUpdatesScreen()));
@@ -83,10 +85,10 @@ class CampaignDetailsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ListTile(
-              leading: Icon(Icons.share),
-              subtitle: Text('Follow the following instructions'),
-              trailing: Icon(Icons.arrow_forward_ios),
-              title: Text('Share'),
+              leading: const Icon(Icons.share),
+              subtitle: const Text('Follow the following instructions'),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              title: const Text('Share'),
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ShareCampaignScreen()));
@@ -94,8 +96,8 @@ class CampaignDetailsPage extends StatelessWidget {
             ),
 
             // Circular Progress Indicator
-            Padding(
-              padding: const EdgeInsets.all(16.0),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
               child: Column(
                 children: [
                   Text(
@@ -129,8 +131,8 @@ class CampaignDetailsPage extends StatelessWidget {
               ),
             ),
             // Graph
-            Padding(
-              padding: const EdgeInsets.all(16.0),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

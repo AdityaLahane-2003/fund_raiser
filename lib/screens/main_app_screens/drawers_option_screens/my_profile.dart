@@ -15,7 +15,7 @@ import '../../../firebase_services/user_services/delete_user_services.dart';
 class UserInfoPage extends StatefulWidget {
   final String userId;
 
-  const UserInfoPage({required this.userId});
+  const UserInfoPage({super.key, required this.userId});
 
   @override
   _UserInfoPageState createState() => _UserInfoPageState();
@@ -46,14 +46,14 @@ class _UserInfoPageState extends State<UserInfoPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green.shade300,
-        title: Text('My Profile'),
+        title: const Text('My Profile'),
       ),
       body: userData.isNotEmpty
           ? SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   Container(
                     width: double.infinity,
                     height: 100,
@@ -63,7 +63,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         fit: BoxFit.contain,
                         image: userData['imageUrl'] != ""
                             ? NetworkImage(userData['imageUrl'])
-                            : NetworkImage(
+                            : const NetworkImage(
                                 "https://firebasestorage.googleapis.com/v0/b/hrtaa-fund-raiser.appspot.com/o/images%2Fl2.webp?alt=media&token=7be46cf5-ec6b-42b3-9a2b-9d8d6e1a4be3"), // Provide a default image
                       ),
                     ),
@@ -93,15 +93,15 @@ class _UserInfoPageState extends State<UserInfoPage> {
                             ),
                           ))),
                   ListTile(
-                      leading: Icon(Icons.person),
+                      leading: const Icon(Icons.person),
                       title: Text('Name: ${userData['name']}')),
                   ListTile(
-                      leading: Icon(Icons.email_outlined),
+                      leading: const Icon(Icons.email_outlined),
                       title: userData['email'] != ""
                           ? Text('Email: ${userData['email']}')
                           : const Text('Email: Not provided'),
                       subtitle: FirebaseAuth.instance.currentUser!.emailVerified
-                          ? SizedBox(
+                          ? const SizedBox(
                               height: 0,
                             )
                           : Text(
@@ -121,19 +121,19 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                   ),
                                 );
                               },
-                              child: Text(
+                              child: const Text(
                                 "Verify",
                                 style: TextStyle(color: Colors.red),
                               ))),
                   ListTile(
-                    leading: Icon(Icons.phone),
+                    leading: const Icon(Icons.phone),
                     title: Text('Phone: ${userData['phone']}'),
                   ),
                   ListTile(
-                    leading: Icon(Icons.abc_outlined),
+                    leading: const Icon(Icons.abc_outlined),
                     title: Text('Bio: ${userData['bio']}'),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -165,7 +165,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: Text("Delete Account !!!"),
+                                  title: const Text("Delete Account !!!"),
                                   content: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -174,8 +174,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                         // Replace with your image asset
                                         height: 100,
                                       ),
-                                      SizedBox(height: 10),
-                                      Text(
+                                      const SizedBox(height: 10),
+                                      const Text(
                                         "Are you sure you want to delete your account? This action is irreversible.",
                                         style: TextStyle(fontSize: 16),
                                       ),
@@ -193,7 +193,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                         Navigator.pop(
                                             context); // Close the dialog
                                       },
-                                      child: Text(
+                                      child: const Text(
                                         "Cancel",
                                         style: TextStyle(color: Colors.white),
                                       ),
@@ -205,8 +205,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                             .deleteAccountAndData(context);
                                       },
                                       style: ElevatedButton.styleFrom(
-                                          primary: Colors.red),
-                                      child: Text("Delete",
+                                          backgroundColor: Colors.red),
+                                      child: const Text("Delete",
                                           style:
                                               TextStyle(color: Colors.white)),
                                     ),

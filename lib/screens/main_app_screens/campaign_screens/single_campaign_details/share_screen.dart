@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ShareCampaignScreen extends StatelessWidget {
+  const ShareCampaignScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Share Campaign'),
+        title: const Text('Share Campaign'),
         backgroundColor: Colors.orange[300],
       ),
       body: Padding(
@@ -14,12 +16,12 @@ class ShareCampaignScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Text information regarding the importance of sharing at the top
-            Text(
+            const Text(
               'Help us reach our goal by sharing this campaign!',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             // Central share button
             ElevatedButton(
               onPressed: () {
@@ -27,11 +29,11 @@ class ShareCampaignScreen extends StatelessWidget {
                 // You can use the share package or implement your custom sharing logic
                 showSnackBar(context, 'Campaign shared successfully!');
               },
-              child: Text('Share Now'),
+              child: const Text('Share Now'),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             // Text information regarding what you are sharing at the bottom
-            Text(
+            const Text(
               'You are sharing a fundraising campaign to support a cause. '
                   'Encourage your friends and family to donate and make a difference!',
               style: TextStyle(fontSize: 16),
@@ -46,7 +48,7 @@ class ShareCampaignScreen extends StatelessWidget {
   void showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message),
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     ));
   }
 }

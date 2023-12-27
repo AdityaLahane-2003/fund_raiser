@@ -54,12 +54,12 @@ late Timer timer;
             timer.cancel();
             widget.isSignUp?Navigator.push(context, MaterialPageRoute(builder: (context)=>const LoginScreen()))
             :Navigator.pop(context);
-          }, icon: Icon(Icons.close))
+          }, icon: const Icon(Icons.close))
         ],
-        title: Text("Verify Email"),
+        title: const Text("Verify Email"),
       ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -67,12 +67,12 @@ late Timer timer;
           children: [
             const CircleAvatar(
               radius: 50,
-              backgroundImage: const AssetImage('assets/logo.png'),
+              backgroundImage: AssetImage('assets/logo.png'),
               backgroundColor: Colors.transparent,
             ),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
              Loading(size: 90, color: Colors.lightGreen.shade700,),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             const Text("Verification link sent to your email ID"),
             const Text(" Please Verify Email!"),
             const SizedBox(height: 10,),
@@ -96,7 +96,7 @@ Future<void> checkEmailVerified()async{
   if(user.emailVerified){
     timer.cancel();
     Utils().toastMessage("Email Verified Successfully",color: Colors.green);
-    widget.isSignUp?Navigator.push(context, MaterialPageRoute(builder: (context)=>TakeUserInfoScreen()))
+    widget.isSignUp?Navigator.push(context, MaterialPageRoute(builder: (context)=>const TakeUserInfoScreen()))
         :Navigator.pop(context);
   }
 }

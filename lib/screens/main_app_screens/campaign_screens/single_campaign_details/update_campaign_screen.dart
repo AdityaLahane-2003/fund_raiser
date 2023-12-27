@@ -5,20 +5,22 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/sin
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/write_updates_screen.dart';
 
 class UpdateCampaignScreen extends StatelessWidget {
+  const UpdateCampaignScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Campaign'),
+        title: const Text('Update Campaign'),
         backgroundColor: Colors.blue[300],
       ),
       body: Column(
         children: [
           ListTile(
-            leading: Icon(Icons.info),
-            subtitle: Text('Follow the following instructions'),
-            trailing: Icon(Icons.arrow_forward_ios),
-            title: Text('Update Info'),
+            leading: const Icon(Icons.info),
+            subtitle: const Text('Follow the following instructions'),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            title: const Text('Update Info'),
             onTap: () {
               Navigator.push(
                 context,
@@ -26,10 +28,10 @@ class UpdateCampaignScreen extends StatelessWidget {
               );
             },
           ),ListTile(
-            leading: Icon(Icons.document_scanner),
-            subtitle: Text('Follow the following instructions'),
-            trailing: Icon(Icons.arrow_forward_ios),
-            title: Text('Upload Documents'),
+            leading: const Icon(Icons.document_scanner),
+            subtitle: const Text('Follow the following instructions'),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            title: const Text('Upload Documents'),
             onTap: () {
               Navigator.push(
                 context,
@@ -37,10 +39,10 @@ class UpdateCampaignScreen extends StatelessWidget {
               );
             },
           ),ListTile(
-            leading: Icon(Icons.photo),
-            subtitle: Text('Follow the following instructions'),
-            trailing: Icon(Icons.arrow_forward_ios),
-            title: Text('Add Media'),
+            leading: const Icon(Icons.photo),
+            subtitle: const Text('Follow the following instructions'),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            title: const Text('Add Media'),
             onTap: () {
               Navigator.push(
                 context,
@@ -48,10 +50,10 @@ class UpdateCampaignScreen extends StatelessWidget {
               );
             },
           ),ListTile(
-            leading: Icon(Icons.update),
-            subtitle: Text('Follow the following instructions'),
-            trailing: Icon(Icons.arrow_forward_ios),
-            title: Text('Write updates'),
+            leading: const Icon(Icons.update),
+            subtitle: const Text('Follow the following instructions'),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            title: const Text('Write updates'),
             onTap: () {
               Navigator.push(
                 context,
@@ -59,14 +61,14 @@ class UpdateCampaignScreen extends StatelessWidget {
               );
             },
           ),ListTile(
-            leading: Icon(Icons.settings),
-            subtitle: Text('Follow the following instructions'),
-            trailing: Icon(Icons.arrow_forward_ios),
-            title: Text('Settings'),
+            leading: const Icon(Icons.settings),
+            subtitle: const Text('Follow the following instructions'),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            title: const Text('Settings'),
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CampaignSettingsScreen()),
+                MaterialPageRoute(builder: (context) => const CampaignSettingsScreen()),
               );
             },
           ),

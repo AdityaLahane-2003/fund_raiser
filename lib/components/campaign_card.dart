@@ -15,7 +15,7 @@ class CampaignCard extends StatelessWidget {
   final VoidCallback onUpdatePressed;
   final VoidCallback onDeletePressed;
 
-  CampaignCard({
+  const CampaignCard({super.key,
     required this.campaign,
     required this.isCurrentUserCampaign,
     required this.onUpdatePressed,
@@ -52,7 +52,7 @@ class CampaignCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(45.0),
         ),
-        margin: EdgeInsets.all(8.0),
+        margin: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -63,25 +63,25 @@ class CampaignCard extends StatelessWidget {
               width: double.infinity,
               fit: BoxFit.fill,
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             // Title of the campaign
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width*0.75,
                     child: Text(
                       campaign.title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 19.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.share),
+                    icon: const Icon(Icons.share),
                     onPressed: (){
                       Share.share(
                         'Check out this fundraising campaign: ${campaign.title}\n\n'
@@ -107,36 +107,36 @@ class CampaignCard extends StatelessWidget {
               backgroundColor: Colors.grey[300],
               valueColor: AlwaysStoppedAnimation<Color>(Colors.green.shade400),
             ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
                   children: [
-                    Text(
+                    const Text(
                       'Amount Raised:',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),  Text(
                       ' ${campaign.amountRaised} ₹ / ${campaign.amountGoal} ₹',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 8.0),
-                    Text(
+                    const SizedBox(height: 8.0),
+                    const Text(
                       'Start Date:',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),  Text(
                       '  ${campaign.dateCreated.day}/${campaign.dateCreated.month}/${campaign.dateCreated.year}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     Text(
                       'No. of Donors:',
                       style: TextStyle(
@@ -160,31 +160,31 @@ class CampaignCard extends StatelessWidget {
                         campaign.photoUrl==""?'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg':campaign.photoUrl,
                       )
                     ),
-                    Text('${campaign.name}'),
-                    SizedBox(height: 8.0),
-                    Text('End Date:'),
+                    Text(campaign.name),
+                    const SizedBox(height: 8.0),
+                    const Text('End Date:'),
                     Text(' ${campaign.dateEnd.day}/${campaign.dateEnd.month}/${campaign.dateEnd.year}'),
-                    SizedBox(height: 8.0),
-                    Text('Location: '),
-                    Text('${campaign.location}',overflow: TextOverflow.ellipsis,maxLines: 3,),
+                    const SizedBox(height: 8.0),
+                    const Text('Location: '),
+                    Text(campaign.location,overflow: TextOverflow.ellipsis,maxLines: 3,),
                   ],
                 ),
               ],
             ),
-            SizedBox(height: 8,),
+            const SizedBox(height: 8,),
             Row(
               children: [
-                Text('     Status: ${status}'),
-                SizedBox(width: 3,),
+                Text('     Status: $status'),
+                const SizedBox(width: 3,),
                 status=='Active' ?
-                Icon(Icons.circle, size: 15.0, color: Colors.green):
+                const Icon(Icons.circle, size: 15.0, color: Colors.green):
                 status=='Expired'?
-                Icon(Icons.circle, size: 15.0, color: Colors.red):
-                Icon(Icons.circle, size: 15.0, color: Colors.yellow),
+                const Icon(Icons.circle, size: 15.0, color: Colors.red):
+                const Icon(Icons.circle, size: 15.0, color: Colors.yellow),
       
               ],
             ),
-            SizedBox(height: 3.0),
+            const SizedBox(height: 3.0),
           ReadMoreText(
             '     Story:\n          ${campaign.description}',
             trimLines: 2,
@@ -192,9 +192,9 @@ class CampaignCard extends StatelessWidget {
             trimMode: TrimMode.Line,
             trimCollapsedText: 'Show more',
             trimExpandedText: ' ...Show less',
-            moreStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            moreStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
-            SizedBox(height: 3.0),
+            const SizedBox(height: 3.0),
             if (isCurrentUserCampaign)
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -202,40 +202,40 @@ class CampaignCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.question_mark),
+                      icon: const Icon(Icons.question_mark),
                       onPressed: (){
                         showDialog(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
-                            title: Text('Help'),
-                            content: Text('This is the help section'),
+                            title: const Text('Help'),
+                            content: const Text('This is the help section'),
                             actions: [
                               TextButton(
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
-                                child: Text('Close'),
+                                child: const Text('Close'),
                               ),  TextButton(
                                 onPressed: () {
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>HelpScreen()));
                                 },
-                                child: Text('FAQs'),
+                                child: const Text('FAQs'),
                               ),
                             ],
                           ),
                         );
                       },
                     ), IconButton(
-                      icon: Icon(Icons.lightbulb),
+                      icon: const Icon(Icons.lightbulb),
                       onPressed: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>OurSuggestionsPage()));
                       },
                     ), IconButton(
-                      icon: Icon(Icons.edit),
+                      icon: const Icon(Icons.edit),
                       onPressed: onUpdatePressed,
                     ),
                     IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.delete,
                         color: Colors.red,
                       ),
