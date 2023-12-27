@@ -3,7 +3,7 @@ import '../../providers/fundRaiserData_Provider.dart';
 
 class CampaignService {
   final String userId;
-  FundraiserData fundraiserData = FundraiserData();
+  // FundraiserData fundraiserData = FundraiserData();
   CampaignService(this.userId);
 
   Future<void> createCampaign(FundraiserData fundraiserData) async {
@@ -31,6 +31,11 @@ class CampaignService {
       'dateCreated': fundraiserData.dateCreated,
       'status': fundraiserData.status,
       'dateEnd': fundraiserData.dateEnd,
+      'tipAmount':fundraiserData.tipAmount,
+      'documentUrls':fundraiserData.documentUrls,
+      'mediaUrls':fundraiserData.mediaUrls,
+      'updates':fundraiserData.updates,
+      'donations':fundraiserData.donations,
     });
 
     // Update user's campaigns field with the campaign ID

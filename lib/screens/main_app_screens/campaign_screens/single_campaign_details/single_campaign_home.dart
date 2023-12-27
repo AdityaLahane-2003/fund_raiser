@@ -3,10 +3,12 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/sin
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/thank_donars_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/update_campaign_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/withdraw_screen.dart';
+import '../../../../models/campaign_model.dart';
 import 'campaign_details_home.dart';
 
 class SingleCampaignHomeScreen extends StatefulWidget {
-  const SingleCampaignHomeScreen({super.key});
+  final Campaign campaign;
+  const SingleCampaignHomeScreen({super.key,required this.campaign});
 
   @override
   _SingleCampaignHomeScreenState createState() => _SingleCampaignHomeScreenState();
@@ -14,17 +16,22 @@ class SingleCampaignHomeScreen extends StatefulWidget {
 
 class _SingleCampaignHomeScreenState extends State<SingleCampaignHomeScreen> {
   int _currentIndex = 0;
-
-  final List<Widget> _pages = [
-    const CampaignDetailsPage(),
-    UpdateCampaignScreen(),
-    WithdrawScreen(),
-    ThankDonorsPage(),
-    const ShareCampaignScreen(),
-  ];
-
+  late List<Widget> _pages;
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _pages = [
+      CampaignDetailsPage(campaign: widget.campaign,),
+      UpdateCampaignScreen(),
+      WithdrawScreen(),
+      ThankDonorsPage(),
+      const ShareCampaignScreen(),
+    ];
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(

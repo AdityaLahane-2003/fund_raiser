@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
+import 'package:fund_raiser_second/providers/fundRaiserData_Provider.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
@@ -15,8 +16,10 @@ class DonateScreen extends StatefulWidget {
 class _DonateScreenState extends State<DonateScreen> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _tipController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
   final Razorpay _razorpay = Razorpay();
-
+  final _formKey = GlobalKey<FormState>();
+  Donation donation = Donation();
   bool _isDonating = false;
 
   @override
@@ -79,6 +82,14 @@ class _DonateScreenState extends State<DonateScreen> {
         int.parse(_amountController.text) + (int.parse(_tipController.text.isEmpty ? '0' : _tipController.text)),
       ),
       'amountDonors': FieldValue.increment(1),
+      'donations': FieldValue.arrayUnion([
+        {
+          'donorName': nameController.text.trim(),
+          'amount': int.parse(_amountController.text),
+          'date': DateTime.now(),
+        }
+      ]),
+      'tipAmount': FieldValue.increment(int.parse(_tipController.text.isEmpty ? '0' : _tipController.text)),
     });
   }
 
@@ -93,13 +104,6 @@ class _DonateScreenState extends State<DonateScreen> {
   }
 
   void _initiatePayment() {
-    if (_amountController.text.isEmpty) {
-      // Show an error message if the amount is empty
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Please enter a valid donation amount.'),
-      ));
-      return;
-    }
 int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.text);
     int totalAmount = int.parse(_amountController.text) + tipAmount;
     var options = {
@@ -146,11 +150,14 @@ int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.tex
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
+          child:   Form(
+              key: _formKey,
+              child:Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Display a random donation-related image
               Image(
+                height: 200,
                   image: const AssetImage('assets/donate_money.png'),
                   loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                     if (loadingProgress == null) return child;
@@ -165,10 +172,29 @@ int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.tex
               ),
               const SizedBox(height: 16),
               TextFormFieldArea(
+                prefixIcon: Icons.person,
+                controller: nameController,
+                textInputType: TextInputType.text,
+                  title: 'Enter Name',
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              TextFormFieldArea(
                 prefixIcon: Icons.attach_money,
                 controller: _amountController,
                 textInputType: TextInputType.number,
                   title: 'Enter Amount',
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter amount';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
               // Add a TextField for tip amount
@@ -183,17 +209,15 @@ int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.tex
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.green[700],
                 ),
-                onPressed: _isDonating
-                    ? null
-                    : () async {
-                  setState(() {
-                    _isDonating = true;
-                  });
-                  _initiatePayment();
+                onPressed: () async {
+                    if(_formKey.currentState!.validate()){
+                      _initiatePayment();
+                    }
                 },
                 child: const Text('Donate Now', style: TextStyle(color: Colors.white),),
               ),
             ],
+          ),
           ),
         ),
       ),

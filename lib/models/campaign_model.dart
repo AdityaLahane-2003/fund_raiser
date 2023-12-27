@@ -1,3 +1,5 @@
+import 'package:fund_raiser_second/providers/fundRaiserData_Provider.dart';
+
 class Campaign {
   final String id;
   final String title;
@@ -20,6 +22,11 @@ class Campaign {
   final DateTime dateCreated;
   final String status;
   final DateTime dateEnd;
+  final int tipAmount;
+  final List<String> documentUrls;
+  final List<String> mediaUrls;
+  final List<String> updates;
+  // final List<Donation> donations;
   Campaign({
     required  this.gender,
     required this.age,
@@ -42,5 +49,10 @@ class Campaign {
     required this.dateCreated,
     required this.status,
     required this.dateEnd,
+    required this.tipAmount,
+    required this.documentUrls,
+    required this.mediaUrls,
+    required this.updates,
+    // required this.donations,
   });
 }

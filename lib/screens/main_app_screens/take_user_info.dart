@@ -193,20 +193,6 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                       'imageUrl': _imageUrl!=''?_imageUrl:'',
                     });
                     Utils().toastMessage("Info Upadated", color: Colors.green);
-                    // addUserDetails(
-                    //     nameController.text.trim() != ""
-                    //         ? nameController.text.trim()
-                    //         : "User",
-                    //     userEmail,
-                    //     phoneController.text.trim() != ""
-                    //         ? phoneController.text.trim()
-                    //         : "Not Provided",
-                    //     int.parse(ageController.text.trim()) != ""
-                    //         ? int.parse(ageController.text.trim())
-                    //         : 0,
-                    //     bioController.text.trim() != ""
-                    //         ? bioController.text.trim()
-                    //         : "Not Provided");
                     Navigator.push(
                         context,
                         MaterialPageRoute(

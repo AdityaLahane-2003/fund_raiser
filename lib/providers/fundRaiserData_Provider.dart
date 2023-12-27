@@ -1,4 +1,4 @@
-class FundraiserData  {
+class FundraiserData {
   String category = 'Medical';
   String name = '';
   String title = 'Campaign Title';
@@ -18,4 +18,18 @@ class FundraiserData  {
   DateTime dateCreated = DateTime.now();
   String status = 'Active';
   DateTime dateEnd = DateTime.now().add(const Duration(days: 30));
+
+  // New fields
+  List<String> documentUrls = [];
+  List<String> mediaUrls = [];
+  int tipAmount = 0;
+  List<Donation> donations = [];
+  List<String> updates = [];
+}
+
+class Donation {
+  String donorName = 'anonymous' ;
+  int amount = 0 ;
+  DateTime date= DateTime.now() ;
+  // Donation({required this.donorName, required this.amount, required this.date});
 }

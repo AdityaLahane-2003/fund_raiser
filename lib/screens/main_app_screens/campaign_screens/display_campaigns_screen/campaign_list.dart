@@ -6,6 +6,7 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/upd
 
 import '../../../../components/campaign_card.dart';
 import '../../../../models/campaign_model.dart';
+import '../../../../providers/fundRaiserData_Provider.dart';
 
 class CampaignsList extends StatefulWidget {
   const CampaignsList({super.key});
@@ -51,6 +52,10 @@ class _CampaignsListState extends State<CampaignsList> {
           dateCreated: doc['dateCreated'].toDate(),
           status: doc['status'],
           dateEnd: doc['dateEnd'].toDate(),
+          tipAmount: doc['tipAmount'],
+          documentUrls: List<String>.from(doc['documentUrls']),
+          mediaUrls: List<String>.from(doc['mediaUrls']),
+          updates: List<String>.from(doc['updates']),
         );
       }).toList();
     });

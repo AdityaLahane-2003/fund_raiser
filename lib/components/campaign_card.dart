@@ -34,7 +34,7 @@ class CampaignCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SingleCampaignHomeScreen(),
+              builder: (context) => SingleCampaignHomeScreen(campaign: campaign,),
             ),
           );
         }else{
