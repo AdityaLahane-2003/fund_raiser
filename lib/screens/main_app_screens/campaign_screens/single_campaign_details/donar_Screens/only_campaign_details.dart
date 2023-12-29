@@ -2,8 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/donate_screen.dart';
 import 'package:share/share.dart';
-import '../../../../components/button.dart';
-import '../../../../models/campaign_model.dart';
+import '../../../../../components/button.dart';
+import '../../../../../models/campaign_model.dart';
 
 class OnlyCampaignDetailsPage extends StatelessWidget {
   final Campaign campaign;

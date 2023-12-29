@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/donate_screen.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/only_campaign_details.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/donar_Screens/only_campaign_details.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/help.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/our_suggestions.dart';
 import 'package:readmore/readmore.dart';
 import 'package:share/share.dart';
 import '../models/campaign_model.dart';
-import '../screens/main_app_screens/campaign_screens/single_campaign_details/single_campaign_home.dart';
+import '../screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/single_campaign_home.dart';
 import 'button.dart';
 
 class CampaignCard extends StatelessWidget {
@@ -24,7 +24,7 @@ class CampaignCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String status = campaign.status;
+    String status;
     DateTime.now().isBefore(campaign.dateEnd)?
     status='Active':DateTime.now().isAfter(campaign.dateEnd)?
     status='Expired':status='Pending';
@@ -67,35 +67,48 @@ class CampaignCard extends StatelessWidget {
             // Title of the campaign
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width*0.75,
-                    child: Text(
-                      campaign.title,
-                      style: const TextStyle(
-                        fontSize: 19.0,
-                        fontWeight: FontWeight.bold,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width*0.75,
+                        child: Text(
+                          campaign.title,
+                          style: const TextStyle(
+                            fontSize: 19.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    ),
+                      IconButton(
+                        icon: const Icon(Icons.share),
+                        onPressed: (){
+                          Share.share(
+                            'Check out this fundraising campaign: ${campaign.title}\n\n'
+                                'Amount Raised: ${campaign.amountRaised} ₹\n'
+                                'Goal Amount: ${campaign.amountGoal} ₹\n'
+                                'Start Date: ${campaign.dateCreated.day}/${campaign.dateCreated.month}/${campaign.dateCreated.year}\n'
+                                'End Date: ${campaign.dateEnd.day}/${campaign.dateEnd.month}/${campaign.dateEnd.year}\n'
+                                'Number of Donors: ${campaign.amountDonors}\n'
+                                'Place: ${campaign.schoolOrHospital}\n'
+                                'Location: ${campaign.location}\n\n'
+                                'Donate now and support the cause!',
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.share),
-                    onPressed: (){
-                      Share.share(
-                        'Check out this fundraising campaign: ${campaign.title}\n\n'
-                            'Amount Raised: ${campaign.amountRaised} ₹\n'
-                            'Goal Amount: ${campaign.amountGoal} ₹\n'
-                            'Start Date: ${campaign.dateCreated.day}/${campaign.dateCreated.month}/${campaign.dateCreated.year}\n'
-                            'End Date: ${campaign.dateEnd.day}/${campaign.dateEnd.month}/${campaign.dateEnd.year}\n'
-                            'Number of Donors: ${campaign.amountDonors}\n'
-                            'Place: ${campaign.schoolOrHospital}\n'
-                            'Location: ${campaign.location}\n\n'
-                            'Donate now and support the cause!',
-                      );
-                    },
-                  ),
+                  Text(
+                      campaign.status,
+                    style: TextStyle(
+                      color: Colors.green.shade700,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14
+                    )
+                  )
                 ],
               ),
             ),
@@ -155,10 +168,10 @@ class CampaignCard extends StatelessWidget {
                 Column(
                   children: [
                     CircleAvatar(
-                      minRadius: 20,
-                      backgroundImage: NetworkImage(
-                        campaign.photoUrl==""?'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg':campaign.photoUrl,
-                      )
+                        minRadius: 20,
+                        backgroundImage: NetworkImage(
+                          campaign.photoUrl==""?'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg':campaign.photoUrl,
+                        )
                     ),
                     Text(campaign.name),
                     const SizedBox(height: 8.0),
@@ -181,19 +194,19 @@ class CampaignCard extends StatelessWidget {
                 status=='Expired'?
                 const Icon(Icons.circle, size: 15.0, color: Colors.red):
                 const Icon(Icons.circle, size: 15.0, color: Colors.yellow),
-      
+
               ],
             ),
             const SizedBox(height: 3.0),
-          ReadMoreText(
-            '     Story:\n          ${campaign.description}',
-            trimLines: 2,
-            colorClickableText: Colors.pink,
-            trimMode: TrimMode.Line,
-            trimCollapsedText: 'Show more',
-            trimExpandedText: ' ...Show less',
-            moreStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-          ),
+            ReadMoreText(
+              '     Story:\n          ${campaign.description}',
+              trimLines: 2,
+              colorClickableText: Colors.pink,
+              trimMode: TrimMode.Line,
+              trimCollapsedText: 'Show more',
+              trimExpandedText: ' ...Show less',
+              moreStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 3.0),
             if (isCurrentUserCampaign)
               Padding(

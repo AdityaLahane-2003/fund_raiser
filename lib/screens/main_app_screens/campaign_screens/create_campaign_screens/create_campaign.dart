@@ -84,6 +84,9 @@ class _CampaignCreationState extends State<CampaignCreation> {
     switch (step) {
       case 1:
         return Step1(
+          onStatusSelected: (status){
+            fundraiserData.status=status;
+          },
           onCategorySelected: (category) {
             fundraiserData.category = category;
           },

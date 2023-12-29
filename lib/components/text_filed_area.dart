@@ -10,6 +10,7 @@ class TextFormFieldArea extends StatelessWidget {
   final IconData? suffixIcon;
   final Widget? suffix;
   final bool obscureText;
+  final bool enabled;
 
   const TextFormFieldArea({
     super.key,
@@ -22,12 +23,13 @@ class TextFormFieldArea extends StatelessWidget {
     this.suffixIcon,
     this.suffix,
     this.obscureText=false,
-
+    this.enabled=true,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
       controller: controller,
       keyboardType: textInputType,
       obscureText: obscureText,

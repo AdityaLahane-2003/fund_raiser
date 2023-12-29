@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/share_screen.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/upload_docs_and_media_screen.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/write_updates_screen.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/share_screen.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/upload_docs_and_media_screen.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/write_updates_screen.dart';
 
-import '../../../../models/campaign_model.dart';
+import '../../../../../../models/campaign_model.dart';
 // import 'package:fl_chart/fl_chart.dart';
 
 class CampaignDetailsPage extends StatelessWidget {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/share_screen.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/thank_donars_screen.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/update_campaign_screen.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/withdraw_screen.dart';
-import '../../../../models/campaign_model.dart';
-import 'campaign_details_home.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/share_screen.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/thank_donars_screen.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/update_campaign_screen.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/withdraw_screen.dart';
+import '../../../../../models/campaign_model.dart';
+import 'bottomBar_Screens/campaign_details_home.dart';
 
 class SingleCampaignHomeScreen extends StatefulWidget {
   final Campaign campaign;
@@ -25,7 +25,7 @@ class _SingleCampaignHomeScreenState extends State<SingleCampaignHomeScreen> {
       CampaignDetailsPage(campaign: widget.campaign,),
       UpdateCampaignScreen(),
       WithdrawScreen(),
-      ThankDonorsPage(),
+      ThankDonorsPage(campaignId: widget.campaign.id,),
       const ShareCampaignScreen(),
     ];
   }

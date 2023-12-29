@@ -16,20 +16,13 @@ class FundraiserData {
   int amountGoal = 100;
   int amountDonors = 3;
   DateTime dateCreated = DateTime.now();
-  String status = 'Active';
+  String status = 'Urgent Need of Funds';
   DateTime dateEnd = DateTime.now().add(const Duration(days: 30));
 
   // New fields
   List<String> documentUrls = [];
   List<String> mediaUrls = [];
   int tipAmount = 0;
-  List<Donation> donations = [];
+  List<String> donations = [];
   List<String> updates = [];
-}
-
-class Donation {
-  String donorName = 'anonymous' ;
-  int amount = 0 ;
-  DateTime date= DateTime.now() ;
-  // Donation({required this.donorName, required this.amount, required this.date});
 }

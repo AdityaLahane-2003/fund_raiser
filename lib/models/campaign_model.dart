@@ -1,4 +1,3 @@
-import 'package:fund_raiser_second/providers/fundRaiserData_Provider.dart';
 
 class Campaign {
   final String id;

@@ -216,7 +216,7 @@ class _Step2State extends State<Step2> {
                     onTap: () {
                       if (_formKey.currentState?.validate() ?? false) {
                         widget.onPersonalInfoEntered(
-                          _imageUrl == '' ? 'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg' : _imageUrl,
+                          _imageUrl,
                           ageController.text,
                           genderController.text,
                           cityController.text,

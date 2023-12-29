@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/campaign_settings_screen.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/update_info_screen.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/upload_docs_and_media_screen.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/write_updates_screen.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/campaign_settings_screen.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/update_info_screen.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/upload_docs_and_media_screen.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/write_updates_screen.dart';
 
 class UpdateCampaignScreen extends StatelessWidget {
   const UpdateCampaignScreen({super.key});

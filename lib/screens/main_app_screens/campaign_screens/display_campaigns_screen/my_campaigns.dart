@@ -8,7 +8,6 @@ import 'package:fund_raiser_second/utils/utils_toast.dart';
 
 import '../../../../components/campaign_card.dart';
 import '../../../../firebase_services/campaign_services/delete_campaign_services.dart';
-import '../../../../providers/fundRaiserData_Provider.dart';
 
 class MyCampaigns extends StatefulWidget {
   const MyCampaigns({super.key});

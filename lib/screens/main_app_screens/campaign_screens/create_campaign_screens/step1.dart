@@ -5,10 +5,12 @@ import '../../../../components/button.dart';
 
 class Step1 extends StatefulWidget {
   final Function(String) onCategorySelected;
+  final Function(String) onStatusSelected;
   final Function(String, String, int, DateTime) onNameEmailEntered;
   final Function onNext;
 
   const Step1({super.key,
+    required this.onStatusSelected,
     required this.onCategorySelected,
     required this.onNameEmailEntered,
     required this.onNext,
@@ -20,8 +22,12 @@ class Step1 extends StatefulWidget {
 
 class _Step1State extends State<Step1> {
   final List<String> categories = ['Medical', 'Education', 'Memorial', 'Others'];
+  final List<String> statuses = ['Urgent Need of Funds',
+    'Needs funds for the near future',
+  'Need funds for the upcoming event'];
 
   late String selectedCategory = 'Medical';
+  late String selectedStatus = 'Urgent Need of Funds';
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -89,6 +95,38 @@ class _Step1State extends State<Step1> {
                 },
               ),
 
+              const SizedBox(height: 16), const Text(
+                'Select Status of your Financial Need',
+              ),
+              DropdownButton<String>(
+                borderRadius: BorderRadius.circular(12.0),
+                icon: const Icon(Icons.arrow_drop_down),
+                iconSize: 36.0,
+                elevation: 16,
+                style: const TextStyle(color: Colors.black),
+                value: selectedStatus,
+                hint: const Text('Select Category'),
+                isExpanded: true,
+                items: statuses.map((category) {
+                  return DropdownMenuItem<String>(
+                    value: category,
+                    child: Center(
+                      child: Text(
+                        category,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  widget.onCategorySelected(value!);
+                  selectedStatus = value;
+                  setState(() {});
+                },
+              ),
               const SizedBox(height: 16),
               TextFormFieldArea(
                 prefixIcon: Icons.person,
