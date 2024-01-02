@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/share_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/thank_donars_screen.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/update_campaign_screen.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/campaign_story_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/withdraw_screen.dart';
 import '../../../../../models/campaign_model.dart';
 import 'bottomBar_Screens/campaign_details_home.dart';
@@ -23,7 +23,7 @@ class _SingleCampaignHomeScreenState extends State<SingleCampaignHomeScreen> {
     super.initState();
     _pages = [
       CampaignDetailsPage(campaign: widget.campaign,),
-      UpdateCampaignScreen(),
+      CampaignStoryScreen(campaign: widget.campaign,),
       WithdrawScreen(),
       ThankDonorsPage(campaignId: widget.campaign.id,),
       const ShareCampaignScreen(),

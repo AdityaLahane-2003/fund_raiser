@@ -79,7 +79,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                   .uploadImageToFirebaseStorage(
                                       _selectedImage!, 'user_images');
                               await ImageStoreUtils.storeImageUrlInFirestore(
-                                  _imageUrl!, 'users');
+                                  _imageUrl!);
                             } else {
                               Utils()
                                   .toastMessage('Please pick an image first.');

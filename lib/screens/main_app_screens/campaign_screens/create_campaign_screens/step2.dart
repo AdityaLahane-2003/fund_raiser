@@ -76,7 +76,7 @@ class _Step2State extends State<Step2> {
                         if (_selectedImage != null) {
                           _imageUrl = await ImageUploadUtils
                               .uploadImageToFirebaseStorage(
-                                  _selectedImage!, 'campaigns_user');
+                                  _selectedImage!, 'campaigns_beneficiaryImages');
                         } else {
                           Utils().toastMessage('Please pick an image first.');
                         }

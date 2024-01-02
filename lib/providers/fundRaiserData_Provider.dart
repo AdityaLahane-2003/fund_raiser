@@ -21,7 +21,8 @@ class FundraiserData {
 
   // New fields
   List<String> documentUrls = [];
-  List<String> mediaUrls = [];
+  List<String> mediaImageUrls = [];
+  List<String> mediaVideoUrls = [];
   int tipAmount = 0;
   List<String> donations = [];
   List<String> updates = [];

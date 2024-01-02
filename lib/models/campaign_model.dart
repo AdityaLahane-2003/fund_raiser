@@ -23,7 +23,8 @@ class Campaign {
   final DateTime dateEnd;
   final int tipAmount;
   final List<String> documentUrls;
-  final List<String> mediaUrls;
+  final List<String> mediaImageUrls;
+  final List<String> mediaVideoUrls;
   final List<String> updates;
   // final List<Donation> donations;
   Campaign({
@@ -50,7 +51,8 @@ class Campaign {
     required this.dateEnd,
     required this.tipAmount,
     required this.documentUrls,
-    required this.mediaUrls,
+    required this.mediaImageUrls,
+    required this.mediaVideoUrls,
     required this.updates,
     // required this.donations,
   });

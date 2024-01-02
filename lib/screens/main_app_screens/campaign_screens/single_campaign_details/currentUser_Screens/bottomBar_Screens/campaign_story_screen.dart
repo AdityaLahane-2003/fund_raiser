@@ -4,8 +4,12 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/sin
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/upload_docs_and_media_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/write_updates_screen.dart';
 
-class UpdateCampaignScreen extends StatelessWidget {
-  const UpdateCampaignScreen({super.key});
+import '../../../../../../models/campaign_model.dart';
+
+class CampaignStoryScreen extends StatelessWidget {
+  final Campaign campaign;
+  const CampaignStoryScreen({super.key,required this.campaign});
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,7 @@ class UpdateCampaignScreen extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => UpdateInfoScreen()),
+                MaterialPageRoute(builder: (context) => UpdateInfoScreen(campaign: campaign,)),
               );
             },
           ),ListTile(
@@ -35,7 +39,7 @@ class UpdateCampaignScreen extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => UploadMediaScreen()),
+                MaterialPageRoute(builder: (context) => UploadMediaScreen(campaignId: campaign.id,)),
               );
             },
           ),ListTile(
@@ -46,7 +50,7 @@ class UpdateCampaignScreen extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => UploadMediaScreen()),
+                MaterialPageRoute(builder: (context) => UploadMediaScreen(campaignId: campaign.id)),
               );
             },
           ),ListTile(
@@ -57,7 +61,7 @@ class UpdateCampaignScreen extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => WriteUpdatesScreen()),
+                MaterialPageRoute(builder: (context) => WriteUpdatesScreen(campaign: campaign,)),
               );
             },
           ),ListTile(
@@ -72,7 +76,6 @@ class UpdateCampaignScreen extends StatelessWidget {
               );
             },
           ),
-          // Add more list items
         ],
       ),
     );

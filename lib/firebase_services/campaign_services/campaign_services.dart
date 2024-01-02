@@ -33,7 +33,8 @@ class CampaignService {
       'dateEnd': fundraiserData.dateEnd,
       'tipAmount':fundraiserData.tipAmount,
       'documentUrls':fundraiserData.documentUrls,
-      'mediaUrls':fundraiserData.mediaUrls,
+      'mediaImageUrls':fundraiserData.mediaImageUrls,
+      'mediaVideoUrls':fundraiserData.mediaVideoUrls,
       'updates':fundraiserData.updates,
       'donations':fundraiserData.donations,
     });

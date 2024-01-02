@@ -7,16 +7,28 @@ import '../../../../../models/campaign_model.dart';
 
 class OnlyCampaignDetailsPage extends StatelessWidget {
   final Campaign campaign;
+  final bool isExpired;
 
-  const OnlyCampaignDetailsPage({super.key, required this.campaign});
+  const OnlyCampaignDetailsPage({super.key, required this.campaign,required this.isExpired});
 
   @override
   Widget build(BuildContext context) {
+    List<String>items=[];
+    campaign.mediaImageUrls.isNotEmpty?items = campaign.mediaImageUrls:items=["https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg"];
     return Scaffold(
       persistentFooterButtons: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            isExpired?
+            Text("Campaign Expired",
+            style:TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic,
+                color:Colors.red.shade300
+            )
+            ):
             Button(
               onTap: () {
                Navigator.push(
@@ -61,32 +73,37 @@ class OnlyCampaignDetailsPage extends StatelessWidget {
               options: CarouselOptions(
                 autoPlay: true,
                 aspectRatio: 2.0,
-                enlargeCenterPage: true,
+                enlargeCenterPage: false,
               ),
-              items: [
-                'Text 1',
-                'Text 2',
-                'Text 3',
-              ].map((item) {
-                return Container(
-                  margin: const EdgeInsets.all(5.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    color: Colors.blue,
-                  ),
-                  child: Center(
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
+              items: items.map((item) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      margin: const EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
-                    ),
-                  ),
+                      child: Center(
+                        child: Image.network(
+                          item,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    );
+                  },
                 );
               }).toList(),
-            ),
+            )
+            ,
             // Campaign details
             Padding(
               padding: const EdgeInsets.all(16.0),

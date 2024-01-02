@@ -8,6 +8,7 @@ import '../../../../../../models/campaign_model.dart';
 
 class CampaignDetailsPage extends StatelessWidget {
   final Campaign campaign;
+
   const CampaignDetailsPage({super.key, required this.campaign});
 
   @override
@@ -27,8 +28,10 @@ class CampaignDetailsPage extends StatelessWidget {
               trailing: const Icon(Icons.arrow_forward_ios),
               title: const Text('Share'),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ShareCampaignScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ShareCampaignScreen()));
               },
             ),
             ListTile(
@@ -53,39 +56,59 @@ class CampaignDetailsPage extends StatelessWidget {
                         children: [
                           ListTile(
                             leading: const Icon(Icons.share),
-                            subtitle: const Text('Follow the following instructions'),
+                            subtitle:
+                                const Text('Follow the following instructions'),
                             trailing: const Icon(Icons.arrow_forward_ios),
                             title: const Text('Share'),
                             onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => ShareCampaignScreen()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ShareCampaignScreen()));
                             },
-                          ),ListTile(
+                          ),
+                          ListTile(
                             leading: const Icon(Icons.document_scanner),
-                            subtitle: const Text('Follow the following instructions'),
+                            subtitle:
+                                const Text('Follow the following instructions'),
                             trailing: const Icon(Icons.arrow_forward_ios),
                             title: const Text('Upload Documents'),
                             onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => UploadMediaScreen()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UploadMediaScreen(
+                                          campaignId: campaign.id)));
                             },
-                          ),ListTile(
+                          ),
+                          ListTile(
                             leading: const Icon(Icons.photo),
-                            subtitle: const Text('Follow the following instructions'),
+                            subtitle:
+                                const Text('Follow the following instructions'),
                             trailing: const Icon(Icons.arrow_forward_ios),
                             title: const Text('Add Media'),
                             onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => UploadMediaScreen()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UploadMediaScreen(
+                                          campaignId: campaign.id)));
                             },
-                          ),ListTile(
+                          ),
+                          ListTile(
                             leading: const Icon(Icons.update),
-                            subtitle: const Text('Follow the following instructions'),
+                            subtitle:
+                                const Text('Follow the following instructions'),
                             trailing: const Icon(Icons.arrow_forward_ios),
                             title: const Text('Write updates'),
                             onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => WriteUpdatesScreen()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WriteUpdatesScreen(
+                                            campaign: campaign,
+                                          )));
                             },
                           ),
                           // Add more list items
@@ -97,15 +120,17 @@ class CampaignDetailsPage extends StatelessWidget {
               },
             ),
             // Circular Progress Indicator
-             Padding(
+            Padding(
               padding: EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  Text(campaign.title,
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-              ),),
+                  Text(
+                    campaign.title,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   SizedBox(height: 10.0),
                   Text(
                     'Amount Raised',
@@ -123,7 +148,9 @@ class CampaignDetailsPage extends StatelessWidget {
                   ),
                   SizedBox(height: 10.0),
                   Text(
-                    ((campaign.amountRaised / campaign.amountGoal)*100).toString()+" %", // Replace with actual percentage
+                    ((campaign.amountRaised / campaign.amountGoal) * 100)
+                            .toString() +
+                        " %", // Replace with actual percentage
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -134,15 +161,69 @@ class CampaignDetailsPage extends StatelessWidget {
                   SizedBox(height: 10.0),
                   Text('Goal Amount: \$ ${campaign.amountGoal}'),
                   SizedBox(height: 10.0),
-                  Text('STORY \n'+campaign.description),
+                  Text('STORY \n' + campaign.description),
                   SizedBox(height: 10.0),
                   Text(campaign.amountDonors.toString() + ' Donors'),
                   SizedBox(height: 10.0),
-                  Text(campaign.dateEnd.difference(DateTime.now()).inDays<0? ' Campaign Expired ':campaign.dateEnd.difference(DateTime.now()).inDays.toString() + ' Days Left'),
+                  Text(campaign.dateEnd.difference(DateTime.now()).inDays < 0
+                      ? ' Campaign Expired '
+                      : campaign.dateEnd
+                              .difference(DateTime.now())
+                              .inDays
+                              .toString() +
+                          ' Days Left'),
                   SizedBox(height: 10.0),
-                  Text("Uploaded Documents and Uploaded Media"),
+                  Text("Tip Amount Raised: " + campaign.tipAmount.toString()),
                   SizedBox(height: 10.0),
-                  Text("Tip Amount Raised: "+campaign.tipAmount.toString()),
+                  campaign.mediaImageUrls.isNotEmpty?
+                  Column(
+                    children: [
+                      SizedBox(height: 10.0),
+                      Text("Media Files"),
+                      SizedBox(height: 10.0),
+                      Wrap(
+                        spacing: 8.0,
+                        runSpacing: 8.0,
+                        children: campaign.mediaImageUrls.map((mediaUrl) {
+                          return Container(
+                            height: 100.0, // Set the desired height
+                            width: 100.0, // Set the desired width
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              image: DecorationImage(
+                                image: NetworkImage(mediaUrl),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ):
+                Text("No media available. Please upload."),
+                  SizedBox(height: 10.0),
+                  campaign.documentUrls.isNotEmpty?
+                  Column(
+                    children: [
+                      SizedBox(height: 10.0),
+                      Text("Document Files"),
+                      SizedBox(height: 10.0),
+                      Wrap(
+                        spacing: 8.0,
+                        runSpacing: 8.0,
+                        children: campaign.documentUrls.map((documentUrl) {
+                          // You can customize the display of documents here
+                          return TextButton(
+                            onPressed: () {
+                              // Handle document click action
+                            },
+                            child: Text("Document"),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ):
+                Text("No documents available. Please upload."),
                 ],
               ),
             ),

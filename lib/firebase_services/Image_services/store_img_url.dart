@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
 
 class ImageStoreUtils {
-  static Future<void> storeImageUrlInFirestore(String imageUrl,String folder) async {
+  static Future<void> storeImageUrlInFirestore(String imageUrl) async {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {

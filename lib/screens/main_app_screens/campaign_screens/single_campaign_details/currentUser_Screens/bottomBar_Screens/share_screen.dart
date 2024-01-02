@@ -25,8 +25,6 @@ class ShareCampaignScreen extends StatelessWidget {
             // Central share button
             ElevatedButton(
               onPressed: () {
-                // Handle the logic for sharing the campaign
-                // You can use the share package or implement your custom sharing logic
                 showSnackBar(context, 'Campaign shared successfully!');
               },
               child: const Text('Share Now'),

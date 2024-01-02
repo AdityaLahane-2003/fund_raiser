@@ -3,6 +3,7 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/don
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/donar_Screens/only_campaign_details.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/help.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/our_suggestions.dart';
+import 'package:fund_raiser_second/utils/utils_toast.dart';
 import 'package:readmore/readmore.dart';
 import 'package:share/share.dart';
 import '../models/campaign_model.dart';
@@ -15,7 +16,8 @@ class CampaignCard extends StatelessWidget {
   final VoidCallback onUpdatePressed;
   final VoidCallback onDeletePressed;
 
-  const CampaignCard({super.key,
+  const CampaignCard({
+    super.key,
     required this.campaign,
     required this.isCurrentUserCampaign,
     required this.onUpdatePressed,
@@ -25,23 +27,30 @@ class CampaignCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String status;
-    DateTime.now().isBefore(campaign.dateEnd)?
-    status='Active':DateTime.now().isAfter(campaign.dateEnd)?
-    status='Expired':status='Pending';
+    DateTime.now().isBefore(campaign.dateEnd)
+        ? status = 'Active'
+        : DateTime.now().isAfter(campaign.dateEnd)
+            ? status = 'Expired'
+            : status = 'Pending';
+    bool isExpired=status=='Expired'?true:false;
     return GestureDetector(
       onTap: () {
-        if(isCurrentUserCampaign){
+        if (isCurrentUserCampaign) {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SingleCampaignHomeScreen(campaign: campaign,),
+              builder: (context) => SingleCampaignHomeScreen(
+                campaign: campaign,
+              ),
             ),
           );
-        }else{
+        } else {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => OnlyCampaignDetailsPage(campaign: campaign,),
+              builder: (context) => OnlyCampaignDetailsPage(
+                campaign: campaign,isExpired:isExpired
+              ),
             ),
           );
         }
@@ -58,8 +67,10 @@ class CampaignCard extends StatelessWidget {
           children: [
             // Displaying cover photo using URL
             Image.network(
-              campaign.coverPhoto==""?'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg':campaign.coverPhoto,
-              height: 200,// Adjust the height as needed
+              campaign.coverPhoto == ""
+                  ? 'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg'
+                  : campaign.coverPhoto,
+              height: 200, // Adjust the height as needed
               width: double.infinity,
               fit: BoxFit.fill,
             ),
@@ -74,7 +85,7 @@ class CampaignCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                        width: MediaQuery.of(context).size.width*0.75,
+                        width: MediaQuery.of(context).size.width * 0.75,
                         child: Text(
                           campaign.title,
                           style: const TextStyle(
@@ -85,30 +96,27 @@ class CampaignCard extends StatelessWidget {
                       ),
                       IconButton(
                         icon: const Icon(Icons.share),
-                        onPressed: (){
+                        onPressed: () {
                           Share.share(
                             'Check out this fundraising campaign: ${campaign.title}\n\n'
-                                'Amount Raised: ${campaign.amountRaised} ₹\n'
-                                'Goal Amount: ${campaign.amountGoal} ₹\n'
-                                'Start Date: ${campaign.dateCreated.day}/${campaign.dateCreated.month}/${campaign.dateCreated.year}\n'
-                                'End Date: ${campaign.dateEnd.day}/${campaign.dateEnd.month}/${campaign.dateEnd.year}\n'
-                                'Number of Donors: ${campaign.amountDonors}\n'
-                                'Place: ${campaign.schoolOrHospital}\n'
-                                'Location: ${campaign.location}\n\n'
-                                'Donate now and support the cause!',
+                            'Amount Raised: ${campaign.amountRaised} ₹\n'
+                            'Goal Amount: ${campaign.amountGoal} ₹\n'
+                            'Start Date: ${campaign.dateCreated.day}/${campaign.dateCreated.month}/${campaign.dateCreated.year}\n'
+                            'End Date: ${campaign.dateEnd.day}/${campaign.dateEnd.month}/${campaign.dateEnd.year}\n'
+                            'Number of Donors: ${campaign.amountDonors}\n'
+                            'Place: ${campaign.schoolOrHospital}\n'
+                            'Location: ${campaign.location}\n\n'
+                            'Donate now and support the cause!',
                           );
                         },
                       ),
                     ],
                   ),
-                  Text(
-                      campaign.status,
-                    style: TextStyle(
-                      color: Colors.green.shade700,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14
-                    )
-                  )
+                  Text(campaign.status,
+                      style: TextStyle(
+                          color: Colors.green.shade700,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14))
                 ],
               ),
             ),
@@ -131,7 +139,8 @@ class CampaignCard extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
-                    ),  Text(
+                    ),
+                    Text(
                       ' ${campaign.amountRaised} ₹ / ${campaign.amountGoal} ₹',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
@@ -143,7 +152,8 @@ class CampaignCard extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
-                    ),  Text(
+                    ),
+                    Text(
                       '  ${campaign.dateCreated.day}/${campaign.dateCreated.month}/${campaign.dateCreated.year}',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
@@ -156,7 +166,8 @@ class CampaignCard extends StatelessWidget {
                         color: Colors.blue.shade700,
                         fontWeight: FontWeight.bold,
                       ),
-                    ),  Text(
+                    ),
+                    Text(
                       ' ${campaign.amountDonors}',
                       style: TextStyle(
                         color: Colors.blue.shade700,
@@ -170,31 +181,42 @@ class CampaignCard extends StatelessWidget {
                     CircleAvatar(
                         minRadius: 20,
                         backgroundImage: NetworkImage(
-                          campaign.photoUrl==""?'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg':campaign.photoUrl,
-                        )
-                    ),
+                          campaign.photoUrl == ""
+                              ? 'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg'
+                              : campaign.photoUrl,
+                        )),
                     Text(campaign.name),
                     const SizedBox(height: 8.0),
                     const Text('End Date:'),
-                    Text(' ${campaign.dateEnd.day}/${campaign.dateEnd.month}/${campaign.dateEnd.year}'),
+                    Text(
+                        ' ${campaign.dateEnd.day}/${campaign.dateEnd.month}/${campaign.dateEnd.year}'),
                     const SizedBox(height: 8.0),
                     const Text('Location: '),
-                    Text(campaign.location,overflow: TextOverflow.ellipsis,maxLines: 3,),
+                    Text(
+                      campaign.location,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                    ),
                   ],
                 ),
               ],
             ),
-            const SizedBox(height: 8,),
+            const SizedBox(
+              height: 8,
+            ),
             Row(
               children: [
                 Text('     Status: $status'),
-                const SizedBox(width: 3,),
-                status=='Active' ?
-                const Icon(Icons.circle, size: 15.0, color: Colors.green):
-                status=='Expired'?
-                const Icon(Icons.circle, size: 15.0, color: Colors.red):
-                const Icon(Icons.circle, size: 15.0, color: Colors.yellow),
-
+                const SizedBox(
+                  width: 3,
+                ),
+                status == 'Active'
+                    ? const Icon(Icons.circle, size: 15.0, color: Colors.green)
+                    : status == 'Expired'
+                        ? const Icon(Icons.circle,
+                            size: 15.0, color: Colors.red)
+                        : const Icon(Icons.circle,
+                            size: 15.0, color: Colors.yellow),
               ],
             ),
             const SizedBox(height: 3.0),
@@ -205,7 +227,8 @@ class CampaignCard extends StatelessWidget {
               trimMode: TrimMode.Line,
               trimCollapsedText: 'Show more',
               trimExpandedText: ' ...Show less',
-              moreStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              moreStyle:
+                  const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 3.0),
             if (isCurrentUserCampaign)
@@ -216,7 +239,7 @@ class CampaignCard extends StatelessWidget {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.question_mark),
-                      onPressed: (){
+                      onPressed: () {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
@@ -228,9 +251,13 @@ class CampaignCard extends StatelessWidget {
                                   Navigator.of(context).pop();
                                 },
                                 child: const Text('Close'),
-                              ),  TextButton(
+                              ),
+                              TextButton(
                                 onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>HelpScreen()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HelpScreen()));
                                 },
                                 child: const Text('FAQs'),
                               ),
@@ -238,12 +265,17 @@ class CampaignCard extends StatelessWidget {
                           ),
                         );
                       },
-                    ), IconButton(
+                    ),
+                    IconButton(
                       icon: const Icon(Icons.lightbulb),
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>OurSuggestionsPage()));
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OurSuggestionsPage()));
                       },
-                    ), IconButton(
+                    ),
+                    IconButton(
                       icon: const Icon(Icons.edit),
                       onPressed: onUpdatePressed,
                     ),
@@ -264,16 +296,26 @@ class CampaignCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Button(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => DonateScreen(campaignId: campaign.id)),
-                        );
-                      },
-                      title: 'Donate Now',
-                      color: Colors.green.shade700,
-                    ),
+                    status == 'Expired'
+                        ? Button(
+                            onTap: () {
+                              Utils().toastMessage("Campaign is Expired !",color: Colors.red.shade300);
+                            },
+                            title: 'Expired',
+                            color: Colors.red.shade700,
+                          )
+                        : Button(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        DonateScreen(campaignId: campaign.id)),
+                              );
+                            },
+                            title: 'Donate Now',
+                            color: Colors.green.shade700,
+                          ),
                   ],
                 ),
               ),

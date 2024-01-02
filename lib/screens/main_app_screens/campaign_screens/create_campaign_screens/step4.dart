@@ -64,7 +64,7 @@ class _Step4State extends State<Step4> {
                         _selectedImage = await ImagePickerUtils.pickImage();
                         if (_selectedImage != null) {
                           _imageUrl = await ImageUploadUtils.uploadImageToFirebaseStorage(
-                              _selectedImage!, 'campaigns_cover_photo');
+                              _selectedImage!, 'campaigns_coverPhoto');
                         }else{
                           Utils().toastMessage('Please pick an image first.');
                         }
@@ -132,12 +132,12 @@ class _Step4State extends State<Step4> {
                   ),
                  Button(
                    loading: loading,
-                    onTap: () {
+                    onTap: () async{
                       if (_formKey.currentState?.validate() ?? false) {
                         setState(() {
                           loading = true;
                         });
-                        widget.onCoverPhotoStoryEntered(_imageUrl, storyController.text,titleController.text);
+                        await widget.onCoverPhotoStoryEntered(_imageUrl, storyController.text,titleController.text);
                         widget.onRaiseFundPressed();
                       }
                     },

@@ -179,7 +179,7 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                     });
                     if (_selectedImage != null) {
                       _imageUrl = await ImageUploadUtils.uploadImageToFirebaseStorage(
-                          _selectedImage!, 'user_images');
+                          _selectedImage!, 'users_profilePhoto');
                     } else {
                       _imageUrl='';
                       Utils().toastMessage('You have not selected profile photo!',color: Colors.amberAccent);
