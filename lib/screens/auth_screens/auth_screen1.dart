@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/button.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/signup_screen.dart';
+import 'package:fund_raiser_second/screens/auth_screens/phone_auth/login_with_phone_number.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/display_campaigns_screen/campaign_list.dart';
 
 import '../../components/footer.dart';
@@ -66,7 +67,7 @@ class AuthScreen1 extends StatelessWidget {
                         title: 'Raise Fund',
                         onTap: (){
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const SignUpScreen()));
+                          MaterialPageRoute(builder: (context) => const LoginWithPhoneNumber(comingFrom: "signup")));
                     }),
                     Button(
                       color: Colors.blue.shade700,

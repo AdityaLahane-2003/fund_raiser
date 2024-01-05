@@ -7,6 +7,7 @@ import 'package:fund_raiser_second/screens/auth_screens/email_auth/signup_screen
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 import '../../../components/button.dart';
 import '../../../utils/utils_toast.dart';
+import '../phone_auth/login_with_phone_number.dart';
 import 'forgot_passwod_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -177,26 +178,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text('Sign up',style: TextStyle(fontSize:18.0,color: Colors.blue.shade700),))
                   ],
                 ),
-                // const SizedBox(
-                //   height: 10,
-                // ),
-                // InkWell(
-                //   onTap: () {
-                //     Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //             builder: (context) => const LoginWithPhoneNumber(comingFrom: "login",)));
-                //   },
-                //   child: Container(
-                //     height: 50,
-                //     decoration: BoxDecoration(
-                //         borderRadius: BorderRadius.circular(50),
-                //         border: Border.all(color: Colors.black)),
-                //     child: const Center(
-                //       child: Text('Login with phone'),
-                //     ),
-                //   ),
-                // )
+                const SizedBox(
+                  height: 10,
+                ),
+                Button(
+                    title: 'Login with phone',
+                    color: Colors.blue.shade700,
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginWithPhoneNumber(comingFrom: "login",)));
+                    },
+                ),
               ],
             ),
           ),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
+import 'package:fund_raiser_second/screens/auth_screens/phone_auth/login_with_phone_number.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/take_user_info.dart';
 import '../../../components/button.dart';
@@ -96,7 +97,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                     await auth.signInWithCredential(credential);
                     bool userExists = await checkUserExists(widget.phone);
                     if (widget.comingFrom == "signup") {
-                      addUserDetails("User", "email123",
+                      addUserDetails("User", "email",
                           widget.phone.toString(), 0, "bio");
                       Navigator.push(
                           context,
@@ -109,12 +110,12 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                             MaterialPageRoute(
                                 builder: (context) => const HomeDashboard()));
                       } else {
-                        addUserDetails("User", "email",
-                            widget.phone.toString(), 0, "bio");
+                        Utils().toastMessage(
+                            "User does not exist, please sign up first");
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const TakeUserInfoScreen()));
+                                builder: (context) => const LoginWithPhoneNumber(comingFrom: "signup",)));
                       }
                     }
                   } catch (e) {

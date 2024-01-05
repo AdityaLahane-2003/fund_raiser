@@ -3,9 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/footer.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
+import 'package:fund_raiser_second/screens/auth_screens/email_auth/signup_screen.dart';
 import 'package:fund_raiser_second/screens/auth_screens/phone_auth/verify_code.dart';
 import '../../../components/button.dart';
 import '../../../utils/utils_toast.dart';
+import '../email_auth/login_screen.dart';
 
 class LoginWithPhoneNumber extends StatefulWidget {
   final String comingFrom;
@@ -166,8 +168,55 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                           loading = false ;
                         });
                       });
-                }})
-
+                }}),
+                const SizedBox(height: 15,),
+                widget.comingFrom=='signup'?Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Already have an acoount?"),
+                    TextButton(onPressed: (){
+                      Navigator.push(context,
+                          MaterialPageRoute(
+                              builder:(context) => const LoginWithPhoneNumber(comingFrom: "login",))
+                      );
+                    },
+                        child: Text('Login',style: TextStyle(fontSize:17,color: Colors.blue.shade700),))
+                  ],
+                ):
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Don't have an account?"),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginWithPhoneNumber(comingFrom: "signup",)));
+                        },
+                        child: Text('Sign up',style: TextStyle(fontSize:18.0,color: Colors.blue.shade700),))
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                widget.comingFrom=='signup'?Button(
+                  title: '   SignUp With Email   ',
+                  color: Colors.blue.shade700,
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignUpScreen()));
+                  },):Button(
+                  title: '   Login With Email   ',
+                  color: Colors.blue.shade700,
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()));
+                  },),
               ],
             ),
           ),

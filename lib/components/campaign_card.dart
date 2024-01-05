@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/donate_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/donar_Screens/only_campaign_details.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/help.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/our_suggestions.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/help.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/our_suggestions.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
 import 'package:readmore/readmore.dart';
 import 'package:share/share.dart';

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/display_campaigns_screen/campaign_list.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/create_campaign_screens/create_campaign.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/display_campaigns_screen/my_campaigns.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/help.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/about_us.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/help.dart';
 import '../../components/button.dart';
 import '../../firebase_services/user_services/add_user_details_service.dart';
 import '../../firebase_services/campaign_services/campaign_services.dart';
@@ -306,6 +306,10 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   const Text('Select:'),
                   const SizedBox(width: 10),
                   ToggleButtons(
+                    constraints: const BoxConstraints(
+                      minWidth: 100,
+                      minHeight: 40,
+                    ),
                     borderRadius: BorderRadius.circular(50),
                     isSelected: [isFundraiserSelected, !isFundraiserSelected],
                     onPressed: (index) {
