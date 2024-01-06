@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 
 import '../../../components/button.dart';
 import '../../../firebase_services/user_services/update_user_info_services.dart';
@@ -48,7 +49,7 @@ bool loading = false;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green.shade300,
+        backgroundColor: greenColor,
         title: const Text('Update User Information'),
       ),
       body: SingleChildScrollView(
@@ -111,11 +112,11 @@ bool loading = false;
                     'bio': bioController.text.trim(),
                   });
 
-                  Utils().toastMessage("Info Upadated", color: Colors.green);
+                  Utils().toastMessage("Info Upadated", color: greenColor);
                   Navigator.pop(context); // Pop this page to go back to UserInfoPage
                 },
                 title: 'Update Info',
-                color: Colors.green.shade700,
+                color: greenColor,
               ),
             ],
           ),

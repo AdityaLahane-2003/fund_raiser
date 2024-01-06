@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/components/loading.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/donate_screen.dart';
 import 'package:share/share.dart';
 import '../../../../../components/button.dart';
 import '../../../../../models/campaign_model.dart';
+import '../../../../../utils/constants/color_code.dart';
 
 class OnlyCampaignDetailsPage extends StatelessWidget {
   final Campaign campaign;
@@ -14,7 +16,8 @@ class OnlyCampaignDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String>items=[];
-    campaign.mediaImageUrls.isNotEmpty?items = campaign.mediaImageUrls:items=["https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg"];
+    items.add(campaign.coverPhoto);
+    campaign.mediaImageUrls.isNotEmpty?items = campaign.mediaImageUrls:items=[campaign.coverPhoto];
     return Scaffold(
       persistentFooterButtons: [
         Row(
@@ -39,7 +42,7 @@ class OnlyCampaignDetailsPage extends StatelessWidget {
                 );
               },
               title: 'Donate Now',
-              color: Colors.green.shade700,
+              color: greenColor,
             ), Button(
               onTap: () {
                 Share.share(
@@ -55,13 +58,13 @@ class OnlyCampaignDetailsPage extends StatelessWidget {
                 );
               },
               title: 'Share Now',
-              color: Colors.green.shade700,
+              color: greenColor,
             ),
           ],
         ),
       ],
       appBar: AppBar(
-        backgroundColor: Colors.green.shade300,
+        backgroundColor: greenColor,
         title: const Text('Campaign Details'),
       ),
       body: SingleChildScrollView(
@@ -92,7 +95,7 @@ class OnlyCampaignDetailsPage extends StatelessWidget {
                               return child;
                             } else {
                               return Center(
-                                child: CircularProgressIndicator(),
+                                child: Loading(size: 20,color: Colors.black,),
                               );
                             }
                           },

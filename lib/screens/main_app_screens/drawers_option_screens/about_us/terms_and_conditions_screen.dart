@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../components/footer.dart';
 import '../../../../models/expandable_item.dart';
+import '../../../../utils/constants/color_code.dart';
 
 class TermsAndConditionsScreen extends StatefulWidget {
   const TermsAndConditionsScreen({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
       Footer(),
     ],
       appBar: AppBar(
-        backgroundColor: Colors.green.shade300,
+        backgroundColor: greenColor,
         title: const Text('Terms and Conditions'),
       ),
       body: ListView.builder(

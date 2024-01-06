@@ -7,6 +7,7 @@ import 'package:fund_raiser_second/utils/utils_toast.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../../../firebase_services/campaign_services/donation_services.dart';
+import '../../../utils/constants/color_code.dart';
 
 class DonateScreen extends StatefulWidget {
   final String campaignId;
@@ -81,7 +82,7 @@ class _DonateScreenState extends State<DonateScreen> {
           actions: [
             TextButton(
               style: TextButton.styleFrom(
-                backgroundColor: Colors.green[700],
+                backgroundColor: greenColor,
               ),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>CampaignsList()));
@@ -145,7 +146,7 @@ int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.tex
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green.shade300,
+        backgroundColor:greenColor,
         title: const Text('Donate'),
       ),
       body: SingleChildScrollView(
@@ -175,7 +176,7 @@ int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.tex
                 Row(
                   children: [
                     Checkbox(
-                      activeColor: Colors.green.shade700,
+                      activeColor: greenColor,
                       value: isAnonymous,
                       onChanged: (value) {
                         setState(() {
@@ -294,7 +295,7 @@ int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.tex
                     // hintStyle: const TextStyle(color: Colors.black, fontStyle: FontStyle.italic),
                     labelText: 'Enter Amount',
                     prefixIcon: const Icon(Icons.attach_money),
-                    floatingLabelStyle: TextStyle(color: Colors.green.shade600),
+                    floatingLabelStyle: TextStyle(color:greenColor),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                       borderSide: const BorderSide(color: Colors.black, width: 2.0),
@@ -361,7 +362,7 @@ int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.tex
                 const SizedBox(height: 16),
                 ElevatedButton(
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.green[700],
+                    backgroundColor: greenColor,
                   ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {

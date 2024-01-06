@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/firebase_services/campaign_services/delete_campaign_services.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/update_campaign.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 
 import '../../../../components/campaign_card.dart';
 import '../../../../models/campaign_model.dart';
@@ -64,7 +65,7 @@ class _CampaignsListState extends State<CampaignsList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green.shade300,
+        backgroundColor: greenColor,
         title: const Text('Campaigns List'),
       ),
       body:campaigns.isEmpty

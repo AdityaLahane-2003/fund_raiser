@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 
 import '../../../../components/button.dart';
 
@@ -72,7 +73,7 @@ class Step3 extends StatelessWidget {
                       }
                     },
                     title: 'Next',
-                   color: Colors.green.shade700,
+                   color: greenColor,
                   ),
                 ],
               ),

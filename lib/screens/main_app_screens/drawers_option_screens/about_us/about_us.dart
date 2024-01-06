@@ -3,6 +3,7 @@ import 'package:fund_raiser_second/components/footer.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/privacy_policy_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/terms_and_conditions_screen.dart';
 
+import '../../../../utils/constants/color_code.dart';
 import 'about_us_screen.dart';
 
 class AboutUsScreen extends StatelessWidget {
@@ -15,7 +16,7 @@ class AboutUsScreen extends StatelessWidget {
         Footer(),
       ],
       appBar: AppBar(
-      backgroundColor: Colors.green.shade300,
+      backgroundColor: greenColor,
         title: const Text('About Us'),
       ),
       body: SingleChildScrollView(

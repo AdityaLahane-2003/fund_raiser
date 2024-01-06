@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../utils/constants/color_code.dart';
+
 class HelpScreen extends StatelessWidget {
   const HelpScreen({super.key});
 
@@ -31,7 +33,7 @@ class HelpScreen extends StatelessWidget {
         ),
       ],
       appBar: AppBar(
-        backgroundColor: Colors.green.shade300,
+        backgroundColor: greenColor,
         title: const Text('Help'),
       ),
       body: SingleChildScrollView(

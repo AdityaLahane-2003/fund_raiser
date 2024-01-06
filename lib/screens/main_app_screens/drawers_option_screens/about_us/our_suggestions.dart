@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 
 class OurSuggestionsPage extends StatelessWidget {
   const OurSuggestionsPage({super.key});
@@ -31,7 +32,7 @@ class OurSuggestionsPage extends StatelessWidget {
         ),
       ],
       appBar: AppBar(
-        backgroundColor: Colors.green.shade300,
+        backgroundColor: greenColor,
         title: const Text('Our Suggestions'),
       ),
       body: SingleChildScrollView(

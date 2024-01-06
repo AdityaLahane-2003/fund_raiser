@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 
 class TextFormFieldArea extends StatelessWidget {
   final String title;
@@ -41,7 +42,7 @@ class TextFormFieldArea extends StatelessWidget {
         errorStyle: const TextStyle(color: Colors.red, fontStyle: FontStyle.italic),
         hintStyle: const TextStyle(color: Colors.black, fontStyle: FontStyle.italic),
         labelText: title,
-        floatingLabelStyle: TextStyle(color: Colors.green.shade600),
+        floatingLabelStyle: TextStyle(color: greenColor),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
           borderSide: const BorderSide(color: Colors.black, width: 2.0),

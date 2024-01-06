@@ -11,6 +11,7 @@ import '../../../firebase_services/Image_services/pick_image.dart';
 import '../../../firebase_services/Image_services/store_img_url.dart';
 import '../../../firebase_services/Image_services/upload_image_to_storage.dart';
 import '../../../firebase_services/user_services/delete_user_services.dart';
+import '../../../utils/constants/color_code.dart';
 
 class UserInfoPage extends StatefulWidget {
   final String userId;
@@ -45,7 +46,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green.shade300,
+        backgroundColor: greenColor,
         title: const Text('My Profile'),
       ),
       body: userData.isNotEmpty
@@ -64,7 +65,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         image: userData['imageUrl'] != ""
                             ? NetworkImage(userData['imageUrl'])
                             : const NetworkImage(
-                                "https://firebasestorage.googleapis.com/v0/b/hrtaa-fund-raiser.appspot.com/o/images%2Fl2.webp?alt=media&token=7be46cf5-ec6b-42b3-9a2b-9d8d6e1a4be3"), // Provide a default image
+                                "https://firebasestorage.googleapis.com/v0/b/hrtaa-fund-raiser.appspot.com/o/images%2Fuser_profile.png?alt=media&token=1492c8e6-c68f-4bc3-8ff0-58fca5485d4e"), // Provide a default image
                       ),
                     ),
                   ),
@@ -88,7 +89,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                           child: Text(
                             'UPDATE',
                             style: TextStyle(
-                              color: Colors.green.shade700,
+                              color: greenColor,
                               fontSize: 12,
                             ),
                           ))),
@@ -105,7 +106,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                               height: 0,
                             )
                           : Text(
-                              "We've sent link to verify email, please check and verify!",
+                              "Your email is not verified, please verify your email.",
                               style: TextStyle(color: Colors.red.shade200)),
                       trailing: FirebaseAuth.instance.currentUser!.emailVerified
                           ? const Icon(Icons.verified_outlined,
@@ -157,7 +158,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                             });
                           },
                          title: 'Update Info',
-                        color: Colors.green.shade700,
+                        color: greenColor,
                         ),
                       Button(
                           onTap: () {
@@ -225,7 +226,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
           : Center(
               child: Loading(
                 size: 50,
-                color: Colors.green.shade700,
+                color: greenColor,
               ),
             ),
     );

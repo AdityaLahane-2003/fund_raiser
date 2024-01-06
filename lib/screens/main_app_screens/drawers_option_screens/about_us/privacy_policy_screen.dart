@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../components/footer.dart';
 import '../../../../models/expandable_item.dart';
+import '../../../../utils/constants/color_code.dart';
 
 class PrivacyPolicyScreen extends StatefulWidget {
   const PrivacyPolicyScreen({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
       Footer(),
     ],
       appBar: AppBar(
-        backgroundColor: Colors.green.shade300,
+        backgroundColor: greenColor,
         title: const Text('Privacy Policy'),
       ),
       body: ListView.builder(

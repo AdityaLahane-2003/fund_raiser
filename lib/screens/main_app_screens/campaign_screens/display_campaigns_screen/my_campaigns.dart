@@ -4,6 +4,7 @@ import 'package:fund_raiser_second/components/loading.dart';
 import 'package:fund_raiser_second/firebase_services/campaign_services/load_campaigns.dart';
 import 'package:fund_raiser_second/models/campaign_model.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/update_campaign.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
 
 import '../../../../components/campaign_card.dart';
@@ -29,7 +30,7 @@ class _MyCampaignsState extends State<MyCampaigns> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green[300],
+        backgroundColor: greenColor,
         title: const Text('My Campaigns'),
       ),
       body: FutureBuilder<List<DocumentSnapshot>>(

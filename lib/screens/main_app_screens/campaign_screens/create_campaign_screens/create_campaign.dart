@@ -4,6 +4,7 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/cre
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/create_campaign_screens/step3.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/create_campaign_screens/step4.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import 'package:share/share.dart';
 
 import '../../../../firebase_services/campaign_services/campaign_services.dart';
@@ -26,7 +27,7 @@ class _CampaignCreationState extends State<CampaignCreation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green[300],
+        backgroundColor: greenColor,
         title: const Text('Create Campaign'),
       ),
       body: Column(
@@ -54,7 +55,7 @@ class _CampaignCreationState extends State<CampaignCreation> {
                       TextSpan(
                         text: '$currentStep',
                         style: TextStyle(
-                          color: Colors.green[700],
+                          color: greenColor,
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
                         ),
@@ -184,7 +185,7 @@ class _CampaignCreationState extends State<CampaignCreation> {
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                        backgroundColor: Colors.green[700],
+                        backgroundColor: greenColor,
                       ),
                       onPressed: () async {
                         Share.share(

@@ -6,6 +6,7 @@ import 'package:fund_raiser_second/components/footer.dart';
 import 'package:fund_raiser_second/components/loading.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/take_user_info.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
 
 import '../../../components/button.dart';
@@ -47,7 +48,7 @@ late Timer timer;
          Footer(),
       ],
       appBar: AppBar(
-        backgroundColor: Colors.green[300],
+        backgroundColor: greenColor,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(onPressed: (){
@@ -77,7 +78,7 @@ late Timer timer;
             const Text(" Please Verify Email!"),
             const SizedBox(height: 10,),
             Button(
-              color: Colors.green.shade700,
+              color: greenColor,
               title:"Resend Verification Link ",
                 onTap: () {
                   user = auth.currentUser!;

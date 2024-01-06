@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../components/selectAndUploadMedia.dart';
 
@@ -36,7 +37,7 @@ class _UploadMediaScreenState extends State<UploadMediaScreen> {
               });
             },
             selectedColor: Colors.white,
-            fillColor: Colors.green[700],
+            fillColor: greenColor,
             children: const [
               Text('   Select Media   '),
               Text('   Select Documents    '),
@@ -54,7 +55,7 @@ class _UploadMediaScreenState extends State<UploadMediaScreen> {
                       });
                     },
                     selectedColor: Colors.white,
-                    fillColor: Colors.green[700],
+                    fillColor: greenColor,
                     children: const [
                       Text('   Select Images   '),
                       Text('   Select Videos    '),

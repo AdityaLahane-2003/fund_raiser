@@ -6,6 +6,7 @@ import 'package:fund_raiser_second/screens/auth_screens/phone_auth/login_with_ph
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/display_campaigns_screen/campaign_list.dart';
 
 import '../../components/footer.dart';
+import '../../utils/constants/color_code.dart';
 
 class AuthScreen1 extends StatelessWidget {
   const AuthScreen1({super.key});
@@ -19,7 +20,7 @@ class AuthScreen1 extends StatelessWidget {
       appBar: AppBar(
         titleSpacing: MediaQuery.of(context).size.width/3,
         title: const Text("Welcome",textAlign: TextAlign.center,),
-        backgroundColor: Colors.green.shade300,
+        backgroundColor: greenColor,
         automaticallyImplyLeading: false,
       ),
       body: Container(
@@ -63,7 +64,7 @@ class AuthScreen1 extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Button(
-                      color: Colors.green.shade700,
+                      color: greenColor,
                         title: 'Raise Fund',
                         onTap: (){
                       Navigator.push(context,

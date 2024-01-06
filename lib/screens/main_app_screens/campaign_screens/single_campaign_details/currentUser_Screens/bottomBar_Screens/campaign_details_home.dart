@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/share_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/upload_docs_and_media_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/write_updates_screen.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 
 import '../../../../../../models/campaign_model.dart';
 // import 'package:fl_chart/fl_chart.dart';
@@ -16,7 +17,7 @@ class CampaignDetailsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
-        backgroundColor: Colors.green[300],
+        backgroundColor: greenColor,
       ),
       body: SingleChildScrollView(
         child: Column(

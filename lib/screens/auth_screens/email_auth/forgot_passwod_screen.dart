@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/login_screen.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 
 import '../../../components/button.dart';
 import '../../../components/footer.dart';
@@ -26,7 +27,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         Footer(),
       ],
       appBar: AppBar(
-        backgroundColor: Colors.green[300],
+        backgroundColor:greenColor,
         title: const Text('Forgot Password'),
       ),
       body: Padding(

@@ -4,6 +4,7 @@ import 'package:fund_raiser_second/components/button.dart';
 import 'package:fund_raiser_second/components/footer.dart';
 import 'package:fund_raiser_second/firebase_services/user_services/add_user_details_service.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/verify_email.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import '../../../components/text_filed_area.dart';
 import '../../../utils/utils_toast.dart';
 import '../phone_auth/login_with_phone_number.dart';
@@ -68,7 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       Footer()
       ],
       appBar: AppBar(
-        backgroundColor: Colors.green[300],
+        backgroundColor: greenColor,
         title: const Text('Sign up'),
       ),
       body: ListView(
@@ -139,7 +140,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Button(
                     title: '           Sign up           ',
                   loading: loading ,
-                    color: Colors.green.shade700,
+                    color: greenColor,
                     onTap:  (){
                       if(_formKey.currentState!.validate()){
                         signUp();

@@ -4,6 +4,7 @@ import 'package:fund_raiser_second/screens/auth_screens/auth_screen1.dart';
 import 'package:fund_raiser_second/screens/intro_screens/page1.dart';
 import 'package:fund_raiser_second/screens/intro_screens/page2.dart';
 import 'package:fund_raiser_second/screens/intro_screens/page3.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 class IntroHome extends StatefulWidget {
   const IntroHome({super.key});
@@ -26,7 +27,7 @@ class _IntroHomeState extends State<IntroHome> {
       appBar: AppBar(
         titleSpacing: MediaQuery.of(context).size.width/3,
         title: const Text("Welcome",textAlign: TextAlign.center,),
-        backgroundColor: Colors.green.shade300,
+        backgroundColor: greenColor,
         automaticallyImplyLeading: false,
       ),
       body: Stack(

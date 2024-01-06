@@ -4,6 +4,7 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/sin
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/campaign_story_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/withdraw_screen.dart';
 import '../../../../../models/campaign_model.dart';
+import '../../../../../utils/constants/color_code.dart';
 import 'bottomBar_Screens/campaign_details_home.dart';
 
 class SingleCampaignHomeScreen extends StatefulWidget {
@@ -39,8 +40,8 @@ class _SingleCampaignHomeScreenState extends State<SingleCampaignHomeScreen> {
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
-            activeIcon: Icon(Icons.info, color: Colors.green.shade700,),
-            backgroundColor: Colors.green.shade300,
+            activeIcon: Icon(Icons.info, color: greenColor,),
+            backgroundColor: greenColor,
             icon: const Icon(Icons.info, ),
             label: 'Home',
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../components/footer.dart';
+import '../../../../utils/constants/color_code.dart';
 class AboutUsDetailsScreen extends StatefulWidget {
   const AboutUsDetailsScreen({Key? key}) : super(key: key);
 
@@ -17,7 +18,7 @@ class _AboutUsDetailsScreenState extends State<AboutUsDetailsScreen> {
      Footer(),
     ],
       appBar: AppBar(
-        backgroundColor: Colors.green.shade300,
+        backgroundColor: greenColor,
         title: const Text('About Us Details'),
       ),
       body: SingleChildScrollView(

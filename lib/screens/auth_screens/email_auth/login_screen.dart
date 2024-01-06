@@ -5,6 +5,7 @@ import 'package:fund_raiser_second/components/footer.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/signup_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import '../../../components/button.dart';
 import '../../../utils/utils_toast.dart';
 import '../phone_auth/login_with_phone_number.dart';
@@ -71,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Footer(),
         ],
         appBar: AppBar(
-          backgroundColor: Colors.green[300],
+          backgroundColor: greenColor,
           // automaticallyImplyLeading: false,
           title: const Text('Login'),
         ),
@@ -145,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Button(
                   title: '         Login        ',
                   loading: loading ,
-                  color: Colors.green.shade700,
+                  color: greenColor,
                   onTap:() {
                     if (_formKey.currentState!.validate()) {
                       login();

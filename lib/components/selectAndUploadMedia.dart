@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import 'package:video_player/video_player.dart';
 
 import '../firebase_services/Image_services/upload_image_to_storage.dart';
@@ -131,19 +132,19 @@ class _SelectAndUploadmediaState extends State<SelectAndUploadmedia> {
               ),
             const SizedBox(height: 20),
             isuploadingStarted
-                ? const Column(
+                ?  Column(
               children: [
                 Align(
                   alignment: Alignment.center,
                   child: CircularProgressIndicator(
                     strokeWidth: 4,
-                    color: Colors.green,
+                    color:greenColor,
                   ),
                 ),
                 SizedBox(height: 20),
                 Text(
                   'Uploading Document... Please Wait !!! ',
-                  style: TextStyle(color: Colors.green),
+                  style: TextStyle(color: greenColor),
                 )
               ],
             )
@@ -194,7 +195,7 @@ class _SelectAndUploadmediaState extends State<SelectAndUploadmedia> {
 
                     Utils().toastMessage(
                       'Uploaded ${widget.uploadingMedia}  ${i + 1} Successfully ! ',
-                      color: Colors.green,
+                      color: greenColor,
                     );
                   }
 

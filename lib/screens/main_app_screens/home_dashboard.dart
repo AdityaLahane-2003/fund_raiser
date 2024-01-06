@@ -5,6 +5,7 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/cre
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/display_campaigns_screen/my_campaigns.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/about_us.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/help.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import '../../components/button.dart';
 import '../../firebase_services/user_services/add_user_details_service.dart';
 import '../../firebase_services/campaign_services/campaign_services.dart';
@@ -54,7 +55,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
         ),
       ],
       appBar: AppBar(
-        backgroundColor: Colors.green[300],
+        backgroundColor: greenColor,
         leading: Builder(
           builder: (context) => IconButton(
             icon: const Icon(Icons.menu),
@@ -318,7 +319,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       });
                     },
                     selectedColor: Colors.white,
-                    fillColor: Colors.green[700],
+                    fillColor: greenColor,
                     children: const [
                       Text('   Fundraiser   '),
                       Text('   Donate    '),
@@ -342,7 +343,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       const SizedBox(height: 10),
                       Button(
                         title: 'Raise Fund',
-                        color: Colors.green.shade700,
+                        color: greenColor,
                         onTap: () {
                           Navigator.push(
                             context,
@@ -377,7 +378,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                           );
                         },
                         title: 'Donate Now',
-                        color: Colors.green.shade700,
+                        color: greenColor,
                       ),
                     ],
                   ),

@@ -8,6 +8,7 @@ import 'package:readmore/readmore.dart';
 import 'package:share/share.dart';
 import '../models/campaign_model.dart';
 import '../screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/single_campaign_home.dart';
+import '../utils/constants/color_code.dart';
 import 'button.dart';
 
 class CampaignCard extends StatelessWidget {
@@ -114,9 +115,14 @@ class CampaignCard extends StatelessWidget {
                   ),
                   Text(campaign.status,
                       style: TextStyle(
-                          color: Colors.green.shade700,
+                          color: greenColor,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14))
+                          fontSize: 14)),
+                  Text('${campaign.amountGoal - campaign.amountRaised}'+' ₹ more to go',
+                      style: TextStyle(
+                          color: Colors.blue.shade700,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12)),
                 ],
               ),
             ),
@@ -124,9 +130,9 @@ class CampaignCard extends StatelessWidget {
             LinearProgressIndicator(
               minHeight: 10,
               borderRadius: BorderRadius.circular(100.0),
-              value: campaign.amountRaised / campaign.amountGoal,
+              value: (campaign.amountGoal-campaign.amountRaised)/ campaign.amountGoal,
               backgroundColor: Colors.grey[300],
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.green.shade400),
+              valueColor: AlwaysStoppedAnimation<Color>(greenColor),
             ),
             const SizedBox(height: 10.0),
             Row(
@@ -211,7 +217,7 @@ class CampaignCard extends StatelessWidget {
                   width: 3,
                 ),
                 status == 'Active'
-                    ? const Icon(Icons.circle, size: 15.0, color: Colors.green)
+                    ? Icon(Icons.circle, size: 15.0, color: greenColor)
                     : status == 'Expired'
                         ? const Icon(Icons.circle,
                             size: 15.0, color: Colors.red)
@@ -314,7 +320,7 @@ class CampaignCard extends StatelessWidget {
                               );
                             },
                             title: 'Donate Now',
-                            color: Colors.green.shade700,
+                            color: greenColor,
                           ),
                   ],
                 ),

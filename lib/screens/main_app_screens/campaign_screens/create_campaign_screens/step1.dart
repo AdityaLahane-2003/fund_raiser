@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 
 import '../../../../components/button.dart';
 
@@ -172,19 +173,24 @@ class _Step1State extends State<Step1> {
               ),
               const SizedBox(height: 16),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Button(
                     onTap: () => _selectDate(context),
                     title: 'Select End Date',
                     color: Colors.blue.shade700,
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 10),
                   GestureDetector(
                     onTap: () => _selectDate(context),
                     child: Text(
                       selectedDate != null
                           ? '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}'
-                          : 'No Date Selected',
+                          : 'Select date till\nwhich you need funds',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 13.0,
+                      )
                     ),
                   ),
                 ],
@@ -203,7 +209,7 @@ class _Step1State extends State<Step1> {
                   }
                 },
                 title: 'Next',
-                color: Colors.green.shade700,
+                color: greenColor,
               ),
             ],
           ),

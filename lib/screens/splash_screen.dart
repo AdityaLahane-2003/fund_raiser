@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/loading.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import '../firebase_services/splash_services.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -29,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
             children:
             [const Image(image: AssetImage('assets/logo.png')),
               const SizedBox(height: 20.0,),
-              Loading(size: 50.0, color: Colors.green.shade700)
+              Loading(size: 50.0, color: greenColor)
             ],
         ),
       ),

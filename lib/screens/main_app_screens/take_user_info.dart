@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import '../../components/button.dart';
 import '../../firebase_services/Image_services/pick_image.dart';
 import '../../firebase_services/Image_services/upload_image_to_storage.dart';
@@ -200,7 +201,7 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                   }
                 },
                 title: 'Save My Data',
-                color: Colors.green.shade700,
+                color: greenColor,
               ),
             ],
           ),

@@ -5,6 +5,7 @@ import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/auth_screens/phone_auth/login_with_phone_number.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/take_user_info.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import '../../../components/button.dart';
 import '../../../components/footer.dart';
 import '../../../firebase_services/user_services/add_user_details_service.dart';
@@ -56,7 +57,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
       Footer(),
     ],
       appBar: AppBar(
-        backgroundColor: Colors.green[300],
+        backgroundColor: greenColor,
         title: const Text('Verify'),
       ),
       body: Padding(
@@ -84,7 +85,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
             Button(
                 title: 'Verify',
                 loading: loading,
-                color: Colors.green.shade700,
+                color: greenColor,
                 onTap: () async {
                   setState(() {
                     loading = true;

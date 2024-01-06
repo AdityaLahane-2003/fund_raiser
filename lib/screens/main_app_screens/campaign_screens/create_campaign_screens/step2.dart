@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import '../../../../components/button.dart';
 import '../../../../firebase_services/Image_services/pick_image.dart';
 import '../../../../firebase_services/Image_services/upload_image_to_storage.dart';
@@ -215,6 +216,10 @@ class _Step2State extends State<Step2> {
                   Button(
                     onTap: () {
                       if (_formKey.currentState?.validate() ?? false) {
+                        if(_imageUrl.isEmpty){
+                          Utils().toastMessage('Please select an image');
+                          return;
+                        }
                         widget.onPersonalInfoEntered(
                           _imageUrl,
                           ageController.text,
@@ -225,7 +230,7 @@ class _Step2State extends State<Step2> {
                       }
                     },
                     title: 'Next',
-                    color: Colors.green.shade700,
+                    color: greenColor,
                   ),
                 ],
               ),

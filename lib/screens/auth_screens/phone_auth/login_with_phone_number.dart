@@ -5,6 +5,7 @@ import 'package:fund_raiser_second/components/footer.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/signup_screen.dart';
 import 'package:fund_raiser_second/screens/auth_screens/phone_auth/verify_code.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import '../../../components/button.dart';
 import '../../../utils/utils_toast.dart';
 import '../email_auth/login_screen.dart';
@@ -32,7 +33,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
        Footer(),
       ],
       appBar: AppBar(
-        backgroundColor: Colors.green[300],
+        backgroundColor: greenColor,
         title: Text( widget.comingFrom=='signup'?"SignUp":'Login'),
       ),
       body: ListView(
@@ -134,7 +135,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
             ),
                 const SizedBox(height: 50,),
                 Button(
-                  color: Colors.green.shade700,
+                  color: greenColor,
                     title: widget.comingFrom=='signup'?"SignUp":'Login',
                     loading: loading, onTap: (){
                   if(_formKey.currentState!.validate()){

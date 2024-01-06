@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import '../../../../components/button.dart';
 import '../../../../firebase_services/Image_services/pick_image.dart';
 import '../../../../firebase_services/Image_services/upload_image_to_storage.dart';
@@ -106,7 +107,7 @@ class _Step4State extends State<Step4> {
                     color: Colors.black,
                   ),
                   labelText: 'Write Story Here ...',
-                  floatingLabelStyle: const TextStyle(color: Colors.green),
+                  floatingLabelStyle: TextStyle(color: greenColor),
                   border: OutlineInputBorder(
                     borderSide: const BorderSide(color: Colors.black),
                     borderRadius: BorderRadius.circular(12.0),
@@ -134,6 +135,10 @@ class _Step4State extends State<Step4> {
                    loading: loading,
                     onTap: () async{
                       if (_formKey.currentState?.validate() ?? false) {
+                        if(_imageUrl.isEmpty){
+                          Utils().toastMessage('Please select an image');
+                          return;
+                        }
                         setState(() {
                           loading = true;
                         });
@@ -142,7 +147,7 @@ class _Step4State extends State<Step4> {
                       }
                     },
                     title: 'Raise Fund',
-                   color: Colors.green.shade700,
+                   color: greenColor,
                   ),
                 ],
               ),

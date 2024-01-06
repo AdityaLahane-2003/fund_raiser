@@ -16,7 +16,7 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return loading ? const Loading(size: 17, color: Colors.black,) : ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
         shape: RoundedRectangleBorder(
@@ -28,7 +28,6 @@ class Button extends StatelessWidget {
         onTap();
       },
       child:
-      loading ? const Loading(size: 17, color: Colors.white,) :
       Text(
         title,
         style: const TextStyle(color: Colors.white),
