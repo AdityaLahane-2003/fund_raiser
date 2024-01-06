@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/components/loading.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import '../../../../components/button.dart';
@@ -13,7 +14,8 @@ class Step2 extends StatefulWidget {
   final Function onPrevious;
   final Function onNext;
 
-  const Step2({super.key,
+  const Step2({
+    super.key,
     required this.onRelationSelected,
     required this.onPersonalInfoEntered,
     required this.onPrevious,
@@ -35,7 +37,7 @@ class _Step2State extends State<Step2> {
 
   late String selectedRelation = 'Myself';
   late String selectedGender = 'Male';
-
+bool loading = false;
   final TextEditingController photoUrlController = TextEditingController();
 
   final TextEditingController ageController = TextEditingController();
@@ -63,25 +65,34 @@ class _Step2State extends State<Step2> {
                   alignment: Alignment.topRight,
                   children: [
                     _selectedImage == null
-                        ? const CircleAvatar(
+                        ? CircleAvatar(
+                            minRadius: 30,
                             backgroundColor: Colors.white,
                             maxRadius: 50,
-                            backgroundImage: AssetImage('assets/logo.png'))
+                            child:Image.asset('assets/logo.png'),
+                          )
                         : CircleAvatar(
-                            maxRadius: 50,
-                            backgroundImage: FileImage(_selectedImage!),
-                          ),
+                      minRadius: 30,
+                      backgroundColor: Colors.white,
+                      maxRadius: 50,
+                      child:loading?Loading(size: 20,color: Colors.black,):Image(image: FileImage(_selectedImage!),),
+                    ),
                     GestureDetector(
                       onTap: () async {
                         _selectedImage = await ImagePickerUtils.pickImage();
                         if (_selectedImage != null) {
+                          setState(() {
+                            loading = true;
+                          });
                           _imageUrl = await ImageUploadUtils
-                              .uploadImageToFirebaseStorage(
-                                  _selectedImage!, 'campaigns_beneficiaryImages');
+                              .uploadImageToFirebaseStorage(_selectedImage!,
+                                  'campaigns_beneficiaryImages');
                         } else {
                           Utils().toastMessage('Please pick an image first.');
                         }
-                        setState(() {});
+                        setState(() {
+                          loading = false;
+                        });
                       },
                       child: const Icon(
                         Icons.add_a_photo,
@@ -216,7 +227,7 @@ class _Step2State extends State<Step2> {
                   Button(
                     onTap: () {
                       if (_formKey.currentState?.validate() ?? false) {
-                        if(_imageUrl.isEmpty){
+                        if (_imageUrl.isEmpty) {
                           Utils().toastMessage('Please select an image');
                           return;
                         }

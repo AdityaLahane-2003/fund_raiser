@@ -143,24 +143,22 @@ class _Step1State extends State<Step1> {
               ),
               const SizedBox(height: 16),
               TextFormFieldArea(
-                prefixIcon: Icons.email,
+                prefixIcon: Icons.phone,
                 controller: emailController,
-                textInputType: TextInputType.emailAddress,
-                  title: 'Email',
+                textInputType: TextInputType.number,
+                  title: 'Phone Number',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter an email';
-                  } else if (!RegExp(
-                      r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
-                      .hasMatch(value)) {
-                    return 'Please enter a valid email';
+                    return 'Please enter phone';
+                  } else if (value.length != 10) {
+                    return 'Please enter a valid phone number';
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 16),
               TextFormFieldArea(
-                prefixIcon: Icons.money,
+                prefixIcon: Icons.currency_rupee,
                 controller: amountController,
                 textInputType: TextInputType.number,
                   title: 'Rs. Amount',
@@ -178,7 +176,7 @@ class _Step1State extends State<Step1> {
                   Button(
                     onTap: () => _selectDate(context),
                     title: 'Select End Date',
-                    color: Colors.blue.shade700,
+                    color: secondColor,
                   ),
                   const SizedBox(width: 10),
                   GestureDetector(

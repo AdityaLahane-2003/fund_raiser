@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import '../../../../components/button.dart';
+import '../../../../components/loading.dart';
 import '../../../../firebase_services/Image_services/pick_image.dart';
 import '../../../../firebase_services/Image_services/upload_image_to_storage.dart';
 import '../../../../utils/utils_toast.dart';
@@ -32,7 +33,7 @@ class _Step4State extends State<Step4> {
   final _formKey = GlobalKey<FormState>();
 
   File? _selectedImage;
-
+bool _loading = false;
   String _imageUrl='';
 
   bool loading = false;
@@ -51,25 +52,33 @@ class _Step4State extends State<Step4> {
                   alignment: Alignment.topRight,
                   children: [
                     _selectedImage == null
-                        ? const CircleAvatar(
+                        ? CircleAvatar(
+                      minRadius: 30,
                       backgroundColor: Colors.white,
-                        maxRadius: 50,
-                        backgroundImage:  AssetImage('assets/logo.png')
-                    )
-                        :  CircleAvatar(
                       maxRadius: 50,
-                      backgroundImage: FileImage(_selectedImage!),
+                      child:Image.asset('assets/logo.png'),
+                    )
+                        : CircleAvatar(
+                      minRadius: 30,
+                      backgroundColor: Colors.white,
+                      maxRadius: 50,
+                      child:_loading?Loading(size: 20,color: Colors.black,):Image(image: FileImage(_selectedImage!),),
                     ),
                     GestureDetector(
                       onTap: () async {
                         _selectedImage = await ImagePickerUtils.pickImage();
                         if (_selectedImage != null) {
+                          setState(() {
+                            _loading = true;
+                          });
                           _imageUrl = await ImageUploadUtils.uploadImageToFirebaseStorage(
                               _selectedImage!, 'campaigns_coverPhoto');
                         }else{
                           Utils().toastMessage('Please pick an image first.');
                         }
-                        setState(() {});
+                        setState(() {
+                          _loading = false;
+                        });
                       },
                       child: const Icon(
                         Icons.add_a_photo,
@@ -116,6 +125,8 @@ class _Step4State extends State<Step4> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a story';
+                  }else if(value.length<20){
+                    return 'Please enter a story of atleast 50 characters';
                   }
                   return null;
                 },

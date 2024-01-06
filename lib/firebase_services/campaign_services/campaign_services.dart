@@ -37,7 +37,7 @@ class CampaignService {
       'mediaVideoUrls':fundraiserData.mediaVideoUrls,
       'updates':fundraiserData.updates,
       'donations':fundraiserData.donations,
-      'supporters':fundraiserData.spporters,
+      'supporters':fundraiserData.supporters,
     });
 
     // Update user's campaigns field with the campaign ID

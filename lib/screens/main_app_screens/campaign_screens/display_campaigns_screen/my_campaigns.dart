@@ -75,7 +75,7 @@ class _MyCampaignsState extends State<MyCampaigns> {
                   status: campaign['status'],
                   dateEnd: campaign['dateEnd'].toDate(),
                   tipAmount: campaign['tipAmount'],
-                  spporters: campaign['supporters'],
+                  supporters: campaign['supporters'],
                   documentUrls: List<String>.from(campaign['documentUrls']),
                   mediaImageUrls: List<String>.from(campaign['mediaImageUrls']),
                   mediaVideoUrls: List<String>.from(campaign['mediaVideoUrls']),

@@ -2,7 +2,7 @@ class FundraiserData {
   String category = 'Medical';
   String name = '';
   String title = 'Campaign Title';
-  String email = '';
+  String email = '';//phone
   String relation = 'Myself';
   String photoUrl = '';
   String age = '';
@@ -18,7 +18,7 @@ class FundraiserData {
   DateTime dateCreated = DateTime.now();
   String status = 'Urgent Need of Funds';
   DateTime dateEnd = DateTime.now().add(const Duration(days: 30));
-  int spporters = 0;
+  int supporters = 0;
 
   // New fields
   List<String> documentUrls = [];

@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/loading.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/donate_screen.dart';
@@ -7,23 +8,38 @@ import '../../../../../components/button.dart';
 import '../../../../../models/campaign_model.dart';
 import '../../../../../utils/constants/color_code.dart';
 
-class OnlyCampaignDetailsPage extends StatelessWidget {
+class OnlyCampaignDetailsPage extends StatefulWidget {
   final Campaign campaign;
   final bool isExpired;
 
   const OnlyCampaignDetailsPage({super.key, required this.campaign,required this.isExpired});
 
   @override
+  State<OnlyCampaignDetailsPage> createState() => _OnlyCampaignDetailsPageState();
+}
+
+class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
+  // bool isLiked = false;
+
+  @override
   Widget build(BuildContext context) {
     List<String>items=[];
-    items.add(campaign.coverPhoto);
-    campaign.mediaImageUrls.isNotEmpty?items = campaign.mediaImageUrls:items=[campaign.coverPhoto];
+    items.add(widget.campaign.coverPhoto);
+    widget.campaign.mediaImageUrls.isNotEmpty?items = widget.campaign.mediaImageUrls:items=[widget.campaign.coverPhoto];
     return Scaffold(
       persistentFooterButtons: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            isExpired?
+          children: [widget.campaign.amountGoal - widget.campaign.amountRaised <= 0
+              ? Text( 'Campaign Completed',
+              style:TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
+                  color:Colors.green.shade300
+              ))
+              :
+            widget.isExpired?
             Text("Campaign Expired",
             style:TextStyle(
               fontSize: 15,
@@ -37,7 +53,7 @@ class OnlyCampaignDetailsPage extends StatelessWidget {
                Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DonateScreen(campaignId: campaign.id),
+                    builder: (context) => DonateScreen(campaignId: widget.campaign.id),
                   ),
                 );
               },
@@ -46,14 +62,14 @@ class OnlyCampaignDetailsPage extends StatelessWidget {
             ), Button(
               onTap: () {
                 Share.share(
-                  'Check out this fundraising campaign: ${campaign.title}\n\n'
-                      'Amount Raised: ${campaign.amountRaised} ₹\n'
-                      'Goal Amount: ${campaign.amountGoal} ₹\n'
-                      'Start Date: ${campaign.dateCreated.day}/${campaign.dateCreated.month}/${campaign.dateCreated.year}\n'
-                      'End Date: ${campaign.dateEnd.day}/${campaign.dateEnd.month}/${campaign.dateEnd.year}\n'
-                      'Number of Donors: ${campaign.amountDonors}\n'
-                      'Place: ${campaign.schoolOrHospital}\n'
-                      'Location: ${campaign.location}\n\n'
+                  'Check out this fundraising campaign: ${widget.campaign.title}\n\n'
+                      'Amount Raised: ${widget.campaign.amountRaised} ₹\n'
+                      'Goal Amount: ${widget.campaign.amountGoal} ₹\n'
+                      'Start Date: ${widget.campaign.dateCreated.day}/${widget.campaign.dateCreated.month}/${widget.campaign.dateCreated.year}\n'
+                      'End Date: ${widget.campaign.dateEnd.day}/${widget.campaign.dateEnd.month}/${widget.campaign.dateEnd.year}\n'
+                      'Number of Donors: ${widget.campaign.amountDonors}\n'
+                      'Place: ${widget.campaign.schoolOrHospital}\n'
+                      'Location: ${widget.campaign.location}\n\n'
                       'Donate now and support the cause!',
                 );
               },
@@ -114,7 +130,7 @@ class OnlyCampaignDetailsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    campaign.title,
+                    widget.campaign.title,
                     style: const TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
@@ -122,13 +138,13 @@ class OnlyCampaignDetailsPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    'Amount Raised: ${campaign.amountRaised} ₹',
+                    'Amount Raised: ${widget.campaign.amountRaised} ₹',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    'Goal Amount: ${campaign.amountGoal} ₹',
+                    'Goal Amount: ${widget.campaign.amountGoal} ₹',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -152,9 +168,47 @@ class OnlyCampaignDetailsPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    campaign.description,
+                    widget.campaign.description,
                     style: const TextStyle(fontSize: 16.0),
                   ),
+                  SizedBox(height: 8.0),
+                  // InkWell(
+                  //   onTap: () async {
+                  //     setState(() {
+                  //       isLiked = !isLiked;
+                  //     });
+                  //     if(isLiked){
+                  //       await FirebaseFirestore.instance
+                  //           .collection('campaigns')
+                  //           .doc(widget.campaign.id)
+                  //           .update({
+                  //         'supporters': FieldValue.increment(1),
+                  //       });
+                  //     }else{
+                  //       await FirebaseFirestore.instance
+                  //           .collection('campaigns')
+                  //           .doc(widget.campaign.id)
+                  //           .update({
+                  //         'supporters': FieldValue.increment(-1),
+                  //       });
+                  //     }
+                  //   },
+                  //   child: Row(
+                  //     children: [
+                  //       Icon(Icons.thumb_up,
+                  //           size:isLiked?30.0: 20.0,
+                  //           color:isLiked?Colors.green:Colors.grey),
+                  //       const SizedBox(width: 8.0),
+                  //       Text(
+                  //         isLiked?"You are supporting !":'Support this campaign',
+                  //         style: TextStyle(
+                  //           fontSize: 16.0,
+                  //           color: Colors.black,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
             ),

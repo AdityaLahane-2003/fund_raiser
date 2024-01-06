@@ -53,7 +53,7 @@ class _CampaignsListState extends State<CampaignsList> {
           status: doc['status'],
           dateEnd: doc['dateEnd'].toDate(),
           tipAmount: doc['tipAmount'],
-          spporters: doc['supporters'],
+          supporters: doc['supporters'],
           documentUrls: List<String>.from(doc['documentUrls']),
           mediaImageUrls: List<String>.from(doc['mediaImageUrls']),
           mediaVideoUrls: List<String>.from(doc['mediaVideoUrls']),

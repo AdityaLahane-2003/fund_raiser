@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/providers/donationData_Provider.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/display_campaigns_screen/campaign_list.dart';
+import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
@@ -60,6 +61,7 @@ class _DonateScreenState extends State<DonateScreen> {
     donationData.tipDonated=int.parse(_tipController.text.isEmpty ? '0' : _tipController.text);
     await donationService.createDonation(donationData);
     // Show a success dialog
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeDashboard()));
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -85,7 +87,7 @@ class _DonateScreenState extends State<DonateScreen> {
                 backgroundColor: greenColor,
               ),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>CampaignsList()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeDashboard()));
               },
               child: const Text("Go Back", style: TextStyle(color: Colors.white),),
             ),
@@ -294,7 +296,7 @@ int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.tex
                     // errorStyle: const TextStyle(color: Colors.red, fontStyle: FontStyle.italic),
                     // hintStyle: const TextStyle(color: Colors.black, fontStyle: FontStyle.italic),
                     labelText: 'Enter Amount',
-                    prefixIcon: const Icon(Icons.attach_money),
+                    prefixIcon: const Icon(Icons.currency_rupee),
                     floatingLabelStyle: TextStyle(color:greenColor),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
@@ -335,7 +337,7 @@ int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.tex
                           _tipController.text = (int.parse(_amountController.text) * value!).toStringAsFixed(0);
                         });
                       },
-                      items: [0.0,0.1, 0.18,0.25].map((tipPercentage) {
+                      items: [0.0,0.02,0.05,0.1, 0.18,0.25].map((tipPercentage) {
                         return DropdownMenuItem<double>(
                           value: tipPercentage,
                           child: Text('${(tipPercentage * 100).toInt()}% Tip'),
@@ -349,7 +351,7 @@ int tipAmount = int.parse(_tipController.text.isEmpty ? '0' : _tipController.tex
                   controller: _tipController,
                   textInputType: TextInputType.number,
                   title: 'Enter Tip Amount (Optional)',
-                  prefixIcon: Icons.attach_money,
+                  prefixIcon: Icons.currency_rupee,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter tip amount';

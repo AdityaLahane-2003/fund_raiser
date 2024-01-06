@@ -37,7 +37,7 @@ class _CampaignCreationState extends State<CampaignCreation> {
             minHeight: 10,
             value: (currentStep - 1) / 4,
             backgroundColor: Colors.grey[300],
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[700]!),
+            valueColor: AlwaysStoppedAnimation<Color>(secondColor),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
