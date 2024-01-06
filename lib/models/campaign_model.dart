@@ -22,6 +22,7 @@ class Campaign {
   final String status;
   final DateTime dateEnd;
   final int tipAmount;
+  final int spporters;
   final List<String> documentUrls;
   final List<String> mediaImageUrls;
   final List<String> mediaVideoUrls;
@@ -54,6 +55,7 @@ class Campaign {
     required this.mediaImageUrls,
     required this.mediaVideoUrls,
     required this.updates,
+    required this.spporters,
     // required this.donations,
   });
 }

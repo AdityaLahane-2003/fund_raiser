@@ -24,7 +24,13 @@ class _HomeDashboardState extends State<HomeDashboard> {
   bool isFundraiserSelected = true; // Default selection
   bool _isVisible = false;
   final CampaignService campaignService = CampaignService(getCurrentUserId());
-
+ List<String> categories = [
+    'Education',
+    'Health',
+    'Environment',
+    'Animals',
+    'Others'
+  ];
   @override
   Widget build(BuildContext context) {
     String userId = getCurrentUserId();
@@ -66,7 +72,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
         title: const Text('Dashboard'),
       ),
       drawer: Drawer(
-        backgroundColor: Colors.green[200],
+        backgroundColor: Colors.white,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomRight: Radius.circular(30),
@@ -80,7 +86,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
             DrawerHeader(
               padding: EdgeInsets.zero,
               decoration: BoxDecoration(
-                color: Colors.green[200],
+                color: Colors.white,
               ),
               child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -92,7 +98,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                         children: [
                           CircleAvatar(
                             minRadius: 30,
-                            backgroundColor: Colors.green[200],
+                            backgroundColor: Colors.white,
                             maxRadius: 40,
                             child: Image.asset('assets/logo.png'),
                           ),
@@ -116,7 +122,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                     onTap: () {
                                       Utils().toastMessage(
                                           "Opening - My Profile",
-                                          color: Colors.green);
+                                          color: greenColor);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -179,8 +185,8 @@ class _HomeDashboardState extends State<HomeDashboard> {
             Visibility(
               visible: _isVisible,
               child: ListTile(
-                textColor: Colors.blue[700],
-                iconColor: Colors.blue[700],
+                textColor: secondColor,
+                iconColor: secondColor,
                 leading: const Icon(Icons.add_circle_outline_outlined),
                 title: const Text('Create Campaign'),
                 // Add functionality for raising funds
@@ -196,8 +202,8 @@ class _HomeDashboardState extends State<HomeDashboard> {
             Visibility(
               visible: _isVisible,
               child: ListTile(
-                textColor: Colors.blue[700],
-                iconColor: Colors.blue[700],
+                textColor: secondColor,
+                iconColor: secondColor,
                 leading: const Icon(Icons.list_alt_outlined),
                 title: const Text('My Campaigns'),
                 // Add functionality for raising funds
@@ -319,7 +325,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       });
                     },
                     selectedColor: Colors.white,
-                    fillColor: greenColor,
+                    fillColor: secondColor,
                     children: const [
                       Text('   Fundraiser   '),
                       Text('   Donate    '),
@@ -343,7 +349,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       const SizedBox(height: 10),
                       Button(
                         title: 'Raise Fund',
-                        color: greenColor,
+                        color: secondColor,
                         onTap: () {
                           Navigator.push(
                             context,
@@ -378,24 +384,51 @@ class _HomeDashboardState extends State<HomeDashboard> {
                           );
                         },
                         title: 'Donate Now',
-                        color: greenColor,
+                        color: secondColor,
                       ),
                     ],
                   ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             Align(
               alignment: Alignment.center,
-              child: Button(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MyCampaigns(),
+              child: Text(
+                'Make A Change 💖',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: secondColor,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Curved',
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              height: 200,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: categories.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      width: 200,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: secondColor,
+                      ),
+                      child: Center(
+                        child: Text(
+                          categories[index],
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ),
                   );
                 },
-                title: 'My Campaigns',
-                color: Colors.blue.shade700,
               ),
             ),
           ],
