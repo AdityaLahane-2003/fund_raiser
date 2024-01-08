@@ -2,7 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/loading.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
+import 'package:fund_raiser_second/providers/fundraiser_data_provider.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
+import 'package:provider/provider.dart';
 import '../../../../components/button.dart';
 import '../../../../firebase_services/Image_services/pick_image.dart';
 import '../../../../firebase_services/Image_services/upload_image_to_storage.dart';
@@ -39,11 +41,8 @@ class _Step2State extends State<Step2> {
   late String selectedGender = 'Male';
 bool loading = false;
   final TextEditingController photoUrlController = TextEditingController();
-
   final TextEditingController ageController = TextEditingController();
-
   final TextEditingController genderController = TextEditingController();
-
   final TextEditingController cityController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
@@ -52,203 +51,225 @@ bool loading = false;
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Align(
-                child: Stack(
-                  alignment: Alignment.topRight,
-                  children: [
-                    _selectedImage == null
-                        ? CircleAvatar(
-                            minRadius: 30,
-                            backgroundColor: Colors.white,
-                            maxRadius: 50,
-                            child:Image.asset('assets/logo.png'),
-                          )
-                        : CircleAvatar(
-                      minRadius: 30,
-                      backgroundColor: Colors.white,
-                      maxRadius: 50,
-                      child:loading?Loading(size: 20,color: Colors.black,):Image(image: FileImage(_selectedImage!),),
-                    ),
-                    GestureDetector(
-                      onTap: () async {
-                        _selectedImage = await ImagePickerUtils.pickImage();
-                        if (_selectedImage != null) {
-                          setState(() {
-                            loading = true;
-                          });
-                          _imageUrl = await ImageUploadUtils
-                              .uploadImageToFirebaseStorage(_selectedImage!,
+    return Consumer<FundraiserDataProvider>(
+      builder: (BuildContext context, fundRaiserProvider, Widget? child) {
+        ageController.text = fundRaiserProvider.fundraiserData.age;
+        cityController.text = fundRaiserProvider.fundraiserData.city;
+        // selectedRelation = fundRaiserProvider.relation;
+
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Align(
+                    child: Stack(
+                      alignment: Alignment.topRight,
+                      children: [
+                        _selectedImage == null
+                            ? CircleAvatar(
+                          minRadius: 30,
+                          backgroundColor: Colors.white,
+                          maxRadius: 50,
+                          child:Image.asset('assets/logo.png'),
+                        )
+                            : CircleAvatar(
+                          minRadius: 30,
+                          backgroundColor: Colors.white,
+                          maxRadius: 50,
+                          child:loading?Loading(size: 20,color: Colors.black,):Image(image: FileImage(_selectedImage!),),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            _selectedImage = await ImagePickerUtils.pickImage();
+                            if (_selectedImage != null) {
+                              setState(() {
+                                loading = true;
+                              });
+                              _imageUrl = await ImageUploadUtils
+                                  .uploadImageToFirebaseStorage(_selectedImage!,
                                   'campaigns_beneficiaryImages');
-                        } else {
-                          Utils().toastMessage('Please pick an image first.');
-                        }
+                            } else {
+                              Utils().toastMessage('Please pick an image first.');
+                            }
+                            setState(() {
+                              fundRaiserProvider.updateBeneficiaryPhoto(true);
+                              loading = false;
+                            });
+                          },
+                          child: const Icon(
+                            Icons.add_a_photo,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Align(
+                    alignment: Alignment.topCenter,
+                    child: Text("Benificiary Image"),
+                  ),
+                   Visibility(
+                      visible: fundRaiserProvider.isBeneficiaryPhotoUploaded,
+                     child: const Align(
+                      alignment: Alignment.topCenter,
+                      child: Text("Image uploaded successfully !"),
+                                       ),
+                   ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Select Relation*',
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0),
+                      border: Border.all(color: Colors.grey.shade800),
+                    ),
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      borderRadius: BorderRadius.circular(20.0),
+                      icon: const Icon(Icons.arrow_drop_down),
+                      iconSize: 36.0,
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.black),
+                      value: selectedRelation,
+                      hint: const Text('Select Relation'),
+                      items: relations.map((relation) {
+                        return DropdownMenuItem<String>(
+                          value: relation,
+                          child: Center(
+                            child: Text(
+                              relation,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        widget.onRelationSelected(value!);
+                        selectedRelation = value;
+                        setState(() {});
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Select Gender*',
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0),
+                      border: Border.all(color: Colors.grey.shade800),
+                    ),
+                    child: DropdownButton<String>(
+                      borderRadius: BorderRadius.circular(20.0),
+                      icon: const Icon(Icons.arrow_drop_down),
+                      iconSize: 36.0,
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.black),
+                      value: selectedGender,
+                      hint: const Text('Select Gender'),
+                      isExpanded: true,
+                      items: genders.map((gender) {
+                        return DropdownMenuItem<String>(
+                          value: gender,
+                          child: Center(
+                            child: Text(
+                              gender,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        selectedGender = value!;
                         setState(() {
-                          loading = false;
+                          genderController.text = value;
                         });
                       },
-                      child: const Icon(
-                        Icons.add_a_photo,
-                        color: Colors.black,
-                      ),
                     ),
-                  ],
-                ),
-              ),
-              const Align(
-                alignment: Alignment.topCenter,
-                child: Text("Benificiary Image"),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Select Relation*',
-              ),
-              const SizedBox(height: 10),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.0),
-                  border: Border.all(color: Colors.grey.shade800),
-                ),
-                child: DropdownButton<String>(
-                  isExpanded: true,
-                  borderRadius: BorderRadius.circular(20.0),
-                  icon: const Icon(Icons.arrow_drop_down),
-                  iconSize: 36.0,
-                  elevation: 16,
-                  style: const TextStyle(color: Colors.black),
-                  value: selectedRelation,
-                  hint: const Text('Select Relation'),
-                  items: relations.map((relation) {
-                    return DropdownMenuItem<String>(
-                      value: relation,
-                      child: Center(
-                        child: Text(
-                          relation,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    widget.onRelationSelected(value!);
-                    selectedRelation = value;
-                    setState(() {});
-                  },
-                ),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Select Gender*',
-              ),
-              const SizedBox(height: 10),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.0),
-                  border: Border.all(color: Colors.grey.shade800),
-                ),
-                child: DropdownButton<String>(
-                  borderRadius: BorderRadius.circular(20.0),
-                  icon: const Icon(Icons.arrow_drop_down),
-                  iconSize: 36.0,
-                  elevation: 16,
-                  style: const TextStyle(color: Colors.black),
-                  value: selectedGender,
-                  hint: const Text('Select Gender'),
-                  isExpanded: true,
-                  items: genders.map((gender) {
-                    return DropdownMenuItem<String>(
-                      value: gender,
-                      child: Center(
-                        child: Text(
-                          gender,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    selectedGender = value!;
-                    setState(() {
-                      genderController.text = value;
-                    });
-                  },
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextFormFieldArea(
-                controller: ageController,
-                textInputType: TextInputType.number,
-                title: 'Age',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter an age';
-                  }
-                  return null;
-                },
-                prefixIcon: Icons.numbers,
-              ),
-              const SizedBox(height: 16),
-              TextFormFieldArea(
-                prefixIcon: Icons.location_city,
-                controller: cityController,
-                textInputType: TextInputType.text,
-                title: 'City Of Resident',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a city';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Button(
-                    onTap: () {
-                      widget.onPrevious();
-                    },
-                    title: 'Previous',
-                    color: Colors.blue.shade700,
                   ),
-                  Button(
-                    onTap: () {
-                      if (_formKey.currentState?.validate() ?? false) {
-                        if (_imageUrl.isEmpty) {
-                          Utils().toastMessage('Please select an image');
-                          return;
-                        }
-                        widget.onPersonalInfoEntered(
-                          _imageUrl,
-                          ageController.text,
-                          genderController.text,
-                          cityController.text,
-                        );
-                        widget.onNext();
+                  const SizedBox(height: 16),
+                  TextFormFieldArea(
+                    controller: ageController,
+                    textInputType: TextInputType.number,
+                    title: 'Age',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter an age';
                       }
+                      return null;
                     },
-                    title: 'Next',
-                    color: greenColor,
+                    prefixIcon: Icons.numbers,
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormFieldArea(
+                    prefixIcon: Icons.location_city,
+                    controller: cityController,
+                    textInputType: TextInputType.text,
+                    title: 'City Of Resident',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a city';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Button(
+                        onTap: () {
+                          widget.onPrevious();
+                        },
+                        title: 'Previous',
+                        color: Colors.blue.shade700,
+                      ),
+                      Button(
+                        onTap: () {
+                          if (_formKey.currentState?.validate() ?? false) {
+                                  fundRaiserProvider.updateFundraiserDataStep2(
+                                      selectedRelation,
+                                      selectedGender,
+                                      cityController.text.trim(),
+                                      ageController.text.trim(),
+                                      _imageUrl,);
+                            if (_imageUrl.isEmpty && fundRaiserProvider.isBeneficiaryPhotoUploaded==false) {
+                              Utils().toastMessage('Please select an image');
+                              return;
+                            }
+                            widget.onPersonalInfoEntered(
+                              _imageUrl,
+                              ageController.text,
+                              genderController.text,
+                              cityController.text,
+                            );
+                            widget.onNext();
+                          }
+                        },
+                        title: 'Next',
+                        color: greenColor,
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

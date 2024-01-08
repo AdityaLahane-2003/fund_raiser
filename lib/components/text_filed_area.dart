@@ -60,7 +60,7 @@ class TextFormFieldArea extends StatelessWidget {
           borderSide: const BorderSide(color: Colors.red, width: 2.0),
         ),
       ),
-      validator: validator, // Pass the validator function here
+      validator: validator,
     );
   }
 }

@@ -1,14 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/firebase_services/campaign_services/delete_campaign_services.dart';
+import 'package:fund_raiser_second/providers/fundraiser_data_provider.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/display_campaigns_screen/campaign_list.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/create_campaign_screens/create_campaign.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/display_campaigns_screen/my_campaigns.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/about_us.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/help.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
+import 'package:provider/provider.dart';
 import '../../components/button.dart';
+import '../../components/little_campaign_card.dart';
 import '../../firebase_services/user_services/add_user_details_service.dart';
 import '../../firebase_services/campaign_services/campaign_services.dart';
+import '../../providers/campaigns_provider.dart';
 import '../../utils/utils_toast.dart';
 import '../auth_screens/email_auth/login_screen.dart';
 import 'drawers_option_screens/my_profile.dart';
@@ -24,13 +29,21 @@ class _HomeDashboardState extends State<HomeDashboard> {
   bool isFundraiserSelected = true; // Default selection
   bool _isVisible = false;
   final CampaignService campaignService = CampaignService(getCurrentUserId());
- List<String> categories = [
-    'Education',
-    'Health',
-    'Environment',
-    'Animals',
-    'Others'
-  ];
+  late CampaignProvider campaignProvider;
+  late User? currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    campaignProvider = Provider.of<CampaignProvider>(context, listen: false);
+    currentUser = FirebaseAuth.instance.currentUser;
+    _loadCampaigns();
+  }
+
+  Future<void> _loadCampaigns() async {
+    await campaignProvider.loadCampaigns();
+  }
+
   @override
   Widget build(BuildContext context) {
     String userId = getCurrentUserId();
@@ -184,20 +197,25 @@ class _HomeDashboardState extends State<HomeDashboard> {
             ),
             Visibility(
               visible: _isVisible,
-              child: ListTile(
-                textColor: secondColor,
-                iconColor: secondColor,
-                leading: const Icon(Icons.add_circle_outline_outlined),
-                title: const Text('Create Campaign'),
-                // Add functionality for raising funds
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CampaignCreation(
-                              campaignService: campaignService)));
-                },
-              ),
+              child: Consumer<FundraiserDataProvider>(builder:
+                  (BuildContext context, FundraiserDataProvider value,
+                      Widget? child) {
+                return ListTile(
+                  textColor: secondColor,
+                  iconColor: secondColor,
+                  leading: const Icon(Icons.add_circle_outline_outlined),
+                  title: const Text('Create Campaign'),
+                  // Add functionality for raising funds
+                  onTap: () {
+                    value.initiateFundraiserData();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CampaignCreation(
+                                campaignService: campaignService)));
+                  },
+                );
+              }),
             ),
             Visibility(
               visible: _isVisible,
@@ -208,8 +226,10 @@ class _HomeDashboardState extends State<HomeDashboard> {
                 title: const Text('My Campaigns'),
                 // Add functionality for raising funds
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const MyCampaigns()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MyCampaigns()));
                 },
               ),
             ),
@@ -250,8 +270,10 @@ class _HomeDashboardState extends State<HomeDashboard> {
               title: const Text('About Us'),
               // Add functionality for about us
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const AboutUsScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AboutUsScreen()));
               },
             ),
             const Divider(
@@ -263,8 +285,10 @@ class _HomeDashboardState extends State<HomeDashboard> {
               title: const Text('Help'),
               // Add functionality for help
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const HelpScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HelpScreen()));
               },
             ),
             const Divider(
@@ -336,32 +360,38 @@ class _HomeDashboardState extends State<HomeDashboard> {
             ),
             // Button based on toggle selection
             isFundraiserSelected
-                ? Column(
-                    children: [
-                      const Text(
-                        'Raise Fund for a Cause',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight:
-                              FontWeight.bold, // Adjust the color as needed
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Button(
-                        title: 'Raise Fund',
-                        color: secondColor,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CampaignCreation(
-                                campaignService: campaignService,
-                              ),
+                ? Consumer<FundraiserDataProvider>(
+                    builder: (BuildContext context,
+                        FundraiserDataProvider value, Widget? child) {
+                      return Column(
+                        children: [
+                          const Text(
+                            'Raise Fund for a Cause',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight:
+                                  FontWeight.bold, // Adjust the color as needed
                             ),
-                          );
-                        },
-                      ),
-                    ],
+                          ),
+                          const SizedBox(height: 10),
+                          Button(
+                            title: 'Raise Fund',
+                            color: secondColor,
+                            onTap: () {
+                              value.initiateFundraiserData();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CampaignCreation(
+                                    campaignService: campaignService,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    },
                   )
                 : Column(
                     children: [
@@ -404,29 +434,85 @@ class _HomeDashboardState extends State<HomeDashboard> {
             ),
             const SizedBox(height: 20),
             SizedBox(
-              height: 200,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: categories.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: secondColor,
-                      ),
-                      child: Center(
-                        child: Text(
-                          categories[index],
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
+              height: 310,
+              child: Consumer<CampaignProvider>(
+                builder: (context, provider, child) {
+                  final campaigns = provider.campaigns;
+
+                  return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: campaigns.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                            width: 250,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              // color: secondColor,
+                            ),
+                            child: LittleCampaignCard(
+                              campaign: campaigns[index],
+                              isCurrentUserCampaign:
+                                  campaigns[index].ownerId == currentUser?.uid,
+                              onDeletePressed: () async {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text("Delete Campaign !!!"),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.asset(
+                                            'assets/logo.png',
+                                            // Replace with your image asset
+                                            height: 100,
+                                          ),
+                                          const SizedBox(height: 10),
+                                          const Text(
+                                            "Are you sure you want to delete your Campaign? This action is irreversible.",
+                                            style: TextStyle(fontSize: 16),
+                                          ),
+                                        ],
+                                      ),
+                                      alignment: Alignment.center,
+                                      actionsAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      actions: [
+                                        TextButton(
+                                          style: TextButton.styleFrom(
+                                            backgroundColor: Colors.grey[400],
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pop(
+                                                context); // Close the dialog
+                                          },
+                                          child: const Text("Cancel",
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                        TextButton(
+                                          onPressed: () async {
+                                            await DeleteCampaignServices
+                                                .deleteCampaign(campaigns[index].id);
+                                            await _loadCampaigns();
+                                            Navigator.pop(context);
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.red),
+                                          child: const Text("Delete",
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            )),
+                      );
+                    },
                   );
                 },
               ),

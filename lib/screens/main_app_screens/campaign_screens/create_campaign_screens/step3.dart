@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
+import 'package:fund_raiser_second/providers/fundraiser_data_provider.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../components/button.dart';
 
@@ -27,57 +29,67 @@ class Step3 extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextFormFieldArea(
-                prefixIcon: Icons.school_outlined,
-                controller: nameController,
-                  title: 'School/Hospital Name',
-                textInputType: TextInputType.name,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'If not needed Eter NA';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormFieldArea(
-                prefixIcon: Icons.location_on_outlined,
-                controller: locationController,
-                  title: 'Address',
-                textInputType: TextInputType.streetAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'If not needed Enter NA';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Consumer<FundraiserDataProvider>(
+            builder: (context, fundRaiserProvider, child) {
+              nameController.text = fundRaiserProvider.fundraiserData.schoolOrHospital;
+              locationController.text = fundRaiserProvider.fundraiserData.location;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                 Button(
-                    onTap: () {
-                      onPrevious();
-                    },
-                    title: 'Previous',
-                   color: Colors.blue.shade700,
-                  ), Button(
-                    onTap: () {
-                      if (_formKey.currentState?.validate() ?? false) {
-                        onSchoolOrHospitalEntered(nameController.text, locationController.text);
-                        onNext();
+                  TextFormFieldArea(
+                    prefixIcon: Icons.school_outlined,
+                    controller: nameController,
+                    title: 'School/Hospital Name',
+                    textInputType: TextInputType.name,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'If not needed Eter NA';
                       }
+                      return null;
                     },
-                    title: 'Next',
-                   color: greenColor,
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormFieldArea(
+                    prefixIcon: Icons.location_on_outlined,
+                    controller: locationController,
+                    title: 'Address',
+                    textInputType: TextInputType.streetAddress,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'If not needed Enter NA';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Button(
+                        onTap: () {
+                          onPrevious();
+                        },
+                        title: 'Previous',
+                        color: Colors.blue.shade700,
+                      ), Button(
+                        onTap: () {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            fundRaiserProvider.updateFundraiserDataStep3(
+                                nameController.text.trim(),
+                                locationController.text.trim()
+                            );
+                            onSchoolOrHospitalEntered(nameController.text, locationController.text);
+                            onNext();
+                          }
+                        },
+                        title: 'Next',
+                        color: greenColor,
+                      ),
+                    ],
                   ),
                 ],
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),

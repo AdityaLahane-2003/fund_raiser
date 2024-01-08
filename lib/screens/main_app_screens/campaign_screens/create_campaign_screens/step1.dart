@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
+import 'package:fund_raiser_second/providers/fundRaiserData_Provider.dart';
+import 'package:fund_raiser_second/providers/fundraiser_data_provider.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../components/button.dart';
 
@@ -35,8 +38,10 @@ class _Step1State extends State<Step1> {
   final TextEditingController amountController = TextEditingController();
 
   DateTime? selectedDate; // Add DateTime variable
+  FundraiserData fundraiserData = FundraiserData();
 
   final _formKey = GlobalKey<FormState>();
+
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -60,156 +65,176 @@ class _Step1State extends State<Step1> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Text(
-                'Select Cause',
-              ),
-              DropdownButton<String>(
-                borderRadius: BorderRadius.circular(12.0),
-                icon: const Icon(Icons.arrow_drop_down),
-                iconSize: 36.0,
-                elevation: 16,
-                style: const TextStyle(color: Colors.black),
-                value: selectedCategory,
-                hint: const Text('Select Category'),
-                isExpanded: true,
-                items: categories.map((category) {
-                  return DropdownMenuItem<String>(
-                    value: category,
-                    child: Center(
-                      child: Text(
-                        category,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.0,
+          child: Consumer<FundraiserDataProvider>(
+            builder: (context, fundRaiserData, child) {
+              nameController.text = fundRaiserData.fundraiserData.name;
+              emailController.text = fundRaiserData.fundraiserData.email;
+              amountController.text = fundRaiserData.fundraiserData.amountGoal.toString();
+              // selectedDate = fundRaiserData.fundraiserData.dateEnd;
+              // selectedStatus = fundRaiserData.fundraiserData.status;
+              // selectedCategory = fundRaiserData.fundraiserData.category;
+              return  Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                  'Select Cause',
+                ),
+                DropdownButton<String>(
+                  borderRadius: BorderRadius.circular(12.0),
+                  icon: const Icon(Icons.arrow_drop_down),
+                  iconSize: 36.0,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.black),
+                  value: selectedCategory,
+                  hint: const Text('Select Category'),
+                  isExpanded: true,
+                  items: categories.map((category) {
+                    return DropdownMenuItem<String>(
+                      value: category,
+                      child: Center(
+                        child: Text(
+                          category,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16.0,
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  widget.onCategorySelected(value!);
-                  selectedCategory = value;
-                  setState(() {});
-                },
-              ),
-
-              const SizedBox(height: 16), const Text(
-                'Select Status of your Financial Need',
-              ),
-              DropdownButton<String>(
-                borderRadius: BorderRadius.circular(12.0),
-                icon: const Icon(Icons.arrow_drop_down),
-                iconSize: 36.0,
-                elevation: 16,
-                style: const TextStyle(color: Colors.black),
-                value: selectedStatus,
-                hint: const Text('Select Category'),
-                isExpanded: true,
-                items: statuses.map((category) {
-                  return DropdownMenuItem<String>(
-                    value: category,
-                    child: Center(
-                      child: Text(
-                        category,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.0,
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  widget.onCategorySelected(value!);
-                  selectedStatus = value;
-                  setState(() {});
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormFieldArea(
-                prefixIcon: Icons.person,
-                controller: nameController,
-                  title: 'Name',
-                textInputType: TextInputType.name,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a name';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormFieldArea(
-                prefixIcon: Icons.phone,
-                controller: emailController,
-                textInputType: TextInputType.number,
-                  title: 'Phone Number',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter phone';
-                  } else if (value.length != 10) {
-                    return 'Please enter a valid phone number';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormFieldArea(
-                prefixIcon: Icons.currency_rupee,
-                controller: amountController,
-                textInputType: TextInputType.number,
-                  title: 'Rs. Amount',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter amount';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Button(
-                    onTap: () => _selectDate(context),
-                    title: 'Select End Date',
-                    color: secondColor,
-                  ),
-                  const SizedBox(width: 10),
-                  GestureDetector(
-                    onTap: () => _selectDate(context),
-                    child: Text(
-                      selectedDate != null
-                          ? '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}'
-                          : 'Select date till\nwhich you need funds',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 13.0,
-                      )
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-             Button(
-                onTap: () {
-                  if (_formKey.currentState?.validate() ?? false) {
-                    widget.onNameEmailEntered(
-                      nameController.text,
-                      emailController.text,
-                      int.parse(amountController.text),
-                      selectedDate ?? DateTime.now().add(const Duration(days: 30)),
                     );
-                    widget.onNext();
-                  }
-                },
-                title: 'Next',
-                color: greenColor,
-              ),
-            ],
+                  }).toList(),
+                  onChanged: (value) {
+                    widget.onCategorySelected(value!);
+                    selectedCategory = value;
+                    setState(() {});
+                  },
+                ),
+
+                const SizedBox(height: 16), const Text(
+                  'Select Status of your Financial Need',
+                ),
+                DropdownButton<String>(
+                  borderRadius: BorderRadius.circular(12.0),
+                  icon: const Icon(Icons.arrow_drop_down),
+                  iconSize: 36.0,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.black),
+                  value: selectedStatus,
+                  hint: const Text('Select Category'),
+                  isExpanded: true,
+                  items: statuses.map((category) {
+                    return DropdownMenuItem<String>(
+                      value: category,
+                      child: Center(
+                        child: Text(
+                          category,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    widget.onCategorySelected(value!);
+                    setState(() {
+                      selectedStatus = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormFieldArea(
+                  prefixIcon: Icons.person,
+                  controller: nameController,
+                    title: 'Name',
+                  textInputType: TextInputType.name,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a name';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormFieldArea(
+                  prefixIcon: Icons.phone,
+                  controller: emailController,
+                  textInputType: TextInputType.number,
+                    title: 'Phone Number',
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter phone';
+                    } else if (value.length != 10) {
+                      return 'Please enter a valid phone number';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormFieldArea(
+                  prefixIcon: Icons.currency_rupee,
+                  controller: amountController,
+                  textInputType: TextInputType.number,
+                    title: 'Rs. Amount',
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter amount';
+                    }else if (int.parse(value) < 1) {
+                      return 'Please enter a valid amount';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Button(
+                      onTap: () => _selectDate(context),
+                      title: 'Select End Date',
+                      color: secondColor,
+                    ),
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () => _selectDate(context),
+                      child: Text(
+                        selectedDate != null
+                            ? '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}'
+                            : 'Select date till\nwhich you need funds',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 13.0,
+                        )
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+               Button(
+                  onTap: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      fundRaiserData.updateFundraiserDataStep1(
+                          nameController.text,
+                          emailController.text,
+                          int.parse(amountController.text),
+                          selectedDate ?? DateTime.now().add(const Duration(days: 30)),
+                          selectedCategory,
+                          selectedStatus,);
+                      widget.onNameEmailEntered(
+                        nameController.text,
+                        emailController.text,
+                        int.parse(amountController.text),
+                        selectedDate ?? DateTime.now().add(const Duration(days: 30)),
+                      );
+                      widget.onNext();
+                    }
+                  },
+                  title: 'Next',
+                  color: greenColor,
+                ),
+              ],
+            );
+            },
           ),
         ),
       ),
