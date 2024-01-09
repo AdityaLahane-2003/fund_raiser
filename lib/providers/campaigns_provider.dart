@@ -4,9 +4,14 @@ import 'package:fund_raiser_second/models/campaign_model.dart';
 
 class CampaignProvider extends ChangeNotifier {
   late List<Campaign> campaigns = [];
+  late List<Campaign> _searchResults = [];
+  List<Campaign>? _filteredCampaigns;
+  List<Campaign>? get filteredCampaigns => _filteredCampaigns;
+  List<Campaign> get searchResults => _searchResults;
 
   Future<void> loadCampaigns() async {
-    final campaignsCollection = FirebaseFirestore.instance.collection('campaigns');
+    final campaignsCollection = FirebaseFirestore.instance.collection(
+        'campaigns');
     final snapshot = await campaignsCollection.get();
 
     campaigns = snapshot.docs.map((doc) {
@@ -40,6 +45,59 @@ class CampaignProvider extends ChangeNotifier {
         updates: List<String>.from(doc['updates']),
       );
     }).toList();
+
+    notifyListeners();
+  }
+
+  // Filter campaigns by category
+  List<Campaign> filterByCategory(String category) {
+    return campaigns.where((campaign) => campaign.category == category)
+        .toList();
+  }
+
+  // Filter campaigns by relation
+  List<Campaign> filterByRelation(String relation) {
+    return campaigns.where((campaign) => campaign.relation == relation)
+        .toList();
+  }
+
+  // Filter campaigns by status
+  List<Campaign> filterByStatus(String status) {
+    return campaigns.where((campaign) => campaign.status == status).toList();
+  }
+  void applyFilters(String category, String relation, String status) {
+    _filteredCampaigns = campaigns;
+
+    // Apply filters based on category, relation, and status
+    if (category.isNotEmpty) {
+      _filteredCampaigns = _filteredCampaigns
+          ?.where((campaign) => campaign.category.toLowerCase() == category.toLowerCase())
+          .toList();
+    }
+
+    if (relation.isNotEmpty) {
+      _filteredCampaigns = _filteredCampaigns
+          ?.where((campaign) => campaign.relation.toLowerCase() == relation.toLowerCase())
+          .toList();
+    }
+
+    if (status.isNotEmpty) {
+      _filteredCampaigns = _filteredCampaigns
+          ?.where((campaign) => campaign.status.toLowerCase() == status.toLowerCase())
+          .toList();
+    }
+
+    notifyListeners();
+  }
+  // Search campaigns by query
+  void searchCampaigns(String query) {
+    _searchResults = campaigns
+        .where((campaign) =>
+    campaign.name.toLowerCase().contains(query.toLowerCase()) ||
+        campaign.title.toLowerCase().contains(query.toLowerCase()) ||
+        // Add more fields to search if needed
+        campaign.description.toLowerCase().contains(query.toLowerCase()))
+        .toList();
 
     notifyListeners();
   }

@@ -49,7 +49,7 @@ class LittleCampaignCard extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => OnlyCampaignDetailsPage(
-                  campaign: campaign, isExpired: isExpired),
+                  campaign: campaign,),
             ),
           );
         }

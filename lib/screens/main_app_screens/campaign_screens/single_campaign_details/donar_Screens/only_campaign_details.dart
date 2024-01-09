@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/loading.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/donate_screen.dart';
@@ -10,16 +9,14 @@ import '../../../../../utils/constants/color_code.dart';
 
 class OnlyCampaignDetailsPage extends StatefulWidget {
   final Campaign campaign;
-  final bool isExpired;
 
-  const OnlyCampaignDetailsPage({super.key, required this.campaign,required this.isExpired});
+  const OnlyCampaignDetailsPage({super.key, required this.campaign,});
 
   @override
   State<OnlyCampaignDetailsPage> createState() => _OnlyCampaignDetailsPageState();
 }
 
 class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
-  // bool isLiked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +36,7 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                   color:Colors.green.shade300
               ))
               :
-            widget.isExpired?
+            widget.campaign.dateEnd.isBefore(DateTime.now())?
             Text("Campaign Expired",
             style:TextStyle(
               fontSize: 15,
