@@ -5,7 +5,6 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/sin
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
 
 import '../../../../../../models/campaign_model.dart';
-// import 'package:fl_chart/fl_chart.dart';
 
 class CampaignDetailsPage extends StatelessWidget {
   final Campaign campaign;

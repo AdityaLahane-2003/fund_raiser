@@ -31,8 +31,10 @@ class Step3 extends StatelessWidget {
           key: _formKey,
           child: Consumer<FundraiserDataProvider>(
             builder: (context, fundRaiserProvider, child) {
-              nameController.text = fundRaiserProvider.fundraiserData.schoolOrHospital;
-              locationController.text = fundRaiserProvider.fundraiserData.location;
+              WidgetsBinding.instance.addPostFrameCallback((_){
+                nameController.text = fundRaiserProvider.fundraiserData.schoolOrHospital;
+                locationController.text = fundRaiserProvider.fundraiserData.location;
+              });
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -43,7 +45,7 @@ class Step3 extends StatelessWidget {
                     textInputType: TextInputType.name,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'If not needed Eter NA';
+                        return 'If not needed Enter NA';
                       }
                       return null;
                     },

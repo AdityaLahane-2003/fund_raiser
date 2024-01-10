@@ -53,9 +53,10 @@ bool loading = false;
   Widget build(BuildContext context) {
     return Consumer<FundraiserDataProvider>(
       builder: (BuildContext context, fundRaiserProvider, Widget? child) {
-        ageController.text = fundRaiserProvider.fundraiserData.age;
-        cityController.text = fundRaiserProvider.fundraiserData.city;
-        // selectedRelation = fundRaiserProvider.relation;
+        WidgetsBinding.instance.addPostFrameCallback((_){
+          ageController.text = fundRaiserProvider.fundraiserData.age;
+          cityController.text = fundRaiserProvider.fundraiserData.city;
+        });
 
         return SingleChildScrollView(
           child: Padding(
@@ -96,7 +97,7 @@ bool loading = false;
                               Utils().toastMessage('Please pick an image first.');
                             }
                             setState(() {
-                              fundRaiserProvider.updateBeneficiaryPhoto(true);
+                              _imageUrl!=''?fundRaiserProvider.updateBeneficiaryPhoto(true):'';
                               loading = false;
                             });
                           },

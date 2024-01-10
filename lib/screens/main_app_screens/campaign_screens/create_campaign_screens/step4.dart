@@ -48,8 +48,10 @@ bool _loading = false;
           key: _formKey,
           child: Consumer<FundraiserDataProvider>(
             builder: (BuildContext context, FundraiserDataProvider value, Widget? child) {
-              titleController.text = value.fundraiserData.title;
-              storyController.text = value.fundraiserData.story;
+              WidgetsBinding.instance.addPostFrameCallback((_){
+                titleController.text = value.fundraiserData.title;
+                storyController.text = value.fundraiserData.story;
+              });
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -83,7 +85,7 @@ bool _loading = false;
                               Utils().toastMessage('Please pick an image first.');
                             }
                             setState(() {
-                              value.updateCoverPhoto(true);
+                              _imageUrl!=''? value.updateCoverPhoto(true):'';
                               _loading = false;
                             });
                           },

@@ -67,9 +67,15 @@ class _Step1State extends State<Step1> {
           key: _formKey,
           child: Consumer<FundraiserDataProvider>(
             builder: (context, fundRaiserData, child) {
-              nameController.text = fundRaiserData.fundraiserData.name;
-              emailController.text = fundRaiserData.fundraiserData.email;
-              amountController.text = fundRaiserData.fundraiserData.amountGoal.toString();
+              WidgetsBinding.instance.addPostFrameCallback((_){
+                nameController.text = fundRaiserData.fundraiserData.name;
+                emailController.text = fundRaiserData.fundraiserData.email;
+                amountController.text =
+                    fundRaiserData.fundraiserData.amountGoal.toString();
+              });
+              // nameController.text = fundRaiserData.fundraiserData.name;
+              // emailController.text = fundRaiserData.fundraiserData.email;
+              // amountController.text = fundRaiserData.fundraiserData.amountGoal.toString();
               // selectedDate = fundRaiserData.fundraiserData.dateEnd;
               // selectedStatus = fundRaiserData.fundraiserData.status;
               // selectedCategory = fundRaiserData.fundraiserData.category;

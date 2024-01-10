@@ -3,22 +3,19 @@ import 'fundRaiserData_Provider.dart';
 
 class FundraiserDataProvider extends ChangeNotifier {
   FundraiserData _fundraiserData = FundraiserData();
-  String _relation= 'Myself';
   bool _isBeneficiaryPhotoUploaded = false;
   bool _isCoverPhotoUploaded = false;
   FundraiserData get fundraiserData => _fundraiserData;
-  String get relation =>_relation;
   bool get isBeneficiaryPhotoUploaded => _isBeneficiaryPhotoUploaded;
   bool get isCoverPhotoUploaded => _isCoverPhotoUploaded;
 
   void initiateFundraiserData() {
     _fundraiserData = FundraiserData();
-    _relation= 'Myself';
     _isBeneficiaryPhotoUploaded = false;
     _isCoverPhotoUploaded = false;
     notifyListeners();
   }
-  // void empty(){}
+
 
   void updateBeneficiaryPhoto(bool value){
     _isBeneficiaryPhotoUploaded=value;
@@ -43,7 +40,7 @@ class FundraiserDataProvider extends ChangeNotifier {
   }
   void updateFundraiserDataStep2(String relation,
       String gender, String city, String age, String photoUrl) {
-    _relation = relation;
+    _fundraiserData.relation = relation;
     _fundraiserData.age=age;
     _fundraiserData.gender=gender;
     _fundraiserData.city=city;
