@@ -25,6 +25,7 @@ class _CampaignsListState extends State<CampaignsList> {
   bool isCategoryVisible = false;
   bool isRelationVisible = false;
   bool isStatusVisible = false;
+  bool isFilterVisible = false;
 
   @override
   void initState() {
@@ -46,6 +47,14 @@ class _CampaignsListState extends State<CampaignsList> {
     await campaignProvider.loadCampaigns();
   }
 
+  String selectedCategory = '';
+  String selectedRelation = '';
+  String selectedStatus = '';
+
+  void _applyFilters(String category, String relation, String status) {
+    campaignProvider.applyFilters(category, relation, status);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,15 +73,13 @@ class _CampaignsListState extends State<CampaignsList> {
             },
           ),
           IconButton(
-              icon: Icon(Icons.filter_alt),
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) {
-                    return _buildFilterBottomSheet(context);
-                  },
-                );
-              }),
+            onPressed: () {
+              setState(() {
+                isFilterVisible = !isFilterVisible;
+              });
+            },
+            icon: const Icon(Icons.filter_alt),
+          ),
         ],
       ),
       body: Consumer<CampaignProvider>(
@@ -81,405 +88,497 @@ class _CampaignsListState extends State<CampaignsList> {
               ? provider.campaigns
               : provider.filteredCampaigns!;
 
-          return campaigns.isEmpty
-              ? const Center(
-                  child: Text("No Campaigns right now."),
-                )
-              : ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: campaigns.length,
-                  itemBuilder: (context, index) {
-                    Campaign campaign = campaigns[index];
-                    bool isCurrentUserCampaign;
-                    if (currentUser == null) {
-                      isCurrentUserCampaign = false;
-                    } else {
-                      isCurrentUserCampaign =
-                          campaign.ownerId == currentUser?.uid;
-                    }
-
-                    return CampaignCard(
-                      campaign: campaign,
-                      isCurrentUserCampaign: isCurrentUserCampaign,
-                      onUpdatePressed: () {
-                        // Navigate to the update campaign page
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                UpdateCampaignPage(campaign: campaign),
+          return  SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Total Campaigns: ${campaigns.length}',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ).then((_) {
-                          _loadCampaigns();
-                        });
-                      },
-                      onDeletePressed: () async {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text("Delete Campaign !!!"),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Image.asset(
-                                    'assets/logo.png',
-                                    // Replace with your image asset
-                                    height: 100,
-                                  ),
-                                  const SizedBox(height: 10),
-                                  const Text(
-                                    "Are you sure you want to delete your Campaign? This action is irreversible.",
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                ],
+                        ],
+                      ),
+                      Visibility(
+                          visible: isFilterVisible,
+                          child: Column(
+                            children: [
+                              ListTile(
+                                title: const Text('Clear Filters',
+                                    style: TextStyle(color: Colors.red)),
+                                onTap: () {
+                                  selectedStatus = '';
+                                  selectedRelation = '';
+                                  selectedCategory = '';
+                                  _applyFilters('', '', '');
+                                  setState(() {
+                                    isFilterVisible = !isFilterVisible;
+                                  });
+                                },
                               ),
-                              alignment: Alignment.center,
-                              actionsAlignment: MainAxisAlignment.spaceBetween,
-                              actions: [
-                                TextButton(
-                                  style: TextButton.styleFrom(
-                                    backgroundColor: Colors.grey[400],
-                                  ),
-                                  onPressed: () {
-                                    Navigator.pop(context); // Close the dialog
-                                  },
-                                  child: const Text("Cancel",
-                                      style: TextStyle(color: Colors.white)),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    isCategoryVisible = !isCategoryVisible;
+                                  });
+                                },
+                                child: ListTile(
+                                  title: const Text('Category'),
+                                  trailing: isCategoryVisible
+                                      ? const Icon(Icons.arrow_drop_up)
+                                      : const Icon(Icons.arrow_drop_down),
                                 ),
-                                TextButton(
-                                  onPressed: () async {
-                                    await DeleteCampaignServices.deleteCampaign(
-                                        campaign.id);
-                                    await _loadCampaigns();
-                                    Navigator.pop(context);
+                              ),
+                              Visibility(
+                                visible: isCategoryVisible,
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                      tileColor: selectedCategory == 'Medical'
+                                          ? greenColor
+                                          : Colors.grey[200],
+                                      leading: const Icon(Icons.medical_services),
+                                      title: const Text(
+                                        'Medical',
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          if (selectedCategory == 'Medical') {
+                                            selectedCategory = '';
+                                          } else{
+                                            selectedCategory = 'Medical';
+                                          }
+                                        });
+                                      },
+                                    ),
+                                    ListTile(
+                                      tileColor: selectedCategory == 'Education'
+                                          ? greenColor
+                                          : Colors.grey[200],
+                                      leading: const Icon(Icons.school),
+                                      title: const Text(
+                                        'Education',
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          if (selectedCategory == 'Education') {
+                                            selectedCategory = '';
+                                          } else{
+                                            selectedCategory = 'Education';
+                                          }
+                                        });
+                                      },
+                                    ),
+                                    ListTile(
+                                      tileColor: selectedCategory == 'Memorial'
+                                          ? greenColor
+                                          : Colors.grey[200],
+                                      leading: const Icon(Icons.family_restroom),
+                                      title: const Text(
+                                        'Memorial',
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          if (selectedCategory == 'Memorial') {
+                                            selectedCategory = '';
+                                          } else{
+                                            selectedCategory = 'Memorial';
+                                          }
+                                        });
+                                      },
+                                    ),
+                                    ListTile(
+                                      tileColor: selectedCategory == 'Others'
+                                          ? greenColor
+                                          : Colors.grey[200],
+                                      leading: const Icon(Icons.sports),
+                                      title: const Text(
+                                        'Others',
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          if (selectedCategory == 'Others') {
+                                            selectedCategory = '';
+                                          } else {
+                                            selectedCategory = 'Others';
+                                          }
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    isRelationVisible = !isRelationVisible;
+                                  });
+                                },
+                                child: ListTile(
+                                  title: const Text('Relation'),
+                                  trailing: isRelationVisible
+                                      ? const Icon(Icons.arrow_drop_up)
+                                      : const Icon(Icons.arrow_drop_down),
+                                ),
+                              ),
+                              Visibility(
+                                visible: isRelationVisible,
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                      tileColor: selectedRelation == 'Myself'
+                                          ? greenColor
+                                          : Colors.grey[200],
+                                      leading: const Icon(Icons.man),
+                                      title: const Text(
+                                        'Myself',
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          if (selectedRelation == 'Myself') {
+                                            selectedRelation = '';
+                                          } else {
+                                            selectedRelation = 'Myself';
+                                          }
+                                        });
+                                      },
+                                    ),
+                                    ListTile(
+                                      tileColor: selectedRelation == 'My Family'
+                                          ? greenColor
+                                          : Colors.grey[200],
+                                      leading: const Icon(Icons.family_restroom_sharp),
+                                      title: const Text(
+                                        'My Family',
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          if (selectedRelation == 'My Family') {
+                                            selectedRelation = '';
+                                          } else{
+                                            selectedRelation = 'My Family';
+                                          }
+                                        });
+                                      },
+                                    ),
+                                    ListTile(
+                                      tileColor: selectedRelation == 'My Friend'
+                                          ? greenColor
+                                          : Colors.grey[200],
+                                      leading: const Icon(Icons.person),
+                                      title: const Text(
+                                        'My Friend',
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          if (selectedRelation == 'My Friend') {
+                                            selectedRelation = '';
+                                          } else {
+                                            selectedRelation = 'My Friend';
+                                          }
+                                        });
+                                      },
+                                    ),
+                                    ListTile(
+                                      tileColor: selectedRelation == 'Other'
+                                          ? greenColor
+                                          : Colors.grey[200],
+                                      leading: const Icon(Icons.filter_none),
+                                      title: const Text(
+                                        'Other',
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          if (selectedRelation == 'Other') {
+                                            selectedRelation = '';
+                                          } else {
+                                            selectedRelation = 'Other';
+                                          }
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    isStatusVisible = !isStatusVisible;
+                                  });
+                                },
+                                child: ListTile(
+                                  title: const Text('Status'),
+                                  trailing: isStatusVisible
+                                      ? const Icon(Icons.arrow_drop_up)
+                                      : const Icon(Icons.arrow_drop_down),
+                                ),
+                              ),
+                              Visibility(
+                                visible: isStatusVisible,
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                      tileColor: selectedStatus == 'Urgent Need of Funds'
+                                          ? greenColor
+                                          : Colors.grey[200],
+                                      leading: const Icon(Icons.arrow_forward_ios),
+                                      title: const Text(
+                                        'Urgent Need of Funds',
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          if (selectedStatus == 'Urgent Need of Funds') {
+                                            selectedStatus = '';
+                                          } else{
+                                            selectedStatus = 'Urgent Need of Funds';
+                                          }
+                                        });
+                                      },
+                                    ),
+                                    ListTile(
+                                      tileColor: selectedStatus == 'Needs funds for the near future'
+                                          ? greenColor
+                                          : Colors.grey[200],
+                                      leading: const Icon(Icons.arrow_forward_ios),
+                                      title: const Text(
+                                        'Needs funds for the near future',
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          if (selectedStatus == 'Needs funds for the near future') {
+                                            selectedStatus = '';
+                                          } else{
+                                            selectedStatus = 'Needs funds for the near future';
+                                          }
+                                        });
+                                      },
+                                    ),
+                                    ListTile(
+                                      tileColor:
+                                      selectedStatus == 'Need funds for the upcoming event'
+                                          ? greenColor
+                                          : Colors.grey[200],
+                                      leading: const Icon(Icons.arrow_forward_ios),
+                                      title: const Text(
+                                        'Need funds for the upcoming event',
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          if (selectedStatus ==
+                                              'Need funds for the upcoming event') {
+                                            selectedStatus = '';
+                                          } else{
+                                            selectedStatus = 'Need funds for the upcoming event';
+                                          }
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Button(
+                                onTap: () {
+                                  _applyFilters(
+                                    selectedCategory,
+                                    selectedRelation,
+                                    selectedStatus,
+                                  );
+                                  setState(() {
+                                    isFilterVisible = !isFilterVisible;
+                                  });
+                                },
+                                title: 'Apply Filters',
+                                color: secondColor,
+                              ),
+                              const SizedBox(height: 10),
+                            ],
+                          )
+                      ),
+                      Column(
+                        children: [
+                          Visibility(
+                            visible:selectedCategory!='',
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left:15.0),
+                                  child: Text('Category: '+selectedCategory),
+                                ),
+                                IconButton(
+                                  iconSize: 20,
+                                  onPressed: () {
+                                    setState(() {
+                                      selectedCategory = '';
+                                      _applyFilters(selectedCategory, selectedRelation, selectedStatus);
+                                    });
                                   },
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red),
-                                  child: const Text("Delete",
-                                      style: TextStyle(color: Colors.white)),
+                                  icon: const Icon(Icons.close),
                                 ),
                               ],
+                            ),
+                          ),
+                          Visibility(
+                            visible:selectedRelation!='',
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left:15.0),
+                                  child: Text('Relation: '+selectedRelation),
+                                ),
+                                IconButton(
+                                  iconSize: 20,
+                                  onPressed: () {
+                                    setState(() {
+                                      selectedRelation = '';
+                                      _applyFilters(selectedCategory, selectedRelation, selectedStatus);
+                                    });
+                                  },
+                                  icon: const Icon(Icons.close),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Visibility(
+                            visible:selectedStatus!='',
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left:15.0),
+                                  child: Text('Status: '+selectedStatus),
+                                ),
+                                IconButton(
+                                  iconSize: 20,
+                                  onPressed: () {
+                                    setState(() {
+                                      selectedStatus = '';
+                                      _applyFilters(selectedCategory, selectedRelation, selectedStatus);
+                                    });
+                                  },
+                                  icon: const Icon(Icons.close),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.8,
+                        child:campaigns.isEmpty
+                            ? const Center(
+                          child: Text("No Campaigns right now."),
+                        )
+                            : ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: campaigns.length,
+                          itemBuilder: (context, index) {
+                            Campaign campaign = campaigns[index];
+                            bool isCurrentUserCampaign;
+                            if (currentUser == null) {
+                              isCurrentUserCampaign = false;
+                            } else {
+                              isCurrentUserCampaign =
+                                  campaign.ownerId == currentUser?.uid;
+                            }
+
+                            return CampaignCard(
+                              campaign: campaign,
+                              isCurrentUserCampaign: isCurrentUserCampaign,
+                              onUpdatePressed: () {
+                                // Navigate to the update campaign page
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        UpdateCampaignPage(campaign: campaign),
+                                  ),
+                                ).then((_) {
+                                  _loadCampaigns();
+                                });
+                              },
+                              onDeletePressed: () async {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text("Delete Campaign !!!"),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.asset(
+                                            'assets/logo.png',
+                                            // Replace with your image asset
+                                            height: 100,
+                                          ),
+                                          const SizedBox(height: 10),
+                                          const Text(
+                                            "Are you sure you want to delete your Campaign? This action is irreversible.",
+                                            style: TextStyle(fontSize: 16),
+                                          ),
+                                        ],
+                                      ),
+                                      alignment: Alignment.center,
+                                      actionsAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      actions: [
+                                        TextButton(
+                                          style: TextButton.styleFrom(
+                                            backgroundColor: Colors.grey[400],
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pop(
+                                                context); // Close the dialog
+                                          },
+                                          child: const Text("Cancel",
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                        TextButton(
+                                          onPressed: () async {
+                                            await DeleteCampaignServices
+                                                .deleteCampaign(campaign.id);
+                                            await _loadCampaigns();
+                                            Navigator.pop(context);
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.red),
+                                          child: const Text("Delete",
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
                             );
                           },
-                        );
-                      },
-                    );
-                  },
+                        ),
+                      ),
+                      // Container(
+                      //   height: 30,
+                      // )
+                    ],
+                  ),
                 );
         },
       ),
     );
-  }
-
-  Widget _buildFilterBottomSheet(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          ListTile(
-            title: const Text('Clear Filters', style: TextStyle(color: Colors.red)),
-            onTap: () {
-              selectedStatus = '';
-              selectedRelation = '';
-              selectedCategory = '';
-              _applyFilters('', '', '');
-              Navigator.pop(context);
-            },
-          ),
-          InkWell(
-            onTap: () {
-              setState(() {
-                isCategoryVisible = !isCategoryVisible;
-              });
-            },
-            child: ListTile(
-              title: const Text('Category'),
-              trailing: isCategoryVisible
-                  ? const Icon(Icons.arrow_drop_up)
-                  : const Icon(Icons.arrow_drop_down),
-            ),
-          ),
-          Visibility(
-            visible: isCategoryVisible,
-            child: Column(
-              children: [
-                ListTile(
-                  tileColor:selectedCategory == 'Medical'
-                      ? greenColor
-                      : Colors.grey[200],
-                  leading: const Icon(Icons.medical_services),
-                  title: const Text(
-                    'Medical',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      if(selectedCategory == 'Medical') {
-                        selectedCategory = '';
-                      } else if(selectedCategory == '') {
-                        selectedCategory = 'Medical';
-                      }
-                    });
-                  },
-                ),
-                ListTile(
-                  tileColor: selectedCategory == 'Education'
-                      ? greenColor
-                      : Colors.grey[200],
-                  leading: const Icon(Icons.school),
-                  title: const Text(
-                    'Education',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      if(selectedCategory == 'Education') {
-                        selectedCategory = '';
-                      } else if(selectedCategory == '') {
-                        selectedCategory = 'Education';
-                      }
-                    });
-                  },
-                ),
-                ListTile(
-                  tileColor: selectedCategory == 'Memorial'
-                      ? greenColor
-                      : Colors.grey[200],
-                  leading: const Icon(Icons.family_restroom),
-                  title: const Text(
-                    'Memorial',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      if(selectedCategory == 'Memorial') {
-                        selectedCategory = '';
-                      } else if(selectedCategory == '') {
-                        selectedCategory = 'Memorial';
-                      }
-                    });
-                  },
-                ),
-                ListTile(
-                  tileColor: selectedCategory == 'Others'
-                      ? greenColor
-                      : Colors.grey[200],
-                  leading: const Icon(Icons.sports),
-                  title: const Text(
-                    'Others',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      if(selectedCategory == 'Others') {
-                        selectedCategory = '';
-                      } else if(selectedCategory == '') {
-                        selectedCategory = 'Others';
-                      }
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              setState(() {
-                isRelationVisible = !isRelationVisible;
-              });
-            },
-            child: ListTile(
-              title: const Text('Relation'),
-              trailing: isRelationVisible
-                  ? const Icon(Icons.arrow_drop_up)
-                  : const Icon(Icons.arrow_drop_down),
-            ),
-          ),
-          Visibility(
-            visible: isRelationVisible,
-            child: Column(
-              children: [
-                ListTile(
-                  tileColor: selectedRelation == 'Myself'
-                      ? greenColor
-                      : Colors.grey[200],
-                  leading: const Icon(Icons.man),
-                  title: const Text(
-                    'Myself',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      if(selectedRelation == 'Myself') {
-                        selectedRelation = '';
-                      } else if(selectedRelation == '') {
-                        selectedRelation = 'Myself';
-                      }
-                    });
-                  },
-                ),
-                ListTile(
-                  tileColor: selectedRelation == 'My Family'
-                      ? greenColor
-                      : Colors.grey[200],
-                  leading: const Icon(Icons.family_restroom_sharp),
-                  title: const Text(
-                    'My Family',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      if(selectedRelation == 'My Family') {
-                        selectedRelation = '';
-                      } else if(selectedRelation == '') {
-                        selectedRelation = 'My Family';
-                      }
-                    });
-                  },
-                ),
-                ListTile(
-                  tileColor: selectedRelation == 'My Friend'
-                      ? greenColor
-                      : Colors.grey[200],
-                  leading: const Icon(Icons.person),
-                  title: const Text(
-                    'My Friend',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      if(selectedRelation == 'My Friend') {
-                        selectedRelation = '';
-                      } else if(selectedRelation == '') {
-                        selectedRelation = 'My Friend';
-                      }
-                    });
-                  },
-                ),
-                ListTile(
-                  tileColor: selectedRelation == 'Other'
-                      ? greenColor
-                      : Colors.grey[200],
-                  leading: const Icon(Icons.filter_none),
-                  title: const Text(
-                    'Other',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      if(selectedRelation == 'Other') {
-                        selectedRelation = '';
-                      } else if(selectedRelation == '') {
-                        selectedRelation = 'Other';
-                      }
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              setState(() {
-                isStatusVisible = !isStatusVisible;
-              });
-            },
-            child: ListTile(
-              title: const Text('Status'),
-              trailing: isStatusVisible
-                  ? const Icon(Icons.arrow_drop_up)
-                  : const Icon(Icons.arrow_drop_down),
-            ),
-          ),
-          Visibility(
-            visible: isStatusVisible,
-            child: Column(
-              children: [
-                ListTile(
-                  tileColor: selectedStatus == 'Urgent Need of Funds'
-                      ?  greenColor
-                      : Colors.grey[200],
-                  leading: const Icon(Icons.arrow_forward_ios),
-                  title: const Text(
-                    'Urgent Need of Funds',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      if(selectedStatus == 'Urgent Need of Funds') {
-                        selectedStatus = '';
-                      } else if(selectedStatus == '') {
-                        selectedStatus = 'Urgent Need of Funds';
-                      }
-                    });
-                  },
-                ),
-                ListTile(
-                  tileColor: selectedStatus == 'Needs funds for the near future'
-                      ? greenColor
-                      : Colors.grey[200],
-                  leading: const Icon(Icons.arrow_forward_ios),
-                  title: const Text(
-                    'Needs funds for the near future',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      if(selectedStatus == 'Needs funds for the near future') {
-                        selectedStatus = '';
-                      } else if(selectedStatus == '') {
-                        selectedStatus = 'Needs funds for the near future';
-                      }
-                    });
-                  },
-                ),
-                ListTile(
-                  tileColor: selectedStatus == 'Need funds for the upcoming event'
-                      ? greenColor
-                      : Colors.grey[200],
-                  leading: const Icon(Icons.arrow_forward_ios),
-                  title: const Text(
-                    'Need funds for the upcoming event',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      if(selectedStatus == 'Need funds for the upcoming event') {
-                        selectedStatus = '';
-                      } else if(selectedStatus == '') {
-                        selectedStatus = 'Need funds for the upcoming event';
-                      }
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-         Button(
-            onTap: () {
-              _applyFilters(
-                selectedCategory,
-                selectedRelation,
-                selectedStatus,
-              );
-              Navigator.pop(context);
-            },
-            title: 'Apply Filters',
-           color: secondColor,
-          ),
-          const SizedBox(height: 10),
-        ],
-      ),
-    );
-  }
-
-// Declare these variables to store the selected values
-  String selectedCategory = '';
-  String selectedRelation = '';
-  String selectedStatus = '';
-
-  void _applyFilters(String category, String relation, String status) {
-    campaignProvider.applyFilters(category, relation, status);
   }
 }

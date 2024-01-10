@@ -85,7 +85,7 @@ class CampaignSearchDelegate extends SearchDelegate<String> {
           ),
           trailing:Icon(Icons.arrow_forward_ios),
           subtitle: Text(campaign.status),
-          title: Text(campaign.name),
+          title: Text(campaign.title + " - " + campaign.name),
           onTap: () {
             // Navigate to the campaign details page
             Navigator.push(
