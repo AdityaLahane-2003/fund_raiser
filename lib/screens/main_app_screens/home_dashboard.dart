@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fund_raiser_second/components/footer.dart';
 import 'package:fund_raiser_second/firebase_services/campaign_services/delete_campaign_services.dart';
 import 'package:fund_raiser_second/providers/fundraiser_data_provider.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/display_campaigns_screen/campaign_list.dart';
@@ -12,11 +13,15 @@ import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import 'package:provider/provider.dart';
 import '../../components/button.dart';
 import '../../components/little_campaign_card.dart';
+import '../../components/loading.dart';
+import '../../firebase_services/user_services/UserInfoUtils.dart';
 import '../../firebase_services/user_services/add_user_details_service.dart';
 import '../../firebase_services/campaign_services/campaign_services.dart';
 import '../../providers/campaigns_provider.dart';
 import '../../utils/utils_toast.dart';
 import '../auth_screens/email_auth/login_screen.dart';
+import 'campaign_screens/single_campaign_details/currentUser_Screens/single_campaign_home.dart';
+import 'campaign_screens/single_campaign_details/donar_Screens/only_campaign_details.dart';
 import 'drawers_option_screens/my_profile.dart';
 
 class HomeDashboard extends StatefulWidget {
@@ -33,15 +38,24 @@ class _HomeDashboardState extends State<HomeDashboard> {
   late CampaignProvider campaignProvider;
   late User? currentUser;
   DateTime? lastBackPressedTime;
-
+  late Map<String, dynamic> userData;
+  late UserInfoUtils userInfoUtils;
+  String? _imageUrl;
   @override
   void initState() {
     super.initState();
     campaignProvider = Provider.of<CampaignProvider>(context, listen: false);
     currentUser = FirebaseAuth.instance.currentUser;
     _loadCampaigns();
+    userInfoUtils = UserInfoUtils(userId: getCurrentUserId());
+    userData = {};
+    loadUserInfo();
   }
 
+  Future<void> loadUserInfo() async {
+    userData = await userInfoUtils.loadUserInfo();
+    setState(() {});
+  }
   Future<void> _loadCampaigns() async {
     await campaignProvider.loadCampaigns();
   }
@@ -90,28 +104,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
       onWillPop: _onBackPressed,
       child: Scaffold(
         persistentFooterButtons: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/logo.png',
-                height: 50,
-              ),
-              const Text(
-                'Made with ',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
-                ),
-              ),
-              const Icon(
-                Icons.favorite,
-                color: Colors.red,
-                size: 12,
-              ),
-            ],
-          ),
+       Footer(),
         ],
         appBar: AppBar(
           backgroundColor: greenColor,
@@ -158,17 +151,16 @@ class _HomeDashboardState extends State<HomeDashboard> {
                             const SizedBox(height: 10),
                             Row(
                               children: [
-                                const CircleAvatar(
+                                 CircleAvatar(
                                   minRadius: 20,
                                   maxRadius: 30,
-                                  backgroundImage: NetworkImage(
-                                      'https://avatars.githubusercontent.com/u/108022893?v=4'),
+                                  backgroundImage:userData.isNotEmpty? NetworkImage(userData['imageUrl']):const NetworkImage('https://firebasestorage.googleapis.com/v0/b/hrtaa-fund-raiser.appspot.com/o/images%2Fuser_profile.png?alt=media&token=1492c8e6-c68f-4bc3-8ff0-58fca5485d4e'),
                                 ),
                                 const SizedBox(width: 8),
                                 Column(
                                   children: [
-                                    const Text(
-                                      "userName",
+                                     Text(
+                                      userData.isNotEmpty? "Hi, "+userData['name']:'Hi, User',
                                       style: TextStyle(fontSize: 15),
                                     ),
                                     InkWell(
@@ -368,6 +360,28 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   borderRadius: BorderRadius.circular(100),
                 ),
               ),
+              const SizedBox(height: 20),
+              userData.isNotEmpty? Center(
+                child: Text(
+                  'Welcome ${userData['name']} ! ',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: secondColor,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Curved',
+                  ),
+                ),
+              ): Text(
+                'Welcome User !',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: secondColor,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Curved',
+                ),
+              ),
               // Toggle button
               Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -462,6 +476,82 @@ class _HomeDashboardState extends State<HomeDashboard> {
               Align(
                 alignment: Alignment.center,
                 child: Text(
+                  'Top Stories 📰',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: secondColor,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Curved',
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 150,
+                child: Consumer<CampaignProvider>(
+                  builder: (context, provider, child) {
+                    final campaigns = provider.campaigns;
+                    campaigns.sort((a, b) => a.dateEnd.difference(DateTime.now()).inDays.compareTo(b.dateEnd.difference(DateTime.now()).inDays));
+
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: campaigns.length > 5 ? 5 : campaigns.length,
+                      itemBuilder: (context, index) {
+                        int remainingDays = campaigns[index].dateEnd.difference(DateTime.now()).inDays;
+                        bool isCurrentUserCampaign =
+                            campaigns[index].ownerId == currentUser?.uid;
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width:100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              children: [
+                                CircleAvatar(
+                                  maxRadius: 50,
+                                  minRadius: 40,
+                                  backgroundImage:NetworkImage(campaigns[index].coverPhoto),
+                               child: InkWell(
+                                 onTap: (){
+                                   if (isCurrentUserCampaign) {
+                                     Navigator.push(
+                                       context,
+                                       MaterialPageRoute(
+                                         builder: (context) => SingleCampaignHomeScreen(
+                                           campaign: campaigns[index],
+                                         ),
+                                       ),
+                                     );
+                                   } else {
+                                     Navigator.push(
+                                       context,
+                                       MaterialPageRoute(
+                                         builder: (context) => OnlyCampaignDetailsPage(
+                                           campaign: campaigns[index]),
+                                       ),
+                                     );
+                                   }
+                                 },
+                                ),),
+                                const SizedBox(height: 10),
+                                Text(" $remainingDays Days Left",
+                                  style: TextStyle(color: Colors.red,fontSize: 12),)
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+              Align(
+                alignment: Alignment.center,
+                child: Text(
                   'Make A Change 💖',
                   style: TextStyle(
                     fontSize: 20,
@@ -472,21 +562,17 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   ),
                 ),
               ),
-              // Button(
-              //     title: "Send Notification",
-              //     onTap: () {
-              //     Navigator.push( context, MaterialPageRoute(builder: (context) => const Notify()));
-              //     }),
               const SizedBox(height: 20),
               SizedBox(
                 height: 310,
                 child: Consumer<CampaignProvider>(
                   builder: (context, provider, child) {
-                    final campaigns = provider.campaigns;
+                    final _campaigns = provider.campaigns;
+                    // _campaigns.sort((a, b) => b.dateCreated.difference(DateTime.now()).inDays.compareTo(a.dateCreated.difference(DateTime.now()).inDays));
 
                     return ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: campaigns.length,
+                      itemCount: _campaigns.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -497,9 +583,9 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                 // color: secondColor,
                               ),
                               child: LittleCampaignCard(
-                                campaign: campaigns[index],
+                                campaign: _campaigns[index],
                                 isCurrentUserCampaign:
-                                    campaigns[index].ownerId == currentUser?.uid,
+                                _campaigns[index].ownerId == currentUser?.uid,
                                 onDeletePressed: () async {
                                   showDialog(
                                     context: context,
@@ -541,7 +627,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                             onPressed: () async {
                                               await DeleteCampaignServices
                                                   .deleteCampaign(
-                                                      campaigns[index].id);
+                                                  _campaigns[index].id);
                                               await _loadCampaigns();
                                               Navigator.pop(context);
                                             },

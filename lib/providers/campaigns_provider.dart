@@ -12,7 +12,7 @@ class CampaignProvider extends ChangeNotifier {
   Future<void> loadCampaigns() async {
     final campaignsCollection = FirebaseFirestore.instance.collection(
         'campaigns');
-    final snapshot = await campaignsCollection.get();
+    final snapshot = await campaignsCollection.orderBy('dateCreated',descending: true).get();
 
     campaigns = snapshot.docs.map((doc) {
       return Campaign(
