@@ -8,6 +8,7 @@ import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import 'package:share/share.dart';
 
 import '../../../../firebase_services/campaign_services/campaign_services.dart';
+import '../../../../firebase_services/notification_services/notification_service.dart';
 import '../../../../providers/fundRaiserData_Provider.dart';
 
 class CampaignCreation extends StatefulWidget {
@@ -22,61 +23,84 @@ class CampaignCreation extends StatefulWidget {
 class _CampaignCreationState extends State<CampaignCreation> {
   int currentStep = 1;
   FundraiserData fundraiserData = FundraiserData();
+  NotificationServices notificationServices = NotificationServices();
+  String? mToken = "";
+  DateTime? lastBackPressedTime;
+
+  @override
+  void initState() {
+    super.initState();
+    notificationServices.requestPermission();
+    notificationServices.getToken().then((value) {
+      // print("TOKEN: " + value);
+      mToken = value;
+    });
+    notificationServices.initLocalNotification();
+    notificationServices.setContext(context);
+  }
+
+  Future<bool> _onBackPressed() async {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeDashboard(),));
+     return false;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: greenColor,
-        title: const Text('Create Campaign'),
-      ),
-      body: Column(
-        children: [
-          LinearProgressIndicator(
-            borderRadius: BorderRadius.circular(50),
-            minHeight: 10,
-            value: (currentStep - 1) / 4,
-            backgroundColor: Colors.grey[300],
-            valueColor: AlwaysStoppedAnimation<Color>(secondColor),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    text: 'Step ',
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: '$currentStep',
-                        style: TextStyle(
-                          color: greenColor,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const TextSpan(
-                        text: ' of 4',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: greenColor,
+          title: const Text('Create Campaign'),
+        ),
+        body: Column(
+          children: [
+            LinearProgressIndicator(
+              borderRadius: BorderRadius.circular(50),
+              minHeight: 10,
+              value: (currentStep - 1) / 4,
+              backgroundColor: Colors.grey[300],
+              valueColor: AlwaysStoppedAnimation<Color>(secondColor),
             ),
-          ),
-          Expanded(
-            child: _buildStep(currentStep),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      text: 'Step ',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: '$currentStep',
+                          style: TextStyle(
+                            color: greenColor,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const TextSpan(
+                          text: ' of 4',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: _buildStep(currentStep),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -151,6 +175,7 @@ class _CampaignCreationState extends State<CampaignCreation> {
           },
           onRaiseFundPressed: () async {
             await widget.campaignService.createCampaign(fundraiserData);
+            notificationServices.sendPushMessage(mToken.toString(), fundraiserData.title, "Campaign Created Successfully !");
             showDialog(
               context: context,
               builder: (BuildContext context) {
