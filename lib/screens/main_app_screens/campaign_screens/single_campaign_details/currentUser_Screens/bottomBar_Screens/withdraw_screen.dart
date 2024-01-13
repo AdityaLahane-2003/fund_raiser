@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../aadhar_kyc_screen.dart';
+
 class WithdrawScreen extends StatefulWidget {
   const WithdrawScreen({super.key});
 
@@ -39,11 +41,14 @@ class _WithdrawScreen extends State<WithdrawScreen> {
             // Button to do KYC
             ElevatedButton(
               onPressed: () {
-                // Navigate to a page to complete KYC
-                // You can handle the KYC process based on your requirements
-                // Set isKYCDone to true when KYC is completed
+               Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AadharKYCPage(),
+                  ),
+                );
                 setState(() {
-                  isKYCDone = true;
+                  isKYCDone = !isKYCDone;
                 });
               },
               child: const Text('Do KYC'),

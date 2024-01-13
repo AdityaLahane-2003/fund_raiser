@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/firebase_services/campaign_services/delete_campaign_services.dart';
+import 'package:fund_raiser_second/firebase_services/notification_services/notification_service.dart';
 import 'package:fund_raiser_second/providers/fundraiser_data_provider.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/display_campaigns_screen/campaign_list.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/create_campaign_screens/create_campaign.dart';
@@ -8,6 +11,7 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/dis
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/about_us.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/help.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
+import 'package:fund_raiser_second/utils/constants/notification.dart';
 import 'package:provider/provider.dart';
 import '../../components/button.dart';
 import '../../components/little_campaign_card.dart';
@@ -17,6 +21,7 @@ import '../../providers/campaigns_provider.dart';
 import '../../utils/utils_toast.dart';
 import '../auth_screens/email_auth/login_screen.dart';
 import 'drawers_option_screens/my_profile.dart';
+import 'package:http/http.dart' as http;
 
 class HomeDashboard extends StatefulWidget {
   const HomeDashboard({super.key});
@@ -31,6 +36,8 @@ class _HomeDashboardState extends State<HomeDashboard> {
   final CampaignService campaignService = CampaignService(getCurrentUserId());
   late CampaignProvider campaignProvider;
   late User? currentUser;
+  // NotificationServices notificationServices = NotificationServices();
+  // String? mToken = "";
 
   @override
   void initState() {
@@ -38,11 +45,52 @@ class _HomeDashboardState extends State<HomeDashboard> {
     campaignProvider = Provider.of<CampaignProvider>(context, listen: false);
     currentUser = FirebaseAuth.instance.currentUser;
     _loadCampaigns();
+    // notificationServices.requestPermission();
+    // // notificationServices.firebaseInit();
+    // // notificationServices.isTokenRefresh();
+    // notificationServices.getToken().then((value) {
+    //   print("TOKEN: " + value);
+    //   mToken = value;
+    // });
   }
 
   Future<void> _loadCampaigns() async {
     await campaignProvider.loadCampaigns();
   }
+
+//AAAAQ1ZjLRI:APA91bFWC7kxJ1454HNx-Ar7mnQQ7aNh31s3ky2cbUjxaJlDMaJXCV3NF2rbOVdK2hiSlxyd5aee0TpX9vhWNoE1tas29oGyV6g5oaggEJxsUJkGNCkOjp2R_GTBl32KIPZNxqk4_lYS - Key- pair
+//   void sendPushMessage(String token, String body, String title) async {
+//     try {
+//       await http.post(
+//         Uri.parse('https://fcm.googleapis.com/fcm/send'),
+//         headers: <String, String>{
+//           'Content-Type': 'application/json',
+//           'Authorization':
+//               'key=AAAAQ1ZjLRI:APA91bFWC7kxJ1454HNx-Ar7mnQQ7aNh31s3ky2cbUjxaJlDMaJXCV3NF2rbOVdK2hiSlxyd5aee0TpX9vhWNoE1tas29oGyV6g5oaggEJxsUJkGNCkOjp2R_GTBl32KIPZNxqk4_lYS',
+//         },
+//         body: jsonEncode(
+//           <String, dynamic>{
+//             'priority': 'high',
+//             'data': <String, dynamic>{
+//               'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+//               'status': 'done',
+//               'body': body,
+//               'title': title,
+//             },
+//             "notification": <String, dynamic>{
+//               "title": title,
+//               "body": body,
+//               "sound": "default",
+//               "android_channel_id": "high_importance_channel"
+//             },
+//             'to': token,
+//           },
+//         ),
+//       );
+//     } catch (e) {
+//       print("ERROR: " + e.toString());
+//     }
+//   }
 
   @override
   Widget build(BuildContext context) {
@@ -432,6 +480,11 @@ class _HomeDashboardState extends State<HomeDashboard> {
                 ),
               ),
             ),
+            Button(
+                title: "Send Notification",
+                onTap: () {
+                Navigator.push( context, MaterialPageRoute(builder: (context) => const Notify()));
+                }),
             const SizedBox(height: 20),
             SizedBox(
               height: 310,
@@ -495,7 +548,8 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                         TextButton(
                                           onPressed: () async {
                                             await DeleteCampaignServices
-                                                .deleteCampaign(campaigns[index].id);
+                                                .deleteCampaign(
+                                                    campaigns[index].id);
                                             await _loadCampaigns();
                                             Navigator.pop(context);
                                           },
