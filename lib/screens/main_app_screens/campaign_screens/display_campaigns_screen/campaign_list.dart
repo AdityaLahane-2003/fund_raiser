@@ -85,7 +85,7 @@ class _CampaignsListState extends State<CampaignsList> {
       body: Consumer<CampaignProvider>(
         builder: (context, provider, child) {
           final campaigns = provider.filteredCampaigns == null
-              ? provider.campaigns
+              ? provider.new_campaigns
               : provider.filteredCampaigns!;
 
           return  SingleChildScrollView(

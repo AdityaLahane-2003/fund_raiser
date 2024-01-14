@@ -4,6 +4,8 @@ import 'package:fund_raiser_second/models/campaign_model.dart';
 
 class CampaignProvider extends ChangeNotifier {
   late List<Campaign> campaigns = [];
+  late List<Campaign> ending_campaigns = [];
+  late List<Campaign> new_campaigns = [];
   late List<Campaign> _searchResults = [];
   List<Campaign>? _filteredCampaigns;
   List<Campaign>? get filteredCampaigns => _filteredCampaigns;
@@ -13,6 +15,7 @@ class CampaignProvider extends ChangeNotifier {
     final campaignsCollection = FirebaseFirestore.instance.collection(
         'campaigns');
     final snapshot = await campaignsCollection.orderBy('dateCreated',descending: true).get();
+
 
     campaigns = snapshot.docs.map((doc) {
       return Campaign(
@@ -45,6 +48,68 @@ class CampaignProvider extends ChangeNotifier {
         updates: List<String>.from(doc['updates']),
       );
     }).toList();
+    new_campaigns = snapshot.docs.map((doc) {
+      return Campaign(
+        id: doc.id,
+        name: doc['name'],
+        title: doc['title'],
+        description: doc['description'],
+        ownerId: doc['ownerId'],
+        category: doc['category'],
+        email: doc['email'],
+        relation: doc['relation'],
+        photoUrl: doc['photoUrl'],
+        gender: doc['gender'],
+        age: doc['age'],
+        city: doc['city'],
+        schoolOrHospital: doc['schoolOrHospital'],
+        location: doc['location'],
+        coverPhoto: doc['coverPhoto'],
+        amountRaised: doc['amountRaised'],
+        amountGoal: doc['amountGoal'],
+        amountDonors: doc['amountDonors'],
+        dateCreated: doc['dateCreated'].toDate(),
+        status: doc['status'],
+        dateEnd: doc['dateEnd'].toDate(),
+        tipAmount: doc['tipAmount'],
+        supporters: doc['supporters'],
+        documentUrls: List<String>.from(doc['documentUrls']),
+        mediaImageUrls: List<String>.from(doc['mediaImageUrls']),
+        mediaVideoUrls: List<String>.from(doc['mediaVideoUrls']),
+        updates: List<String>.from(doc['updates']),
+      );
+    }).toList();;
+    ending_campaigns = snapshot.docs.map((doc) {
+      return Campaign(
+        id: doc.id,
+        name: doc['name'],
+        title: doc['title'],
+        description: doc['description'],
+        ownerId: doc['ownerId'],
+        category: doc['category'],
+        email: doc['email'],
+        relation: doc['relation'],
+        photoUrl: doc['photoUrl'],
+        gender: doc['gender'],
+        age: doc['age'],
+        city: doc['city'],
+        schoolOrHospital: doc['schoolOrHospital'],
+        location: doc['location'],
+        coverPhoto: doc['coverPhoto'],
+        amountRaised: doc['amountRaised'],
+        amountGoal: doc['amountGoal'],
+        amountDonors: doc['amountDonors'],
+        dateCreated: doc['dateCreated'].toDate(),
+        status: doc['status'],
+        dateEnd: doc['dateEnd'].toDate(),
+        tipAmount: doc['tipAmount'],
+        supporters: doc['supporters'],
+        documentUrls: List<String>.from(doc['documentUrls']),
+        mediaImageUrls: List<String>.from(doc['mediaImageUrls']),
+        mediaVideoUrls: List<String>.from(doc['mediaVideoUrls']),
+        updates: List<String>.from(doc['updates']),
+      );
+    }).toList();;
 
     notifyListeners();
   }
