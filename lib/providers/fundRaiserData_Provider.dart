@@ -6,14 +6,14 @@ class FundraiserData {
   String relation = 'Myself';
   String photoUrl = '';
   String age = '';
-  String gender = '';
+  String gender = 'Male';
   String city = '';
   String schoolOrHospital = '';
   String location = '';
   String coverPhoto = '';
   String story = '';
   int amountRaised = 0;
-  int amountGoal = 0;
+  int amountGoal = 100;
   int amountDonors = 0;
   DateTime dateCreated = DateTime.now();
   String status = 'Urgent Need of Funds';

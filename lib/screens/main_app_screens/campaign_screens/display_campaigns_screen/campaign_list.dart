@@ -10,6 +10,7 @@ import '../../../../components/campaign_card.dart';
 import '../../../../firebase_services/campaign_services/search_campaign_services.dart';
 import '../../../../models/campaign_model.dart';
 import '../../../../providers/campaigns_provider.dart';
+import '../single_campaign_details/donar_Screens/only_campaign_details.dart';
 
 class CampaignsList extends StatefulWidget {
   const CampaignsList({Key? key}) : super(key: key);
@@ -26,12 +27,15 @@ class _CampaignsListState extends State<CampaignsList> {
   bool isRelationVisible = false;
   bool isStatusVisible = false;
   bool isFilterVisible = false;
+  bool isCurrentUserCampaign=false;
+  bool isUserLoggedIn = false;
 
   @override
   void initState() {
     super.initState();
     campaignProvider = Provider.of<CampaignProvider>(context, listen: false);
     currentUser = FirebaseAuth.instance.currentUser;
+    isUserLoggedIn = currentUser != null;
     searchController = TextEditingController();
     _loadCampaigns();
   }
@@ -91,12 +95,13 @@ class _CampaignsListState extends State<CampaignsList> {
           return  SingleChildScrollView(
                   child: Column(
                     children: [
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             'Total Campaigns: ${campaigns.length}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -484,13 +489,12 @@ class _CampaignsListState extends State<CampaignsList> {
                             ? const Center(
                           child: Text("No Campaigns right now."),
                         )
-                            : ListView.builder(
+                            :isUserLoggedIn?  ListView.builder(
                           physics: const BouncingScrollPhysics(),
                           itemCount: campaigns.length,
                           itemBuilder: (context, index) {
                             Campaign campaign = campaigns[index];
-                            bool isCurrentUserCampaign;
-                            if (currentUser == null) {
+                            if (isUserLoggedIn == false) {
                               isCurrentUserCampaign = false;
                             } else {
                               isCurrentUserCampaign =
@@ -569,11 +573,59 @@ class _CampaignsListState extends State<CampaignsList> {
                               },
                             );
                           },
+                        ):ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: campaigns.length,
+                          itemBuilder: (context, index) {
+                            Campaign campaign = campaigns[index];
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(campaign.coverPhoto),
+                              ),
+                              title: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: campaign.title,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text:"\n" + campaign.dateEnd
+                                          .difference(DateTime.now())
+                                          .inDays
+                                          .toString() + " days left",
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                              ),
+                              subtitle: Text(campaign.status,
+                                  style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      color: secondColor)),
+                              trailing:const Icon(Icons.arrow_forward_ios),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => OnlyCampaignDetailsPage(
+                                      campaign: campaign,),
+                                  ),
+                                );
+                              },
+                            );
+                          },
                         ),
                       ),
-                      // Container(
-                      //   height: 30,
-                      // )
                     ],
                   ),
                 );

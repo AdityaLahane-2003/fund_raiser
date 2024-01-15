@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-  User? user = FirebaseAuth.instance.currentUser;
+User? user = FirebaseAuth.instance.currentUser;
 String getCurrentUserEmail() {
   return user?.email ?? '';
 }String getCurrentUserPhone() {

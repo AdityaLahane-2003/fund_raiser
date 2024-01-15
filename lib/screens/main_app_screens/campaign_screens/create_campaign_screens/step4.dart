@@ -11,11 +11,12 @@ import '../../../../firebase_services/Image_services/upload_image_to_storage.dar
 import '../../../../utils/utils_toast.dart';
 
 class Step4 extends StatefulWidget {
-  final Function(String, String,String) onCoverPhotoStoryEntered;
+  final Function(String, String, String) onCoverPhotoStoryEntered;
   final Function onRaiseFundPressed;
   final Function onPrevious;
 
-  const Step4({super.key,
+  const Step4({
+    super.key,
     required this.onCoverPhotoStoryEntered,
     required this.onRaiseFundPressed,
     required this.onPrevious,
@@ -27,18 +28,17 @@ class Step4 extends StatefulWidget {
 
 class _Step4State extends State<Step4> {
   final TextEditingController coverPhotoController = TextEditingController();
-
   final TextEditingController storyController = TextEditingController();
-
   final TextEditingController titleController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
   File? _selectedImage;
-bool _loading = false;
-  String _imageUrl='';
+  bool _loading = false;
+  String _imageUrl = '';
 
   bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -47,10 +47,10 @@ bool _loading = false;
         child: Form(
           key: _formKey,
           child: Consumer<FundraiserDataProvider>(
-            builder: (BuildContext context, FundraiserDataProvider value, Widget? child) {
-              WidgetsBinding.instance.addPostFrameCallback((_){
-                titleController.text = value.fundraiserData.title;
-                storyController.text = value.fundraiserData.story;
+            builder: (context, Provider, child) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                titleController.text = Provider.fundraiserData.title;
+                storyController.text = Provider.fundraiserData.story;
               });
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -61,17 +61,27 @@ bool _loading = false;
                       children: [
                         _selectedImage == null
                             ? CircleAvatar(
-                          minRadius: 30,
-                          backgroundColor: Colors.white,
-                          maxRadius: 50,
-                          child:Image.asset('assets/logo.png'),
-                        )
+                                minRadius: 30,
+                                backgroundColor: Colors.white,
+                                maxRadius: 50,
+                                child: Provider.isCoverPhotoUploaded
+                                    ? Image.network(
+                                        Provider.fundraiserData.coverPhoto)
+                                    : Image.asset('assets/logo.png'),
+                              )
                             : CircleAvatar(
-                          minRadius: 30,
-                          backgroundColor: Colors.white,
-                          maxRadius: 50,
-                          child:_loading?Loading(size: 20,color: Colors.black,):Image(image: FileImage(_selectedImage!),),
-                        ),
+                                minRadius: 30,
+                                backgroundColor: Colors.white,
+                                maxRadius: 50,
+                                child: _loading
+                                    ? Loading(
+                                        size: 20,
+                                        color: Colors.black,
+                                      )
+                                    : Image(
+                                        image: FileImage(_selectedImage!),
+                                      ),
+                              ),
                         GestureDetector(
                           onTap: () async {
                             _selectedImage = await ImagePickerUtils.pickImage();
@@ -79,13 +89,17 @@ bool _loading = false;
                               setState(() {
                                 _loading = true;
                               });
-                              _imageUrl = await ImageUploadUtils.uploadImageToFirebaseStorage(
-                                  _selectedImage!, 'campaigns_coverPhoto');
-                            }else{
-                              Utils().toastMessage('Please pick an image first.');
+                              _imageUrl = await ImageUploadUtils
+                                  .uploadImageToFirebaseStorage(
+                                      _selectedImage!, 'campaigns_coverPhoto');
+                            } else {
+                              Utils()
+                                  .toastMessage('Please pick an image first.');
                             }
                             setState(() {
-                              _imageUrl!=''? value.updateCoverPhoto(true):'';
+                              _imageUrl != ''
+                                  ? Provider.updateCoverPhoto(true, _imageUrl)
+                                  : '';
                               _loading = false;
                             });
                           },
@@ -102,7 +116,7 @@ bool _loading = false;
                     child: Text("Cover Image"),
                   ),
                   Visibility(
-                    visible: value.isCoverPhotoUploaded,
+                    visible: Provider.isCoverPhotoUploaded,
                     child: const Align(
                       alignment: Alignment.topCenter,
                       child: Text("Image uploaded successfully !"),
@@ -119,6 +133,9 @@ bool _loading = false;
                         return 'Please enter a Title';
                       }
                       return null;
+                    },
+                    onChanged: (value) {
+                      value != '' ? Provider.updateTitle(value) : '';
                     },
                   ),
                   const SizedBox(height: 16),
@@ -141,10 +158,13 @@ bool _loading = false;
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter a story';
-                      }else if(value.length<20){
+                      } else if (value.length < 20) {
                         return 'Please enter a story of atleast 50 characters';
                       }
                       return null;
+                    },
+                    onChanged: (value) {
+                      value != '' ? Provider.updateStory(value) : '';
                     },
                   ),
                   const SizedBox(height: 16),
@@ -160,16 +180,18 @@ bool _loading = false;
                       ),
                       Button(
                         loading: loading,
-                        onTap: () async{
+                        onTap: () async {
                           if (_formKey.currentState?.validate() ?? false) {
-                            if(_imageUrl.isEmpty && value.isCoverPhotoUploaded==false){
+                            if (_imageUrl.isEmpty &&
+                                Provider.isCoverPhotoUploaded == false) {
                               Utils().toastMessage('Please select an image');
                               return;
                             }
                             setState(() {
                               loading = true;
                             });
-                            await widget.onCoverPhotoStoryEntered(_imageUrl, storyController.text,titleController.text);
+                            await widget.onCoverPhotoStoryEntered(_imageUrl,
+                                storyController.text, titleController.text);
                             widget.onRaiseFundPressed();
                           }
                         },

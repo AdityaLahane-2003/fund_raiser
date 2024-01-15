@@ -37,8 +37,9 @@ class _Step1State extends State<Step1> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
 
-  DateTime? selectedDate; // Add DateTime variable
+  DateTime? selectedDate;
   FundraiserData fundraiserData = FundraiserData();
+  late FundraiserDataProvider fundraiserDataProvider;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -59,6 +60,16 @@ class _Step1State extends State<Step1> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fundraiserDataProvider = Provider.of<FundraiserDataProvider>(context, listen: false);
+    selectedCategory = fundraiserDataProvider.fundraiserData.category;
+    selectedStatus = fundraiserDataProvider.fundraiserData.status;
+    selectedDate = fundraiserDataProvider.fundraiserData.dateEnd;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
@@ -73,12 +84,6 @@ class _Step1State extends State<Step1> {
                 amountController.text =
                     fundRaiserData.fundraiserData.amountGoal.toString();
               });
-              // nameController.text = fundRaiserData.fundraiserData.name;
-              // emailController.text = fundRaiserData.fundraiserData.email;
-              // amountController.text = fundRaiserData.fundraiserData.amountGoal.toString();
-              // selectedDate = fundRaiserData.fundraiserData.dateEnd;
-              // selectedStatus = fundRaiserData.fundraiserData.status;
-              // selectedCategory = fundRaiserData.fundraiserData.category;
               return  Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -160,6 +165,9 @@ class _Step1State extends State<Step1> {
                     }
                     return null;
                   },
+                  onChanged: (value) {
+                    fundRaiserData.updateName(value);
+                  },
                 ),
                 const SizedBox(height: 16),
                 TextFormFieldArea(
@@ -175,6 +183,9 @@ class _Step1State extends State<Step1> {
                     }
                     return null;
                   },
+                  onChanged: (value) {
+                    fundRaiserData.updateEmail(value);
+                  },
                 ),
                 const SizedBox(height: 16),
                 TextFormFieldArea(
@@ -189,6 +200,9 @@ class _Step1State extends State<Step1> {
                       return 'Please enter a valid amount';
                     }
                     return null;
+                  },
+                  onChanged: (value) {
+                    fundRaiserData.updateAmount(int.parse(value));
                   },
                 ),
                 const SizedBox(height: 16),
@@ -221,8 +235,6 @@ class _Step1State extends State<Step1> {
                     if (_formKey.currentState?.validate() ?? false) {
                       fundRaiserData.updateFundraiserDataStep1(
                           nameController.text,
-                          emailController.text,
-                          int.parse(amountController.text),
                           selectedDate ?? DateTime.now().add(const Duration(days: 30)),
                           selectedCategory,
                           selectedStatus,);

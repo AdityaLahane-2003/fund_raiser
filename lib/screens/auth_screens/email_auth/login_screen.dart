@@ -62,138 +62,132 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        SystemNavigator.pop();
-        return true;
-      },
-      child: Scaffold(
-        persistentFooterButtons: const [
-        Footer(),
-        ],
-        appBar: AppBar(
-          backgroundColor: greenColor,
-          // automaticallyImplyLeading: false,
-          title: const Text('Login'),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage('assets/logo.png'),
-                  backgroundColor: Colors.transparent,
-                ),
-                const SizedBox(height: 20,),
-                Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        TextFormFieldArea(
-                          title: 'Email',
-                          controller: emailController,
-                          prefixIcon: Icons.alternate_email,
-                          textInputType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Enter email';
-                            }
-                            final emailRegex = RegExp(
-                                r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
-                            if (!emailRegex.hasMatch(value)) {
-                              return 'Enter a valid email address';
-                            }
-                            return null;
+    return Scaffold(
+      persistentFooterButtons: const [
+      Footer(),
+      ],
+      appBar: AppBar(
+        backgroundColor: greenColor,
+        // automaticallyImplyLeading: false,
+        title: const Text('Login'),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const CircleAvatar(
+                radius: 50,
+                backgroundImage: AssetImage('assets/logo.png'),
+                backgroundColor: Colors.transparent,
+              ),
+              const SizedBox(height: 20,),
+              Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormFieldArea(
+                        title: 'Email',
+                        controller: emailController,
+                        prefixIcon: Icons.alternate_email,
+                        textInputType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter email';
+                          }
+                          final emailRegex = RegExp(
+                              r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
+                          if (!emailRegex.hasMatch(value)) {
+                            return 'Enter a valid email address';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormFieldArea(
+                        title: 'Password',
+                        controller: passwordController,
+                        textInputType: TextInputType.text,
+                        prefixIcon: Icons.lock_open,
+                        obscureText: !isPasswordVisible,
+                        suffix: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isPasswordVisible = !isPasswordVisible;
+                            });
                           },
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TextFormFieldArea(
-                          title: 'Password',
-                          controller: passwordController,
-                          textInputType: TextInputType.text,
-                          prefixIcon: Icons.lock_open,
-                          obscureText: !isPasswordVisible,
-                          suffix: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isPasswordVisible = !isPasswordVisible;
-                              });
-                            },
-                            icon: Icon(
-                              isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                            ),
+                          icon: Icon(
+                            isPasswordVisible ? Icons.visibility : Icons.visibility_off,
                           ),
-                          validator: (value){
-                            if(value!.isEmpty){
-                              return 'Enter password';
-                            }else if(value.length<6){
-                              return 'Password must be at least 6 characters';
-                            }
-                            return null ;
-                          },
                         ),
-                      ],
-                    )),
-                const SizedBox(
-                  height: 30,
-                ),
-                Button(
-                  title: '         Login        ',
-                  loading: loading ,
-                  color: greenColor,
-                  onTap:() {
-                    if (_formKey.currentState!.validate()) {
-                      login();
-                    }
-                  },),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: TextButton(
+                        validator: (value){
+                          if(value!.isEmpty){
+                            return 'Enter password';
+                          }else if(value.length<6){
+                            return 'Password must be at least 6 characters';
+                          }
+                          return null ;
+                        },
+                      ),
+                    ],
+                  )),
+              const SizedBox(
+                height: 30,
+              ),
+              Button(
+                title: '         Login        ',
+                loading: loading ,
+                color: greenColor,
+                onTap:() {
+                  if (_formKey.currentState!.validate()) {
+                    login();
+                  }
+                },),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const ForgotPasswordScreen()));
+                    },
+                    child: Text('Forgot Password?',style: TextStyle(color: Colors.blue.shade700),)),
+              ),
+              // const SizedBox(height: 10,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Don't have an account?"),
+                  TextButton(
                       onPressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const ForgotPasswordScreen()));
+                                builder: (context) => const SignUpScreen()));
                       },
-                      child: Text('Forgot Password?',style: TextStyle(color: Colors.blue.shade700),)),
-                ),
-                // const SizedBox(height: 10,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("Don't have an account?"),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SignUpScreen()));
-                        },
-                        child: Text('Sign up',style: TextStyle(fontSize:18.0,color: Colors.blue.shade700),))
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Button(
-                    title: 'Login with phone',
-                    color: Colors.blue.shade700,
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginWithPhoneNumber(comingFrom: "login",)));
-                    },
-                ),
-              ],
-            ),
+                      child: Text('Sign up',style: TextStyle(fontSize:18.0,color: Colors.blue.shade700),))
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Button(
+                  title: 'Login with phone',
+                  color: Colors.blue.shade700,
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginWithPhoneNumber(comingFrom: "login",)));
+                  },
+              ),
+            ],
           ),
         ),
       ),

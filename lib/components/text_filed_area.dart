@@ -12,6 +12,7 @@ class TextFormFieldArea extends StatelessWidget {
   final Widget? suffix;
   final bool obscureText;
   final bool enabled;
+  final void Function(String)? onChanged;
 
   const TextFormFieldArea({
     super.key,
@@ -25,6 +26,7 @@ class TextFormFieldArea extends StatelessWidget {
     this.suffix,
     this.obscureText=false,
     this.enabled=true,
+    this.onChanged,
   });
 
   @override
@@ -61,6 +63,7 @@ class TextFormFieldArea extends StatelessWidget {
         ),
       ),
       validator: validator,
+      onChanged: onChanged,
     );
   }
 }

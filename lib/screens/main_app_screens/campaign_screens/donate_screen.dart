@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/providers/donationData_Provider.dart';
@@ -32,10 +33,13 @@ class _DonateScreenState extends State<DonateScreen> {
   int? _selectedAmount=2000;
   double? _selectedTipPercentage=0.1;
   bool isAnonymous=false;
-
+  bool isUserLoggedIn = false;
+  late User? currentUser;
   @override
   void initState() {
     super.initState();
+    currentUser = FirebaseAuth.instance.currentUser;
+    isUserLoggedIn = currentUser != null;
     _amountController=TextEditingController(text: _selectedAmount.toString());
     _tipController=TextEditingController(text:(_selectedAmount! * _selectedTipPercentage!).toStringAsFixed(0));
     donationService = DonationService(widget.campaignId);
@@ -60,9 +64,9 @@ class _DonateScreenState extends State<DonateScreen> {
     donationData.amountDonated=int.parse(_amountController.text);
     donationData.tipDonated=int.parse(_tipController.text.isEmpty ? '0' : _tipController.text);
     await donationService.createDonation(donationData);
-    // Show a success dialog
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeDashboard()));
-    showDialog(
+    isUserLoggedIn ?Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeDashboard())):
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>CampaignsList()));
+     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -87,7 +91,8 @@ class _DonateScreenState extends State<DonateScreen> {
                 backgroundColor: greenColor,
               ),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeDashboard()));
+                isUserLoggedIn ?Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeDashboard())):
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>CampaignsList()));
               },
               child: const Text("Go Back", style: TextStyle(color: Colors.white),),
             ),

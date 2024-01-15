@@ -17,45 +17,73 @@ class FundraiserDataProvider extends ChangeNotifier {
   }
 
 
-  void updateBeneficiaryPhoto(bool value){
+  void updateBeneficiaryPhoto(bool value,String photoUrl){
     _isBeneficiaryPhotoUploaded=value;
+    _fundraiserData.photoUrl=photoUrl;
     notifyListeners();
   }
-  void updateCoverPhoto(bool value){
-    _isBeneficiaryPhotoUploaded=value;
+  void updateCoverPhoto(bool value,String coverPhotoUrl){
+    _isCoverPhotoUploaded=value;
+    _fundraiserData.coverPhoto=coverPhotoUrl;
     notifyListeners();
   }
 
-
-  void updateFundraiserDataStep1(String name, String email, int amount,
-      DateTime date, String category, String status) {
+  void updateName(String name) {
     _fundraiserData.name = name;
+    notifyListeners();
+  }
+  void updateEmail(String email) {
     _fundraiserData.email = email;
+    notifyListeners();
+  }
+  void updateAmount(int amount) {
     _fundraiserData.amountGoal = amount;
+    notifyListeners();
+  }
+
+
+  void updateFundraiserDataStep1(String name,
+      DateTime date, String category, String status) {
     _fundraiserData.dateEnd = date;
     _fundraiserData.category = category;
     _fundraiserData.status = status;
     _fundraiserData.title="Help "+name+" to raise funds for "+category;
     notifyListeners();
   }
-  void updateFundraiserDataStep2(String relation,
-      String gender, String city, String age, String photoUrl) {
-    _fundraiserData.relation = relation;
-    _fundraiserData.age=age;
-    _fundraiserData.gender=gender;
-    _fundraiserData.city=city;
-    _fundraiserData.photoUrl=photoUrl;
+
+  void updateAge(String age) {
+    _fundraiserData.age = age;
     notifyListeners();
   }
-  void updateFundraiserDataStep3(String name, String location) {
+  void updateCity(String city) {
+    _fundraiserData.city = city;
+    notifyListeners();
+  }
+
+
+  void updateFundraiserDataStep2(String relation,
+      String gender) {
+    _fundraiserData.relation = relation;
+    _fundraiserData.gender=gender;
+    notifyListeners();
+  }
+
+  void updateSchoolOrHospital(String name) {
     _fundraiserData.schoolOrHospital=name;
+    notifyListeners();
+  }
+
+  void updateLocation(String location) {
     _fundraiserData.location=location;
     notifyListeners();
   }
-  void updateFundraiserDataStep4(String story, String coverPhotoUrl, String title) {
-    _fundraiserData.story=story;
-    _fundraiserData.coverPhoto=coverPhotoUrl;
+
+  void updateTitle(String title) {
     _fundraiserData.title=title;
+    notifyListeners();
+  }
+  void updateStory(String story) {
+    _fundraiserData.story=story;
     notifyListeners();
   }
 }

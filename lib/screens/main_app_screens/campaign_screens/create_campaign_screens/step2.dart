@@ -48,7 +48,16 @@ bool loading = false;
   final _formKey = GlobalKey<FormState>();
   File? _selectedImage;
   String _imageUrl = '';
+  late FundraiserDataProvider fundraiserDataProvider;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fundraiserDataProvider = Provider.of<FundraiserDataProvider>(context, listen: false);
+    selectedRelation = fundraiserDataProvider.fundraiserData.relation;
+    selectedGender = fundraiserDataProvider.fundraiserData.gender;
+  }
   @override
   Widget build(BuildContext context) {
     return Consumer<FundraiserDataProvider>(
@@ -71,7 +80,12 @@ bool loading = false;
                       alignment: Alignment.topRight,
                       children: [
                         _selectedImage == null
-                            ? CircleAvatar(
+                            ? fundRaiserProvider.isBeneficiaryPhotoUploaded?CircleAvatar(
+                          minRadius: 30,
+                          backgroundColor: Colors.white,
+                          maxRadius: 50,
+                          child:Image.network(fundRaiserProvider.fundraiserData.photoUrl),
+                        ): CircleAvatar(
                           minRadius: 30,
                           backgroundColor: Colors.white,
                           maxRadius: 50,
@@ -97,7 +111,7 @@ bool loading = false;
                               Utils().toastMessage('Please pick an image first.');
                             }
                             setState(() {
-                              _imageUrl!=''?fundRaiserProvider.updateBeneficiaryPhoto(true):'';
+                              _imageUrl!=''?fundRaiserProvider.updateBeneficiaryPhoto(true,_imageUrl):'';
                               loading = false;
                             });
                           },
@@ -213,6 +227,9 @@ bool loading = false;
                       return null;
                     },
                     prefixIcon: Icons.numbers,
+                    onChanged: (value) {
+                      fundRaiserProvider.updateAge(value);
+                    },
                   ),
                   const SizedBox(height: 16),
                   TextFormFieldArea(
@@ -225,6 +242,9 @@ bool loading = false;
                         return 'Please enter a city';
                       }
                       return null;
+                    },
+                    onChanged: (value) {
+                      fundRaiserProvider.updateCity(value);
                     },
                   ),
                   const SizedBox(height: 16),
@@ -243,10 +263,7 @@ bool loading = false;
                           if (_formKey.currentState?.validate() ?? false) {
                                   fundRaiserProvider.updateFundraiserDataStep2(
                                       selectedRelation,
-                                      selectedGender,
-                                      cityController.text.trim(),
-                                      ageController.text.trim(),
-                                      _imageUrl,);
+                                      selectedGender);
                             if (_imageUrl.isEmpty && fundRaiserProvider.isBeneficiaryPhotoUploaded==false) {
                               Utils().toastMessage('Please select an image');
                               return;

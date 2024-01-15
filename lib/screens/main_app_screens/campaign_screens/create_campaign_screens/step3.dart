@@ -49,6 +49,11 @@ class Step3 extends StatelessWidget {
                       }
                       return null;
                     },
+                    onChanged: (value) {
+                      fundRaiserProvider.updateSchoolOrHospital(
+                          nameController.text.trim(),
+                      );
+                    }
                   ),
                   const SizedBox(height: 16),
                   TextFormFieldArea(
@@ -62,6 +67,11 @@ class Step3 extends StatelessWidget {
                       }
                       return null;
                     },
+                    onChanged: (value) {
+                      fundRaiserProvider.updateLocation(
+                          locationController.text.trim(),
+                      );
+                    }
                   ),
                   const SizedBox(height: 16),
                   Row(
@@ -76,10 +86,6 @@ class Step3 extends StatelessWidget {
                       ), Button(
                         onTap: () {
                           if (_formKey.currentState?.validate() ?? false) {
-                            fundRaiserProvider.updateFundraiserDataStep3(
-                                nameController.text.trim(),
-                                locationController.text.trim()
-                            );
                             onSchoolOrHospitalEntered(nameController.text, locationController.text);
                             onNext();
                           }
