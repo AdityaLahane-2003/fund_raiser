@@ -27,7 +27,7 @@ class Campaign {
   final List<String> mediaImageUrls;
   final List<String> mediaVideoUrls;
   final List<String> updates;
-  // final List<Donation> donations;
+  final List<String> donations;
   Campaign({
     required  this.gender,
     required this.age,
@@ -56,6 +56,6 @@ class Campaign {
     required this.mediaVideoUrls,
     required this.updates,
     required this.supporters,
-    // required this.donations,
+    required this.donations,
   });
 }

@@ -593,11 +593,20 @@ class _CampaignsListState extends State<CampaignsList> {
                                         color: Colors.black,
                                       ),
                                     ),
-                                    TextSpan(
+                                    campaign.dateEnd
+                                        .difference(DateTime.now())
+                                        .inDays>=0?TextSpan(
                                       text:"\n" + campaign.dateEnd
                                           .difference(DateTime.now())
                                           .inDays
                                           .toString() + " days left",
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.red,
+                                      ),
+                                    ):TextSpan(
+                                      text:"\n" + "Campaign Expired",
                                       style: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.normal,

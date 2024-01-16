@@ -80,6 +80,7 @@ class _MyCampaignsState extends State<MyCampaigns> {
                   mediaImageUrls: List<String>.from(campaign['mediaImageUrls']),
                   mediaVideoUrls: List<String>.from(campaign['mediaVideoUrls']),
                   updates: List<String>.from(campaign['updates']),
+                  donations: List<String>.from(campaign['donations']),
                 );
                 return CampaignCard(
                   campaign: campaign2,

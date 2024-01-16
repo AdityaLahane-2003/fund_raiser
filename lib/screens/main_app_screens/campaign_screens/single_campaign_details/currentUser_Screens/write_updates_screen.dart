@@ -1,9 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/button.dart';
+import 'package:fund_raiser_second/components/footer.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
+import 'package:fund_raiser_second/firebase_services/campaign_services/load_updates.dart';
+import 'package:fund_raiser_second/firebase_services/campaign_services/updates_services.dart';
 import 'package:fund_raiser_second/models/campaign_model.dart';
+import 'package:fund_raiser_second/providers/updates_model.dart';
+import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
+
+import '../../../../../components/loading.dart';
 
 class WriteUpdatesScreen extends StatefulWidget {
   final Campaign campaign;
@@ -15,30 +22,31 @@ class WriteUpdatesScreen extends StatefulWidget {
 }
 
 class _WriteUpdatesScreenState extends State<WriteUpdatesScreen> {
-  TextEditingController updateController = TextEditingController();
-  List<String> updates = [];
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descController = TextEditingController();
+ late UpdatesServices updatesServices;
+ UpdatesData updatesData = UpdatesData();
+  late Future<List<DocumentSnapshot>> _updates;
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    fetchUpdates();
+    updatesServices = UpdatesServices(widget.campaign.id);
+    _updates = loadUpdates(widget.campaign.id);
   }
 
-  Future<void> fetchUpdates() async {
-    List<String> fetchedUpdates =
-        await FirebaseFunctions.getUpdates(widget.campaign.id);
-    setState(() {
-      updates = fetchedUpdates;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: greenColor,
         title: Text("Write Updates"),
-        toolbarHeight: 30,
       ),
+      persistentFooterButtons: [
+        Footer(),
+      ],
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(20.0),
@@ -46,48 +54,121 @@ class _WriteUpdatesScreenState extends State<WriteUpdatesScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormFieldArea(
-                title: "Write Update",
-                controller: updateController,
+                title: "Title",
+                controller: titleController,
                 textInputType: TextInputType.text,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+                prefixIcon: Icons.title,
               ),
+              const SizedBox(height: 20),
+              TextFormFieldArea(
+                title: "Description",
+                controller:descController,
+                textInputType: TextInputType.text,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+                prefixIcon: Icons.description,
+              ),
+              const SizedBox(height: 20),
               Button(
+                loading: isLoading,
                 title: "Post Update",
+                color: secondColor,
                 onTap: () async {
-                  if (updateController.text.trim().isNotEmpty) {
-                    await FirebaseFirestore.instance
-                        .collection('campaigns')
-                        .doc(widget.campaign.id)
-                        .update({
-                      'updates':
-                          FieldValue.arrayUnion([updateController.text.trim()]),
+                  if (titleController.text.trim().isNotEmpty &&
+                      descController.text.trim().isNotEmpty) {
+                    setState(() {
+                      isLoading = true;
                     });
-                    updateController.clear();
-                    fetchUpdates(); // Update the displayed updates after posting a new one
+                    updatesData.title = titleController.text.trim();
+                    updatesData.description = descController.text.trim();
+                    updatesData.updateDate = DateTime.now();
+                    await updatesServices.createUpdate(updatesData);
+                    titleController.clear();
+                    descController.clear();
+                    Utils().toastMessage("Update Posted!");
+                    setState(() {
+                      isLoading = false;
+                      _updates = loadUpdates(widget.campaign.id);
+                    });
                   } else {
                     Utils().toastMessage("Write Something!");
                   }
                 },
               ),
-              if (updates.isNotEmpty)
-                Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    Text("Updates:",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
-                    for (String update in updates)
-                      ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.green,
+              const SizedBox(height: 20),
+              FutureBuilder<List<DocumentSnapshot>>(
+                future: _updates,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return const Loading(
+                        size: 25, color: Colors.black);
+                  } else if (snapshot.hasError) {
+                    Utils().toastMessage(
+                        'Error: ${snapshot.error}');
+                    return Text('Error: ${snapshot.error}');
+                  } else if (snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: Text('No Updates, Write updates and get help ! .'),
+                    );
+                  } else {
+                    return Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey.shade300,
                         ),
-                        title: Text(update),
-                        subtitle: Text("some text"),
-                        trailing: Icon(Icons.abc_outlined),
+                        borderRadius:
+                        BorderRadius.circular(8.0),
                       ),
-                  ],
-                )
-              else
-                Text("No updates", style: TextStyle(fontSize: 18)),
+                      height: MediaQuery.of(context)
+                          .size
+                          .height *
+                          0.5,
+                      child: ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          snapshot.data!.sort((a, b) =>
+                              b['updateDate']
+                                  .compareTo(a['updateDate']));
+                          DocumentSnapshot update =
+                          snapshot.data![index];
+
+                          return ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor:
+                              Colors.grey.shade300,
+                              child: Text((index+1).toString()),
+                            ),
+                            title: Text(update['title'],
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight:
+                                    FontWeight.bold)),
+                            subtitle: Text(
+                              update['description'].length > 50
+                                  ? update['description']
+                                  .substring(0, 50) + " ..."
+                                  : update['description'],
+                              style: TextStyle(
+                                  color: Colors.green.shade700),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }
+                },
+              ),
             ],
           ),
         ),

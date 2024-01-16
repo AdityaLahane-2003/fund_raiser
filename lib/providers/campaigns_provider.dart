@@ -46,6 +46,7 @@ class CampaignProvider extends ChangeNotifier {
         mediaImageUrls: List<String>.from(doc['mediaImageUrls']),
         mediaVideoUrls: List<String>.from(doc['mediaVideoUrls']),
         updates: List<String>.from(doc['updates']),
+        donations: List<String>.from(doc['donations']),
       );
     }).toList();
     new_campaigns = snapshot.docs.map((doc) {
@@ -77,6 +78,7 @@ class CampaignProvider extends ChangeNotifier {
         mediaImageUrls: List<String>.from(doc['mediaImageUrls']),
         mediaVideoUrls: List<String>.from(doc['mediaVideoUrls']),
         updates: List<String>.from(doc['updates']),
+        donations: List<String>.from(doc['donations']),
       );
     }).toList();;
     ending_campaigns = snapshot.docs.map((doc) {
@@ -108,6 +110,7 @@ class CampaignProvider extends ChangeNotifier {
         mediaImageUrls: List<String>.from(doc['mediaImageUrls']),
         mediaVideoUrls: List<String>.from(doc['mediaVideoUrls']),
         updates: List<String>.from(doc['updates']),
+        donations: List<String>.from(doc['donations']),
       );
     }).toList();;
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fund_raiser_second/components/footer.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
+import 'package:fund_raiser_second/screens/auth_screens/auth_screen1.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/signup_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
@@ -68,8 +69,17 @@ class _LoginScreenState extends State<LoginScreen> {
       ],
       appBar: AppBar(
         backgroundColor: greenColor,
-        // automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false,
         title: const Text('Login'),
+      leading: IconButton(
+        onPressed: (){
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const AuthScreen1()));
+        },
+        icon: const Icon(Icons.arrow_back_ios),
+      )
       ),
       body: SingleChildScrollView(
         child: Padding(
