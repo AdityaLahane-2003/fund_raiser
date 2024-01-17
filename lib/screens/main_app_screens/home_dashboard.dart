@@ -357,7 +357,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
           child: Consumer<CampaignProvider>(
             builder: (context, provider, child) {
               final campaigns = provider.campaigns;
-              final ending_campaigns = provider.ending_campaigns;
+              final ending_campaigns = provider.filteredEndingCampaigns;
               final new_campaigns = provider.new_campaigns;
 
               campaigns
@@ -368,10 +368,10 @@ class _HomeDashboardState extends State<HomeDashboard> {
                   .inDays
                   .compareTo(a.dateCreated.difference(DateTime.now()).inDays));
 
-              ending_campaigns.sort((a, b) => a.dateEnd
-                  .difference(DateTime.now())
-                  .inDays
-                  .compareTo(b.dateEnd.difference(DateTime.now()).inDays));
+              // ending_campaigns.sort((a, b) => a.dateEnd
+              //     .difference(DateTime.now())
+              //     .inDays
+              //     .compareTo(b.dateEnd.difference(DateTime.now()).inDays));
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -555,9 +555,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                     height: 150,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: ending_campaigns.length > 5
-                          ? 5
-                          : ending_campaigns.length,
+                      itemCount:ending_campaigns.length,
                       itemBuilder: (context, index) {
                         int remainingDays = ending_campaigns[index]
                             .dateEnd
@@ -565,7 +563,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                             .inDays;
                         bool isCurrentUserCampaign =
                             ending_campaigns[index].ownerId == currentUser?.uid;
-                        return Padding(
+                        return remainingDays>0? Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
                             width: 100,
@@ -629,7 +627,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                               ],
                             ),
                           ),
-                        );
+                        ):Container();
                       },
                     ),
                   ),

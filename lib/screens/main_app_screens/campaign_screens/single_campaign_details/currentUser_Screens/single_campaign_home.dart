@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/share_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/thank_donars_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/campaign_story_screen.dart';
@@ -40,14 +41,14 @@ class _SingleCampaignHomeScreenState extends State<SingleCampaignHomeScreen> {
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
-            activeIcon: Icon(Icons.info, color: greenColor,),
+            activeIcon: Icon(Icons.home, color: secondColor,),
             backgroundColor: greenColor,
-            icon: const Icon(Icons.info, ),
+            icon:FaIcon(FontAwesomeIcons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            backgroundColor: Colors.blue.shade300,
-            activeIcon: Icon(Icons.edit, color: Colors.blue.shade700,),
+            backgroundColor: greenColor,
+            activeIcon: Icon(Icons.edit, color: secondColor,),
             icon: const Icon(Icons.edit),
             label: 'Story',
           ),

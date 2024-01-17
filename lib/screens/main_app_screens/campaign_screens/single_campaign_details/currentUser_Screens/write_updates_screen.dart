@@ -53,6 +53,23 @@ class _WriteUpdatesScreenState extends State<WriteUpdatesScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(height: 10),
+              CircleAvatar(
+                maxRadius: 50,
+                backgroundColor: Colors.white,
+                backgroundImage: AssetImage("assets/logo.png"),
+              ),
+              SizedBox(height: 10),
+              Text("Post An Update",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold)),
+              SizedBox(height: 10),
+              Text("Write updates to share progress of your fundraiser with donars !",),
+              SizedBox(height: 20),
+              Divider(thickness: 1),
+              SizedBox(height: 20),
               TextFormFieldArea(
                 title: "Title",
                 controller: titleController,
@@ -65,7 +82,7 @@ class _WriteUpdatesScreenState extends State<WriteUpdatesScreen> {
                 },
                 prefixIcon: Icons.title,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               TextFormFieldArea(
                 title: "Description",
                 controller:descController,
@@ -77,6 +94,7 @@ class _WriteUpdatesScreenState extends State<WriteUpdatesScreen> {
                   return null;
                 },
                 prefixIcon: Icons.description,
+                maxLines: 3,
               ),
               const SizedBox(height: 20),
               Button(
@@ -122,49 +140,61 @@ class _WriteUpdatesScreenState extends State<WriteUpdatesScreen> {
                       child: Text('No Updates, Write updates and get help ! .'),
                     );
                   } else {
-                    return Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey.shade300,
+                    return Column(
+                      children: [
+                        const Text(
+                          'Previous Updates',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
                         ),
-                        borderRadius:
-                        BorderRadius.circular(8.0),
-                      ),
-                      height: MediaQuery.of(context)
-                          .size
-                          .height *
-                          0.5,
-                      child: ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          snapshot.data!.sort((a, b) =>
-                              b['updateDate']
-                                  .compareTo(a['updateDate']));
-                          DocumentSnapshot update =
-                          snapshot.data![index];
+                        const SizedBox(height: 10),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey.shade300,
+                            ),
+                            borderRadius:
+                            BorderRadius.circular(8.0),
+                          ),
+                          height: MediaQuery.of(context)
+                              .size
+                              .height *
+                              0.5,
+                          child: ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              snapshot.data!.sort((a, b) =>
+                                  b['updateDate']
+                                      .compareTo(a['updateDate']));
+                              DocumentSnapshot update =
+                              snapshot.data![index];
 
-                          return ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor:
-                              Colors.grey.shade300,
-                              child: Text((index+1).toString()),
-                            ),
-                            title: Text(update['title'],
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight:
-                                    FontWeight.bold)),
-                            subtitle: Text(
-                              update['description'].length > 50
-                                  ? update['description']
-                                  .substring(0, 50) + " ..."
-                                  : update['description'],
-                              style: TextStyle(
-                                  color: Colors.green.shade700),
-                            ),
-                          );
-                        },
-                      ),
+                              return ListTile(
+                                leading: CircleAvatar(
+                                  backgroundColor:
+                                  Colors.grey.shade300,
+                                  child: Text((index+1).toString()),
+                                ),
+                                title: Text(update['title'],
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight:
+                                        FontWeight.bold)),
+                                subtitle: Text(
+                                  update['description'].length > 50
+                                      ? update['description']
+                                      .substring(0, 50) + " ..."
+                                      : update['description'],
+                                  style: TextStyle(
+                                      color: Colors.green.shade700),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     );
                   }
                 },

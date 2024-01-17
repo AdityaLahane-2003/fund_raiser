@@ -2,10 +2,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fund_raiser_second/components/loading.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/donate_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/terms_and_conditions_screen.dart';
 import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import '../../../../../components/button.dart';
 import '../../../../../firebase_services/campaign_services/load_donations.dart';
@@ -33,13 +35,14 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
   late Future<List<DocumentSnapshot>> _donations;
   late Future<List<DocumentSnapshot>> _updates;
   bool isDonationsVisible = false;
-  late List<VideoPlayerController> videoControllers ;
-
+  late List<VideoPlayerController> videoControllers;
+  // late final url;
   @override
   void initState() {
     super.initState();
     _donations = loadDonations(widget.campaign.id);
     _updates = loadUpdates(widget.campaign.id);
+    // url = 'https://wa.me/${widget.campaign.email}?text=${Uri.parse('Your message')}';
 
     if (widget.campaign.mediaVideoUrls.isNotEmpty) {
       videoControllers = widget.campaign.mediaVideoUrls.map((videoUrl) {
@@ -55,6 +58,7 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
       videoControllers = [];
     }
   }
+
   @override
   void dispose() {
     for (var controller in videoControllers) {
@@ -62,6 +66,7 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
     }
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     List<String> items = [];
@@ -248,8 +253,8 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              subtitle: Text("Phone : "+
-                                widget.campaign.email,
+                              subtitle: Text(
+                                "Phone : " + widget.campaign.email,
                               ),
                             ),
                             const SizedBox(height: 8.0),
@@ -376,6 +381,38 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                 },
                               ),
                             ),
+                            // const SizedBox(height: 30.0),
+                            // lInkWel(
+                            //   onTap: () async{
+                            //     await launch(url);
+                            //   },
+                            //   child: Container(
+                            //     height: 45,
+                            //     width: MediaQuery.of(context).size.width,
+                            //     decoration: BoxDecoration(
+                            //       borderRadius: BorderRadius.circular(18.0),
+                            //       color: Colors.green,
+                            //     ),
+                            //     child: const Center(
+                            //       child: Row(
+                            //         mainAxisAlignment: MainAxisAlignment.center,
+                            //         children: [
+                            //           FaIcon(FontAwesomeIcons.whatsapp,
+                            //               color: Colors.white),
+                            //           const SizedBox(width: 10.0),
+                            //           Text(
+                            //             "Share Via Whatsapp",
+                            //             style: TextStyle(
+                            //               color: Colors.white,
+                            //               fontSize: 18.0,
+                            //               fontWeight: FontWeight.bold,
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             Align(
                               alignment: Alignment.center,
                               child: TextButton(
@@ -383,14 +420,14 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => TermsAndConditionsScreen(),
+                                        builder: (context) =>
+                                            TermsAndConditionsScreen(),
                                       ),
                                     );
                                   },
                                   child: Text(" © Terms and Conditions",
                                       style: TextStyle(
-                                          color: Colors.blue,
-                                          fontSize: 15))),
+                                          color: Colors.blue, fontSize: 15))),
                             ),
                           ],
                         ),
@@ -406,172 +443,189 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                           widget.campaign.documentUrls.isEmpty
                               ? SizedBox(
                                   height: 50,
-                                child: const Center(
+                                  child: const Center(
                                     child: Text("No Documents Uploaded"),
                                   ),
-                              )
+                                )
                               : Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  const Text(
-                                    "Documents",
-                                    style: TextStyle(
-                                      fontSize: 15.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey,
+                                  children: [
+                                    const SizedBox(
+                                      height: 20,
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Wrap(
-                                    spacing: 8.0,
-                                    runSpacing: 8.0,
-                                    children: widget.campaign.documentUrls.map((documentUrl) {
-                                      return InkWell(
-                                        onTap: (){
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => ViewPDF(url: documentUrl),
-                                            ),
-                                          );
-                                        },
-                                        child: Column(
-                                          children: [
-                                           Container(
-                                              height: 130.0, // Set the desired height
-                                              width: 130.0, // Set the desired width
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(8.0),
-                                                image: DecorationImage(
-                                                  image:AssetImage("assets/PDF.png"),
-                                                  fit: BoxFit.fill,
+                                    const Text(
+                                      "Documents",
+                                      style: TextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Wrap(
+                                      spacing: 8.0,
+                                      runSpacing: 8.0,
+                                      children: widget.campaign.documentUrls
+                                          .map((documentUrl) {
+                                        return InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewPDF(url: documentUrl),
+                                              ),
+                                            );
+                                          },
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                height:
+                                                    130.0, // Set the desired height
+                                                width:
+                                                    130.0, // Set the desired width
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                        "assets/PDF.png"),
+                                                    fit: BoxFit.fill,
+                                                  ),
                                                 ),
                                               ),
-                                           ),
-                                            const SizedBox(height: 5,),
-                                            Text("View PDF"),
-                                          ],
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ],
-                              ),
-                          widget.campaign.mediaImageUrls.isEmpty?
-                          SizedBox(
-                            height: 50,
-                            child: const Center(
-                              child: Text("No Images Uploaded"),
-                            ),
-                          ):
-                          Column(
-                            children: [
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              const Text(
-                                "Images",
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey,
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text("View PDF"),
+                                            ],
+                                          ),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Wrap(
-                                spacing: 8.0,
-                                runSpacing: 8.0,
-                                children: widget.campaign.mediaImageUrls.map((mediaUrl) {
-                                  return Container(
-                                    height: 150.0, // Set the desired height
-                                    width: 150.0, // Set the desired width
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      image: DecorationImage(
-                                        image: NetworkImage(mediaUrl),
-                                        fit: BoxFit.cover,
+                          widget.campaign.mediaImageUrls.isEmpty
+                              ? SizedBox(
+                                  height: 50,
+                                  child: const Center(
+                                    child: Text("No Images Uploaded"),
+                                  ),
+                                )
+                              : Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    const Text(
+                                      "Images",
+                                      style: TextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
                                       ),
                                     ),
-                                  );
-                                }).toList(),
-                              ),
-                            ],
-                          ),
-                          widget.campaign.mediaVideoUrls.isEmpty?
-                          SizedBox(
-                            height: 50,
-                            child: const Center(
-                              child: Text("No Videos Uploaded"),
-                            ),
-                          ):
-                          Column(
-                            children: [
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              const Text(
-                                "Videos",
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey,
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Wrap(
+                                      spacing: 8.0,
+                                      runSpacing: 8.0,
+                                      children: widget.campaign.mediaImageUrls
+                                          .map((mediaUrl) {
+                                        return Container(
+                                          height:
+                                              150.0, // Set the desired height
+                                          width: 150.0, // Set the desired width
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                            image: DecorationImage(
+                                              image: NetworkImage(mediaUrl),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                             SizedBox(
-                               height: 20,),
-                              SizedBox(
-                                height: 400,
-                                child: ListView.builder(
-                                  itemCount: videoControllers.length,
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      height: 200.0,
-                                      margin: const EdgeInsets.only(bottom:10.0),
-                                      child: Chewie(
-                                        controller: ChewieController(
-                                          videoPlayerController: videoControllers[index],
-                                          autoPlay: false, // Set to true if you want videos to auto-play
-                                          looping: false, // Set to true if you want videos to loop
-                                        ),
-                                      ),
-                                    );
-                                  },
+                          widget.campaign.mediaVideoUrls.isEmpty
+                              ? SizedBox(
+                                  height: 50,
+                                  child: const Center(
+                                    child: Text("No Videos Uploaded"),
+                                  ),
                                 )
+                              : Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    const Text(
+                                      "Videos",
+                                      style: TextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    SizedBox(
+                                        height: 400,
+                                        child: ListView.builder(
+                                          itemCount: videoControllers.length,
+                                          itemBuilder: (context, index) {
+                                            return Container(
+                                              height: 200.0,
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 10.0),
+                                              child: Chewie(
+                                                controller: ChewieController(
+                                                  videoPlayerController:
+                                                      videoControllers[index],
+                                                  autoPlay: false,
+                                                  // Set to true if you want videos to auto-play
+                                                  looping:
+                                                      false, // Set to true if you want videos to loop
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        )
 
-                                // ListView.builder(
-                                //   itemCount: widget.campaign.mediaVideoUrls.length,
-                                //   itemBuilder: (context, index) {
-                                //     return Padding(
-                                //       padding: const EdgeInsets.all(8.0),
-                                //       child: Card(
-                                //         child: Padding(
-                                //           padding: const EdgeInsets.all(8.0),
-                                //           child: Column(
-                                //             children: [
-                                //               Text(
-                                //                 widget.campaign
-                                //                     .mediaVideoUrls[index],
-                                //                 style: const TextStyle(
-                                //                   fontSize: 20.0,
-                                //                   fontWeight: FontWeight.bold,
-                                //                 ),
-                                //               ),
-                                //             ],
-                                //           ),
-                                //         ),
-                                //       ),
-                                //     );
-                                //   },
-                                // ),
-                              ),
-                            ],
-                          ),
+                                        // ListView.builder(
+                                        //   itemCount: widget.campaign.mediaVideoUrls.length,
+                                        //   itemBuilder: (context, index) {
+                                        //     return Padding(
+                                        //       padding: const EdgeInsets.all(8.0),
+                                        //       child: Card(
+                                        //         child: Padding(
+                                        //           padding: const EdgeInsets.all(8.0),
+                                        //           child: Column(
+                                        //             children: [
+                                        //               Text(
+                                        //                 widget.campaign
+                                        //                     .mediaVideoUrls[index],
+                                        //                 style: const TextStyle(
+                                        //                   fontSize: 20.0,
+                                        //                   fontWeight: FontWeight.bold,
+                                        //                 ),
+                                        //               ),
+                                        //             ],
+                                        //           ),
+                                        //         ),
+                                        //       ),
+                                        //     );
+                                        //   },
+                                        // ),
+                                        ),
+                                  ],
+                                ),
                         ],
                       )
                     : Column(
@@ -584,9 +638,8 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                   child: Text("No Updates"),
                                 )
                               : SizedBox(
-                                  height:MediaQuery.of(context)
-                                      .size
-                                      .height *0.7,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.7,
                                   child: FutureBuilder<List<DocumentSnapshot>>(
                                     future: _updates,
                                     builder: (context, snapshot) {
@@ -609,58 +662,83 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                               color: Colors.grey.shade300,
                                             ),
                                             borderRadius:
-                                            BorderRadius.circular(8.0),
+                                                BorderRadius.circular(8.0),
                                           ),
                                           height: MediaQuery.of(context)
-                                              .size
-                                              .height *
+                                                  .size
+                                                  .height *
                                               0.8,
                                           child: ListView.builder(
                                             itemCount: snapshot.data!.length,
                                             itemBuilder: (context, index) {
                                               snapshot.data!.sort((a, b) =>
-                                                  b['updateDate']
-                                                      .compareTo(a['updateDate']));
+                                                  b['updateDate'].compareTo(
+                                                      a['updateDate']));
                                               DocumentSnapshot update =
-                                              snapshot.data![index];
-                                              String daysAgo = update['updateDate'].toDate().difference(DateTime.now()).inDays.toString();
+                                                  snapshot.data![index];
+                                              String daysAgo =
+                                                  update['updateDate']
+                                                      .toDate()
+                                                      .difference(
+                                                          DateTime.now())
+                                                      .inDays
+                                                      .toString();
                                               return Padding(
-                                                        padding: const EdgeInsets.all(8.0),
-                                                        child: Container(
-                                                          decoration: BoxDecoration(
-                                                            border: Border.all(
-                                                              color: Colors.grey.shade300,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius.circular(8.0),
-                                                          ),
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.all(8.0),
-                                                            child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                Text(daysAgo + " days ago ",
-                                                                    style: TextStyle(
-                                                                        fontSize: 15,
-                                                                        color: Colors.red)),
-                                                                SizedBox(height: 5,),
-                                                                Text(update['title'],
-                                                                  style: const TextStyle(
-                                                                    fontSize: 18.0,
-                                                                    fontWeight: FontWeight.bold,
-                                                                  ),
-                                                                ),
-                                                                SizedBox(height: 5,),
-                                                                Text(update['description'],
-                                                                style: TextStyle(
-                                                                  fontSize: 15,
-                                                                  color: secondColor,
-                                                                ),),
-                                                              ],
-                                                            ),
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color:
+                                                          Colors.grey.shade300,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                            daysAgo +
+                                                                " days ago ",
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                color: Colors
+                                                                    .red)),
+                                                        SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Text(
+                                                          update['title'],
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize: 18.0,
+                                                            fontWeight:
+                                                                FontWeight.bold,
                                                           ),
                                                         ),
-                                                      );
+                                                        SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Text(
+                                                          update['description'],
+                                                          style: TextStyle(
+                                                            fontSize: 15,
+                                                            color: secondColor,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
                                             },
                                           ),
                                         );

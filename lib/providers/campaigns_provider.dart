@@ -5,6 +5,7 @@ import 'package:fund_raiser_second/models/campaign_model.dart';
 class CampaignProvider extends ChangeNotifier {
   late List<Campaign> campaigns = [];
   late List<Campaign> ending_campaigns = [];
+  late List<Campaign> filteredEndingCampaigns = [];
   late List<Campaign> new_campaigns = [];
   late List<Campaign> _searchResults = [];
   List<Campaign>? _filteredCampaigns;
@@ -80,7 +81,9 @@ class CampaignProvider extends ChangeNotifier {
         updates: List<String>.from(doc['updates']),
         donations: List<String>.from(doc['donations']),
       );
-    }).toList();;
+    }).toList();
+    new_campaigns=new_campaigns.where((campaign) => campaign.dateEnd.isAfter(DateTime.now())).toList();
+
     ending_campaigns = snapshot.docs.map((doc) {
       return Campaign(
         id: doc.id,
@@ -112,7 +115,11 @@ class CampaignProvider extends ChangeNotifier {
         updates: List<String>.from(doc['updates']),
         donations: List<String>.from(doc['donations']),
       );
-    }).toList();;
+    }).toList();
+    filteredEndingCampaigns = ending_campaigns.where((campaign) => campaign.dateEnd.isAfter(DateTime.now())).toList();
+    filteredEndingCampaigns.sort((a, b) => a.dateEnd.difference(DateTime.now()).inDays.compareTo(b.dateEnd.difference(DateTime.now()).inDays));
+    filteredEndingCampaigns = filteredEndingCampaigns.take(5).toList();
+
 
     notifyListeners();
   }

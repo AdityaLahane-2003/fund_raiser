@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/bottomBar_Screens/share_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/upload_docs_and_media_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/write_updates_screen.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
 
 import '../../../../../../models/campaign_model.dart';
+import '../../donar_Screens/viewPDF.dart';
 
 class CampaignDetailsPage extends StatelessWidget {
   final Campaign campaign;
@@ -22,11 +24,37 @@ class CampaignDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const SizedBox(height: 10.0),
+            Text(
+              'Welcome !',
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            Text(
+              "Here's the progress of your campaign.",
+              style: TextStyle(
+                fontSize: 15.0,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 10.0),
             ListTile(
-              leading: const Icon(Icons.share),
-              subtitle: const Text('Follow the following instructions'),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              title: const Text('Share'),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20.0),
+              ),),
+              tileColor: Colors.grey.shade200,
+              leading: CircleAvatar(
+                backgroundImage: campaign.photoUrl == ""
+                    ? NetworkImage(
+                        "https://firebasestorage.googleapis.com/v0/b/hrtaa-fund-raiser.appspot.com/o/images%2Fuser_profile.png?alt=media&token=1492c8e6-c68f-4bc3-8ff0-58fca5485d4e")
+                    : NetworkImage(campaign.photoUrl),
+              ),
+              title: Text(campaign.title),
+              trailing: const Icon(Icons.share),
               onTap: () {
                 Navigator.push(
                     context,
@@ -34,17 +62,25 @@ class CampaignDetailsPage extends StatelessWidget {
                         builder: (context) => ShareCampaignScreen()));
               },
             ),
+            SizedBox(height: 10.0),
             ListTile(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                ),
-              ),
-              leading: const Icon(Icons.check),
-              subtitle: const Text('Follow the following instructions'),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20.0),
+                  ),),
+                tileColor: Colors.grey.shade200,
+              leading: FaIcon(FontAwesomeIcons.checkCircle),
+              subtitle: Text('Complete the instructions in the checklist for better results.',
+                style: TextStyle(
+                  fontSize: 13.0,
+                ),),
               trailing: const Icon(Icons.arrow_forward_ios),
-              title: const Text('Checklist'),
+              title: Text('Your TAARN Checklist',
+                style: TextStyle(
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),),
               onTap: () {
                 // Open checklist from the bottom
                 showModalBottomSheet(
@@ -56,24 +92,29 @@ class CampaignDetailsPage extends StatelessWidget {
                         children: [
                           ListTile(
                             leading: const Icon(Icons.share),
-                            subtitle:
-                                const Text('Follow the following instructions'),
+                            title: Text(campaign.title,style: TextStyle(
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),),
                             trailing: const Icon(Icons.arrow_forward_ios),
-                            title: const Text('Share'),
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          ShareCampaignScreen()));
+                                      builder: (context) => ShareCampaignScreen()));
                             },
                           ),
                           ListTile(
-                            leading: const Icon(Icons.document_scanner),
+                            leading:FaIcon(FontAwesomeIcons.fileUpload),
                             subtitle:
-                                const Text('Follow the following instructions'),
+                                const Text('Upload the required documents for better results'),
                             trailing: const Icon(Icons.arrow_forward_ios),
-                            title: const Text('Upload Documents'),
+                            title:  Text('Upload Documents',style: TextStyle(
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),),
                             onTap: () {
                               Navigator.push(
                                   context,
@@ -85,9 +126,13 @@ class CampaignDetailsPage extends StatelessWidget {
                           ListTile(
                             leading: const Icon(Icons.photo),
                             subtitle:
-                                const Text('Follow the following instructions'),
+                                const Text('Upload the required media for better results.'),
                             trailing: const Icon(Icons.arrow_forward_ios),
-                            title: const Text('Add Media'),
+                            title:  Text('Add Media',style: TextStyle(
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),),
                             onTap: () {
                               Navigator.push(
                                   context,
@@ -99,9 +144,13 @@ class CampaignDetailsPage extends StatelessWidget {
                           ListTile(
                             leading: const Icon(Icons.update),
                             subtitle:
-                                const Text('Follow the following instructions'),
+                                const Text('Write updates for your campaign.'),
                             trailing: const Icon(Icons.arrow_forward_ios),
-                            title: const Text('Write updates'),
+                            title:  Text('Write updates',style: TextStyle(
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),),
                             onTap: () {
                               Navigator.push(
                                   context,
@@ -111,7 +160,6 @@ class CampaignDetailsPage extends StatelessWidget {
                                           )));
                             },
                           ),
-                          // Add more list items
                         ],
                       ),
                     );
@@ -119,26 +167,11 @@ class CampaignDetailsPage extends StatelessWidget {
                 );
               },
             ),
-            // Circular Progress Indicator
             Padding(
               padding: EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  Text(
-                    campaign.title,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   SizedBox(height: 10.0),
-                  Text(
-                    'Amount Raised',
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   SizedBox(height: 16.0),
                   CircularProgressIndicator(
                     value: campaign.amountRaised / campaign.amountGoal,
@@ -149,81 +182,285 @@ class CampaignDetailsPage extends StatelessWidget {
                   SizedBox(height: 10.0),
                   Text(
                     ((campaign.amountRaised / campaign.amountGoal) * 100)
-                            .toString() +
-                        " %", // Replace with actual percentage
+                            .toString().substring(0,5) +
+                        " %",
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  RichText(
+                    text: TextSpan(
+                      text:'₹ '+ campaign.amountRaised.toString(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                        color: Colors.black,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: " raised out of ",
+                          style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextSpan(
+                          text: '₹ '+ campaign.amountGoal.toString(),
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 20.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FaIcon(FontAwesomeIcons.peopleGroup),
+                      SizedBox(width: 10.0),
+                      Text("Donors : ",style: TextStyle(
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),),
+                      Text(campaign.amountDonors.toString() + ' Donors'),
+                    ],
+                  ),
                   SizedBox(height: 10.0),
-                  Text('Raised Amount: \$ ${campaign.amountRaised}'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FaIcon(FontAwesomeIcons.clock),
+                      SizedBox(width: 10.0),
+                      campaign.dateEnd.difference(DateTime.now()).inDays < 0
+                        ?Text( ' Campaign Expired '):
+                      Text(campaign.dateEnd
+                          .difference(DateTime.now())
+                          .inDays
+                          .toString() + " Days Left "
+                      ),
+
+                    ],
+                  ),
                   SizedBox(height: 10.0),
-                  Text('Goal Amount: \$ ${campaign.amountGoal}'),
-                  SizedBox(height: 10.0),
-                  Text('STORY \n' + campaign.description),
-                  SizedBox(height: 10.0),
-                  Text(campaign.amountDonors.toString() + ' Donors'),
-                  SizedBox(height: 10.0),
-                  Text(campaign.dateEnd.difference(DateTime.now()).inDays < 0
-                      ? ' Campaign Expired '
-                      : campaign.dateEnd
-                              .difference(DateTime.now())
-                              .inDays
-                              .toString() +
-                          ' Days Left'),
-                  SizedBox(height: 10.0),
-                  Text("Tip Amount Raised: " + campaign.tipAmount.toString()),
-                  SizedBox(height: 10.0),
-                  campaign.mediaImageUrls.isNotEmpty?
                   Column(
                     children: [
-                      SizedBox(height: 10.0),
-                      Text("Media Files"),
-                      SizedBox(height: 10.0),
-                      Wrap(
-                        spacing: 8.0,
-                        runSpacing: 8.0,
-                        children: campaign.mediaImageUrls.map((mediaUrl) {
-                          return Container(
-                            height: 100.0, // Set the desired height
-                            width: 100.0, // Set the desired width
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
-                              image: DecorationImage(
-                                image: NetworkImage(mediaUrl),
-                                fit: BoxFit.cover,
-                              ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      campaign.documentUrls.isEmpty
+                          ? SizedBox(
+                        height: 50,
+                        child: const Center(
+                          child: Text("No Documents Uploaded"),
+                        ),
+                      )
+                          : Column(
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Text(
+                            "Documents",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
                             ),
-                          );
-                        }).toList(),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Wrap(
+                            spacing: 8.0,
+                            runSpacing: 8.0,
+                            children: campaign.documentUrls
+                                .map((documentUrl) {
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ViewPDF(url: documentUrl),
+                                    ),
+                                  );
+                                },
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height:
+                                      130.0, // Set the desired height
+                                      width:
+                                      130.0, // Set the desired width
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(
+                                            8.0),
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                              "assets/PDF.png"),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text("View PDF"),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ],
                       ),
-                    ],
-                  ):
-                Text("No media available. Please upload."),
-                  SizedBox(height: 10.0),
-                  campaign.documentUrls.isNotEmpty?
-                  Column(
-                    children: [
-                      SizedBox(height: 10.0),
-                      Text("Document Files"),
-                      SizedBox(height: 10.0),
-                      Wrap(
-                        spacing: 8.0,
-                        runSpacing: 8.0,
-                        children: campaign.documentUrls.map((documentUrl) {
-                          // You can customize the display of documents here
-                          return TextButton(
-                            onPressed: () {
-                              // Handle document click action
-                            },
-                            child: Text("Document"),
-                          );
-                        }).toList(),
+                      campaign.mediaImageUrls.isEmpty
+                          ? SizedBox(
+                        height: 50,
+                        child: const Center(
+                          child: Text("No Images Uploaded"),
+                        ),
+                      )
+                          : Column(
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Text(
+                            "Images",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Wrap(
+                            spacing: 8.0,
+                            runSpacing: 8.0,
+                            children:campaign.mediaImageUrls
+                                .map((mediaUrl) {
+                              return Container(
+                                height:
+                                150.0, // Set the desired height
+                                width: 150.0, // Set the desired width
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.circular(8.0),
+                                  image: DecorationImage(
+                                    image: NetworkImage(mediaUrl),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ],
                       ),
+                      campaign.mediaVideoUrls.isEmpty
+                          ? SizedBox(
+                        height: 50,
+                        child: const Center(
+                          child: Text("No Videos Uploaded"),
+                        ),
+                      )
+                          : Column(
+                            children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              const Text(
+                                "Videos",
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(campaign.mediaVideoUrls.length.toString()+" Videos Uploaded"),
+                            ],
+                          ),
+                      // Column(
+                      //   children: [
+                      //     const SizedBox(
+                      //       height: 20,
+                      //     ),
+                      //     const Text(
+                      //       "Videos",
+                      //       style: TextStyle(
+                      //         fontSize: 15.0,
+                      //         fontWeight: FontWeight.bold,
+                      //         color: Colors.grey,
+                      //       ),
+                      //     ),
+                      //     SizedBox(
+                      //       height: 20,
+                      //     ),
+                      //     SizedBox(
+                      //         height: 400,
+                      //         child: ListView.builder(
+                      //           itemCount: videoControllers.length,
+                      //           itemBuilder: (context, index) {
+                      //             return Container(
+                      //               height: 200.0,
+                      //               margin: const EdgeInsets.only(
+                      //                   bottom: 10.0),
+                      //               child: Chewie(
+                      //                 controller: ChewieController(
+                      //                   videoPlayerController:
+                      //                   videoControllers[index],
+                      //                   autoPlay: false,
+                      //                   // Set to true if you want videos to auto-play
+                      //                   looping:
+                      //                   false, // Set to true if you want videos to loop
+                      //                 ),
+                      //               ),
+                      //             );
+                      //           },
+                      //         )
+                      //
+                      //       // ListView.builder(
+                      //       //   itemCount: widget.campaign.mediaVideoUrls.length,
+                      //       //   itemBuilder: (context, index) {
+                      //       //     return Padding(
+                      //       //       padding: const EdgeInsets.all(8.0),
+                      //       //       child: Card(
+                      //       //         child: Padding(
+                      //       //           padding: const EdgeInsets.all(8.0),
+                      //       //           child: Column(
+                      //       //             children: [
+                      //       //               Text(
+                      //       //                 widget.campaign
+                      //       //                     .mediaVideoUrls[index],
+                      //       //                 style: const TextStyle(
+                      //       //                   fontSize: 20.0,
+                      //       //                   fontWeight: FontWeight.bold,
+                      //       //                 ),
+                      //       //               ),
+                      //       //             ],
+                      //       //           ),
+                      //       //         ),
+                      //       //       ),
+                      //       //     );
+                      //       //   },
+                      //       // ),
+                      //     ),
+                      //   ],
+                      // ),
                     ],
-                  ):
-                Text("No documents available. Please upload."),
+                  )
                 ],
               ),
             ),

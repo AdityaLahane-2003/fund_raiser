@@ -13,6 +13,7 @@ class TextFormFieldArea extends StatelessWidget {
   final bool obscureText;
   final bool enabled;
   final void Function(String)? onChanged;
+  final int maxLines;
 
   const TextFormFieldArea({
     super.key,
@@ -27,6 +28,7 @@ class TextFormFieldArea extends StatelessWidget {
     this.obscureText=false,
     this.enabled=true,
     this.onChanged,
+    this.maxLines=1,
   });
 
   @override
@@ -64,6 +66,7 @@ class TextFormFieldArea extends StatelessWidget {
       ),
       validator: validator,
       onChanged: onChanged,
+      maxLines: maxLines,
     );
   }
 }
