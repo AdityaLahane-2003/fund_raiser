@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../utils/constants/color_code.dart';
 import '../aadhar_kyc_screen.dart';
 
 class WithdrawScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class _WithdrawScreen extends State<WithdrawScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Withdraw Money'),
-        backgroundColor: Colors.yellow[300],
+        backgroundColor: greenColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

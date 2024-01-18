@@ -67,7 +67,8 @@ class _CampaignsListState extends State<CampaignsList> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: ()  {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomeDashboard()));
+            isUserLoggedIn?
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomeDashboard())):Navigator.pop(context);
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),

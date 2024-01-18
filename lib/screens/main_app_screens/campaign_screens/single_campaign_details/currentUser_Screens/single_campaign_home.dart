@@ -28,7 +28,7 @@ class _SingleCampaignHomeScreenState extends State<SingleCampaignHomeScreen> {
       CampaignStoryScreen(campaign: widget.campaign,),
       WithdrawScreen(),
       ThankDonorsPage(campaignId: widget.campaign.id,),
-      const ShareCampaignScreen(),
+       ShareCampaignScreen(campaign: widget.campaign,),
     ];
   }
   @override
@@ -53,19 +53,19 @@ class _SingleCampaignHomeScreenState extends State<SingleCampaignHomeScreen> {
             label: 'Story',
           ),
           BottomNavigationBarItem(
-            activeIcon: Icon(Icons.monetization_on, color: Colors.yellow.shade700,),
-            backgroundColor: Colors.yellow.shade300,
+            activeIcon: Icon(Icons.monetization_on, color: secondColor,),
+            backgroundColor: greenColor,
             icon: const Icon(Icons.monetization_on),
             label: 'Withdraw',
           ),
           BottomNavigationBarItem(
-            activeIcon: Icon(Icons.favorite, color: Colors.red.shade700,),
-            backgroundColor: Colors.red.shade300,
+            activeIcon: Icon(Icons.favorite, color: secondColor,),
+            backgroundColor: greenColor,
             icon: const Icon(Icons.favorite),
             label: 'Thank Donors',
           ), BottomNavigationBarItem(
-            activeIcon: Icon(Icons.share, color: Colors.orange.shade700,),
-            backgroundColor: Colors.orange.shade300,
+            activeIcon: Icon(Icons.share, color: secondColor,),
+            backgroundColor: greenColor,
             icon: const Icon(Icons.share),
             label: 'Share Campaign',
           ),

@@ -73,28 +73,38 @@ class _SelectAndUploadmediaState extends State<SelectAndUploadmedia> {
           children: [
             GestureDetector(
               onTap: selectFile,
-              child: Container(
-                height: 100,
-                width: 100,
-                decoration: BoxDecoration(
-                  border: Border.all(
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 2,
+                      ),
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Center(
+                      child: FaIcon(
+                        widget.uploadingMedia == 'Image'
+                            ? FontAwesomeIcons.image
+                            : widget.uploadingMedia == 'Video'
+                                ? FontAwesomeIcons.video
+                                : FontAwesomeIcons.file,
+                        color: Colors.white,
+                        size: 50,
+                      ),
+                    ),
+                  ),
+                  FaIcon(
+                    FontAwesomeIcons.plusCircle,
                     color: Colors.grey,
-                    width: 2,
-                  ),
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: Center(
-                  child: FaIcon(
-                    widget.uploadingMedia == 'Image'
-                        ? FontAwesomeIcons.image
-                        : widget.uploadingMedia == 'Video'
-                            ? FontAwesomeIcons.video
-                            : FontAwesomeIcons.file,
-                    color: Colors.white,
-                    size: 50,
-                  ),
-                ),
+                    size: 30,)
+                ],
               ),
             ),
             const SizedBox(height: 10),

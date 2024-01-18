@@ -59,7 +59,7 @@ class CampaignDetailsPage extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ShareCampaignScreen()));
+                        builder: (context) => ShareCampaignScreen(campaign: campaign,)));
               },
             ),
             SizedBox(height: 10.0),
@@ -102,7 +102,7 @@ class CampaignDetailsPage extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ShareCampaignScreen()));
+                                      builder: (context) => ShareCampaignScreen(campaign: campaign)));
                             },
                           ),
                           ListTile(
