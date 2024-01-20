@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
-import 'package:fund_raiser_second/providers/fundRaiserData_Provider.dart';
 import 'package:fund_raiser_second/providers/fundraiser_data_provider.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +37,6 @@ class _Step1State extends State<Step1> {
   final TextEditingController amountController = TextEditingController();
 
   DateTime? selectedDate;
-  FundraiserData fundraiserData = FundraiserData();
   late FundraiserDataProvider fundraiserDataProvider;
 
   final _formKey = GlobalKey<FormState>();
@@ -232,6 +230,7 @@ class _Step1State extends State<Step1> {
                 const SizedBox(height: 16),
                Button(
                   onTap: () {
+                    // print(selectedCategory+"\n"+selectedStatus);
                     if (_formKey.currentState?.validate() ?? false) {
                       fundRaiserData.updateFundraiserDataStep1(
                           nameController.text,
@@ -239,16 +238,16 @@ class _Step1State extends State<Step1> {
                           selectedCategory,
                           selectedStatus,);
                       widget.onNameEmailEntered(
-                        nameController.text,
-                        emailController.text,
-                        int.parse(amountController.text),
+                        nameController.text.trim(),
+                        emailController.text.trim(),
+                        int.parse(amountController.text.trim()),
                         selectedDate ?? DateTime.now().add(const Duration(days: 30)),
                       );
                       widget.onNext();
                     }
                   },
                   title: 'Next',
-                  color: greenColor,
+                  color: secondColor,
                 ),
               ],
             );

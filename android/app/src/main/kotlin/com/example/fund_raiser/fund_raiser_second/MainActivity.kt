@@ -1,4 +1,4 @@
-package com.example.fund_raiser.fund_raiser_second
+package com.taarn.fund_raiser
 
 import io.flutter.embedding.android.FlutterActivity
 

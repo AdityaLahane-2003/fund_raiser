@@ -90,7 +90,7 @@ class LittleCampaignCard extends StatelessWidget {
                   margin: const EdgeInsets.all(5.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.blue.withOpacity(0.5),
+                      color: secondColor.withOpacity(0.5),
                     ),
                     child: Text(" $daysLeft Days Left",
                       style: TextStyle(color: Colors.white,fontSize: 12),)
@@ -117,14 +117,13 @@ class LittleCampaignCard extends StatelessWidget {
                   Text(campaign.status.characters.length > 32?campaign.status.substring(0, 32) + ' ...'
                     : campaign.status,
                       style: TextStyle(
-                          color: greenColor,
-                          fontWeight: FontWeight.bold,
+                          color: Colors.blueGrey,
                           fontSize: 12)),
                   Text(
                       '${campaign.amountGoal - campaign.amountRaised}' +
                           ' ₹ more to go',
                       style: TextStyle(
-                          color: Colors.blue.shade700,
+                          color: secondColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 12)),
                 ],
@@ -203,7 +202,7 @@ class LittleCampaignCard extends StatelessWidget {
                         );
                       },
                       title: 'Donate Now',
-                      color: greenColor,
+                      color: secondColor,
                     ),
                 ],
               ),

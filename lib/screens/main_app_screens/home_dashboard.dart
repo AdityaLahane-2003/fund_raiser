@@ -158,9 +158,9 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                   minRadius: 20,
                                   maxRadius: 30,
                                   backgroundImage: userData.isNotEmpty
-                                      ? NetworkImage(userData['imageUrl'])
+                                      ? NetworkImage(userData['imageUrl']!=''?userData['imageUrl']:"https://firebasestorage.googleapis.com/v0/b/taarn-690cb.appspot.com/o/images%2Fuser_profile.png?alt=media&token=90feb39f-ef85-468b-9089-d8cf1f10d757")
                                       : const NetworkImage(
-                                          'https://firebasestorage.googleapis.com/v0/b/hrtaa-fund-raiser.appspot.com/o/images%2Fuser_profile.png?alt=media&token=1492c8e6-c68f-4bc3-8ff0-58fca5485d4e'),
+                                          'https://firebasestorage.googleapis.com/v0/b/taarn-690cb.appspot.com/o/images%2Fuser_profile.png?alt=media&token=90feb39f-ef85-468b-9089-d8cf1f10d757'),
                                 ),
                                 const SizedBox(width: 8),
                                 Column(
@@ -292,18 +292,18 @@ class _HomeDashboardState extends State<HomeDashboard> {
                 height: 2, // You can adjust the height of the divider
                 color: Colors.grey, // You can set the color of the divider
               ),
-              ListTile(
-                leading: const Icon(Icons.lan_outlined),
-                title: const Text('Language'),
-                // Add functionality for donating
-                onTap: () {
-                  // Add your logic for donating
-                },
-              ),
-              const Divider(
-                height: 2, // You can adjust the height of the divider
-                color: Colors.grey, // You can set the color of the divider
-              ),
+              // ListTile(
+              //   leading: const Icon(Icons.lan_outlined),
+              //   title: const Text('Language'),
+              //   // Add functionality for donating
+              //   onTap: () {
+              //     // Add your logic for donating
+              //   },
+              // ),
+              // const Divider(
+              //   height: 2, // You can adjust the height of the divider
+              //   color: Colors.grey, // You can set the color of the divider
+              // ),
               ListTile(
                 leading: const Image(
                     image: AssetImage('assets/logo.png'), height: 24),
@@ -320,21 +320,21 @@ class _HomeDashboardState extends State<HomeDashboard> {
                 height: 2, // You can adjust the height of the divider
                 color: Colors.grey, // You can set the color of the divider
               ),
-              ListTile(
-                leading: const Icon(Icons.help_outline_outlined),
-                title: const Text('Help'),
-                // Add functionality for help
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HelpScreen()));
-                },
-              ),
-              const Divider(
-                height: 2, // You can adjust the height of the divider
-                color: Colors.grey, // You can set the color of the divider
-              ),
+              // ListTile(
+              //   leading: const Icon(Icons.help_outline_outlined),
+              //   title: const Text('Help'),
+              //   // Add functionality for help
+              //   onTap: () {
+              //     Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //             builder: (context) => const HelpScreen()));
+              //   },
+              // ),
+              // const Divider(
+              //   height: 2, // You can adjust the height of the divider
+              //   color: Colors.grey, // You can set the color of the divider
+              // ),
               ListTile(
                 leading: const Icon(Icons.logout_outlined),
                 title: const Text('Logout'),
@@ -396,7 +396,6 @@ class _HomeDashboardState extends State<HomeDashboard> {
                               color: secondColor,
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'Curved',
                             ),
                           ),
                         )
@@ -407,17 +406,27 @@ class _HomeDashboardState extends State<HomeDashboard> {
                             color: secondColor,
                             fontStyle: FontStyle.italic,
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'Curved',
                           ),
                         ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Let's make a change together !!",
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: secondColor,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ),
                   // Toggle button
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('Select:'),
-                        const SizedBox(width: 10),
+                        // const Text('Select:'),
+                        // const SizedBox(width: 10),
                         ToggleButtons(
                           constraints: const BoxConstraints(
                             minWidth: 100,

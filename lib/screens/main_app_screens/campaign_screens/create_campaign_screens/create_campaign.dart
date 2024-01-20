@@ -5,11 +5,13 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/cre
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/create_campaign_screens/step4.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
 import '../../../../firebase_services/campaign_services/campaign_services.dart';
 import '../../../../firebase_services/notification_services/notification_service.dart';
 import '../../../../providers/fundRaiserData_Provider.dart';
+import '../../../../providers/fundraiser_data_provider.dart';
 
 class CampaignCreation extends StatefulWidget {
   final CampaignService campaignService;
@@ -96,8 +98,12 @@ class _CampaignCreationState extends State<CampaignCreation> {
                 ],
               ),
             ),
-            Expanded(
-              child: _buildStep(currentStep),
+            Consumer<FundraiserDataProvider>(
+              builder: ( context, provider, child) {
+                return Expanded(
+                  child: _buildStep(currentStep, provider.fundraiserData),
+                );
+              },
             ),
           ],
         ),
@@ -105,15 +111,15 @@ class _CampaignCreationState extends State<CampaignCreation> {
     );
   }
 
-  Widget _buildStep(int step) {
+  Widget _buildStep(int step,FundraiserData campaignData) {
     switch (step) {
       case 1:
         return Step1(
-          onStatusSelected: (status){
-            fundraiserData.status=status;
-          },
           onCategorySelected: (category) {
             fundraiserData.category = category;
+          },
+          onStatusSelected: (status){
+            fundraiserData.status=status;
           },
           onNameEmailEntered: (name, email, amount, endDate) {
             fundraiserData.name = name;
@@ -174,7 +180,11 @@ class _CampaignCreationState extends State<CampaignCreation> {
             fundraiserData.title = title;
           },
           onRaiseFundPressed: () async {
-            await widget.campaignService.createCampaign(fundraiserData);
+            // print(fundraiserData.category+ "\n"+
+            //     fundraiserData.status+ "\n");
+            // print(campaignData.category+ "\n"+
+            //     campaignData.status+ "\n");
+            await widget.campaignService.createCampaign(campaignData);
             notificationServices.sendPushMessage(mToken.toString(), fundraiserData.title, "Campaign Created Successfully !");
             showDialog(
               context: context,
@@ -185,7 +195,7 @@ class _CampaignCreationState extends State<CampaignCreation> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Image(
-                        image: AssetImage('assets/img3.jpg'),
+                        image: NetworkImage("https://firebasestorage.googleapis.com/v0/b/taarn-690cb.appspot.com/o/images%2FCampaign_Create_Successful_Image.jpeg-removebg-preview.png?alt=media&token=a334b8fa-8e2a-4b4a-bff3-6140db1eaf3f"),
                       ),
                       Text(
                           "Congrats! Your campaign has been created. You can view it in the campaigns tab."),
@@ -210,11 +220,15 @@ class _CampaignCreationState extends State<CampaignCreation> {
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                        backgroundColor: greenColor,
+                        backgroundColor: secondColor,
                       ),
                       onPressed: () async {
                         Share.share(
-                          'Donate now and support the cause!',
+                          'Check out this fundraising campaign: ${fundraiserData.title}\n\n'
+                              'Amount Raised: ${fundraiserData.amountRaised} ₹\n'
+                              'Goal Amount: ${fundraiserData.amountGoal} ₹\n'
+                              'To donate, follow the link:https://adityalahane-2003.github.io/PrivacyPolicy_TAARN/ \n\n'
+                              'Donate now and support the cause!',
                         );
                         Navigator.push(
                           context,

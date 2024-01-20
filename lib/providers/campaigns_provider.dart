@@ -9,14 +9,17 @@ class CampaignProvider extends ChangeNotifier {
   late List<Campaign> new_campaigns = [];
   late List<Campaign> _searchResults = [];
   List<Campaign>? _filteredCampaigns;
+
   List<Campaign>? get filteredCampaigns => _filteredCampaigns;
+
   List<Campaign> get searchResults => _searchResults;
 
   Future<void> loadCampaigns() async {
-    final campaignsCollection = FirebaseFirestore.instance.collection(
-        'campaigns');
-    final snapshot = await campaignsCollection.orderBy('dateCreated',descending: true).get();
-
+    final campaignsCollection =
+        FirebaseFirestore.instance.collection('campaigns');
+    final snapshot = await campaignsCollection
+        .orderBy('dateCreated', descending: true)
+        .get();
 
     campaigns = snapshot.docs.map((doc) {
       return Campaign(
@@ -82,7 +85,9 @@ class CampaignProvider extends ChangeNotifier {
         donations: List<String>.from(doc['donations']),
       );
     }).toList();
-    new_campaigns=new_campaigns.where((campaign) => campaign.dateEnd.isAfter(DateTime.now())).toList();
+    new_campaigns = new_campaigns
+        .where((campaign) => campaign.dateEnd.isAfter(DateTime.now()))
+        .toList();
 
     ending_campaigns = snapshot.docs.map((doc) {
       return Campaign(
@@ -116,62 +121,50 @@ class CampaignProvider extends ChangeNotifier {
         donations: List<String>.from(doc['donations']),
       );
     }).toList();
-    filteredEndingCampaigns = ending_campaigns.where((campaign) => campaign.dateEnd.isAfter(DateTime.now())).toList();
-    filteredEndingCampaigns.sort((a, b) => a.dateEnd.difference(DateTime.now()).inDays.compareTo(b.dateEnd.difference(DateTime.now()).inDays));
+    filteredEndingCampaigns = ending_campaigns
+        .where((campaign) => campaign.dateEnd.isAfter(DateTime.now()))
+        .toList();
+    filteredEndingCampaigns.sort((a, b) => a.dateEnd
+        .difference(DateTime.now())
+        .inDays
+        .compareTo(b.dateEnd.difference(DateTime.now()).inDays));
     filteredEndingCampaigns = filteredEndingCampaigns.take(5).toList();
-
 
     notifyListeners();
   }
 
-  // Filter campaigns by category
-  List<Campaign> filterByCategory(String category) {
-    return campaigns.where((campaign) => campaign.category == category)
-        .toList();
-  }
-
-  // Filter campaigns by relation
-  List<Campaign> filterByRelation(String relation) {
-    return campaigns.where((campaign) => campaign.relation == relation)
-        .toList();
-  }
-
-  // Filter campaigns by status
-  List<Campaign> filterByStatus(String status) {
-    return campaigns.where((campaign) => campaign.status == status).toList();
-  }
   void applyFilters(String category, String relation, String status) {
     _filteredCampaigns = campaigns;
 
     // Apply filters based on category, relation, and status
     if (category.isNotEmpty) {
       _filteredCampaigns = _filteredCampaigns
-          ?.where((campaign) => campaign.category.toLowerCase() == category.toLowerCase())
-          .toList();
+          ?.where((campaign) =>
+              campaign.category.toLowerCase() == category.toLowerCase()).toList();
     }
 
     if (relation.isNotEmpty) {
       _filteredCampaigns = _filteredCampaigns
-          ?.where((campaign) => campaign.relation.toLowerCase() == relation.toLowerCase())
-          .toList();
+          ?.where((campaign) =>
+              campaign.relation.toLowerCase() == relation.toLowerCase()).toList();
     }
 
     if (status.isNotEmpty) {
       _filteredCampaigns = _filteredCampaigns
-          ?.where((campaign) => campaign.status.toLowerCase() == status.toLowerCase())
-          .toList();
+          ?.where((campaign) =>
+              campaign.status.toLowerCase() == status.toLowerCase()).toList();
     }
 
     notifyListeners();
   }
+
   // Search campaigns by query
   void searchCampaigns(String query) {
     _searchResults = campaigns
         .where((campaign) =>
-    campaign.name.toLowerCase().contains(query.toLowerCase()) ||
-        campaign.title.toLowerCase().contains(query.toLowerCase()) ||
-        // Add more fields to search if needed
-        campaign.description.toLowerCase().contains(query.toLowerCase()))
+            campaign.name.toLowerCase().contains(query.toLowerCase()) ||
+            campaign.title.toLowerCase().contains(query.toLowerCase()) ||
+            campaign.description.toLowerCase().contains(query.toLowerCase()))
         .toList();
 
     notifyListeners();

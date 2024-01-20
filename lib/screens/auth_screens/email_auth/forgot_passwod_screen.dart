@@ -51,7 +51,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             const SizedBox(height: 40,),
             Button(
                 title: '   Get Email   ',
-                color: Colors.blue.shade700,
+                color: secondColor,
                 onTap: (){
                   if(emailController.text.toString().isEmpty){
                     Utils().toastMessage('Enter email');

@@ -2,12 +2,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fund_raiser_second/components/loading.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/donate_screen.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/terms_and_conditions_screen.dart';
 import 'package:share/share.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import '../../../../../components/button.dart';
 import '../../../../../firebase_services/campaign_services/load_donations.dart';
@@ -676,11 +674,8 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                                       a['updateDate']));
                                               DocumentSnapshot update =
                                                   snapshot.data![index];
-                                              String daysAgo =
-                                                  update['updateDate']
-                                                      .toDate()
-                                                      .difference(
-                                                          DateTime.now())
+                                              String daysAgo =DateTime.now().difference(
+                                                  update['updateDate'].toDate())
                                                       .inDays
                                                       .toString();
                                               return Padding(

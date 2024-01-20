@@ -203,7 +203,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                 ),
                 widget.comingFrom=='signup'?Button(
                   title: '   SignUp With Email   ',
-                  color: Colors.blue.shade700,
+                  color: secondColor,
                   onTap: () {
                     Navigator.push(
                         context,
@@ -211,7 +211,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                             builder: (context) => const SignUpScreen()));
                   },):Button(
                   title: '   Login With Email   ',
-                  color: Colors.blue.shade700,
+                  color: secondColor,
                   onTap: () {
                     Navigator.push(
                         context,

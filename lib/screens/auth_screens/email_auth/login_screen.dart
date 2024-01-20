@@ -167,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               builder: (context) =>
                                   const ForgotPasswordScreen()));
                     },
-                    child: Text('Forgot Password?',style: TextStyle(color: Colors.blue.shade700),)),
+                    child: Text('Forgot Password?',style: TextStyle(color: secondColor),)),
               ),
               // const SizedBox(height: 10,),
               Row(
@@ -189,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Button(
                   title: 'Login with phone',
-                  color: Colors.blue.shade700,
+                  color: secondColor,
                   onTap: () {
                     Navigator.push(
                         context,

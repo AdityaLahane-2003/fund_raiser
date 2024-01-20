@@ -176,7 +176,7 @@ class _Step4State extends State<Step4> {
                           widget.onPrevious();
                         },
                         title: 'Previous',
-                        color: Colors.blue.shade700,
+                        color: greenColor,
                       ),
                       Button(
                         loading: loading,
@@ -196,7 +196,7 @@ class _Step4State extends State<Step4> {
                           }
                         },
                         title: 'Raise Fund',
-                        color: greenColor,
+                        color: secondColor,
                       ),
                     ],
                   ),

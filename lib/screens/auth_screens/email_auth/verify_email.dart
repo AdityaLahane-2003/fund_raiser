@@ -72,7 +72,7 @@ late Timer timer;
               backgroundColor: Colors.transparent,
             ),
             const SizedBox(height: 10,),
-             Loading(size: 90, color: Colors.lightGreen.shade700,),
+             Loading(size: 90, color: secondColor),
             const SizedBox(height: 20,),
             const Text("Verification link sent to your email ID"),
             const Text(" Please Verify Email!"),

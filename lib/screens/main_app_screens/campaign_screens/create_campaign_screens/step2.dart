@@ -256,7 +256,7 @@ bool loading = false;
                           widget.onPrevious();
                         },
                         title: 'Previous',
-                        color: Colors.blue.shade700,
+                        color: greenColor,
                       ),
                       Button(
                         onTap: () {
@@ -278,7 +278,7 @@ bool loading = false;
                           }
                         },
                         title: 'Next',
-                        color: greenColor,
+                        color: secondColor,
                       ),
                     ],
                   ),

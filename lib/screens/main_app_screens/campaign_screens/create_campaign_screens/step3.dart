@@ -82,7 +82,7 @@ class Step3 extends StatelessWidget {
                           onPrevious();
                         },
                         title: 'Previous',
-                        color: Colors.blue.shade700,
+                        color: greenColor,
                       ), Button(
                         onTap: () {
                           if (_formKey.currentState?.validate() ?? false) {
@@ -91,7 +91,7 @@ class Step3 extends StatelessWidget {
                           }
                         },
                         title: 'Next',
-                        color: greenColor,
+                        color: secondColor,
                       ),
                     ],
                   ),

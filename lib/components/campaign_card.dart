@@ -72,7 +72,6 @@ class CampaignCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Displaying cover photo using URL
             Stack(
               alignment: Alignment.bottomLeft,
               children: [
@@ -103,8 +102,7 @@ class CampaignCard extends StatelessWidget {
                 // ),
               ],
             ),
-            const SizedBox(height: 8.0),
-            // Title of the campaign
+            // const SizedBox(height: 8.0),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -128,14 +126,10 @@ class CampaignCard extends StatelessWidget {
                         onPressed: () {
                           Share.share(
                             'Check out this fundraising campaign: ${campaign.title}\n\n'
-                            'Amount Raised: ${campaign.amountRaised} ₹\n'
-                            'Goal Amount: ${campaign.amountGoal} ₹\n'
-                            'Start Date: ${campaign.dateCreated.day}/${campaign.dateCreated.month}/${campaign.dateCreated.year}\n'
-                            'End Date: ${campaign.dateEnd.day}/${campaign.dateEnd.month}/${campaign.dateEnd.year}\n'
-                            'Number of Donors: ${campaign.amountDonors}\n'
-                            'Place: ${campaign.schoolOrHospital}\n'
-                            'Location: ${campaign.location}\n\n'
-                            'Donate now and support the cause!',
+                                'Amount Raised: ${campaign.amountRaised} ₹\n'
+                                'Goal Amount: ${campaign.amountGoal} ₹\n'
+                                'To donate, follow the link:https://adityalahane-2003.github.io/PrivacyPolicy_TAARN/ \n\n'
+                                'Donate now and support the cause!',
                           );
                         },
                       ),
@@ -148,7 +142,7 @@ class CampaignCard extends StatelessWidget {
                           fontSize: 14)),
                   Text(
                       '${campaign.amountGoal - campaign.amountRaised}' +
-                          ' ₹ more to go',
+                          ' ₹ more to go to reach ${campaign.amountGoal} ₹',
                       style: TextStyle(
                           color: Colors.blue.shade700,
                           fontWeight: FontWeight.bold,
@@ -170,17 +164,32 @@ class CampaignCard extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    const Text(
-                      'Amount Raised:',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      ' ${campaign.amountRaised} ₹ / ${campaign.amountGoal} ₹',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    // const Text(
+                    //   'Amount Raised:',
+                    //   style: TextStyle(
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
+                    // Text(
+                    //   ' ${campaign.amountRaised} ₹ / ${campaign.amountGoal} ₹',
+                    //   style: const TextStyle(
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.watch_later,
+                          size: 17.0,
+                          color:int.parse(daysLeft)<30? Colors.red:Colors.green,
+                        ),
+                        SizedBox(width: 5.0,),
+                        Text("$daysLeft Days Left",
+                            style: TextStyle(
+                              color:int.parse(daysLeft)<30? Colors.red:Colors.green,
+                              fontWeight: FontWeight.bold,
+                            )),
+                      ],
                     ),
                     const SizedBox(height: 8.0),
                     Row(
@@ -210,36 +219,20 @@ class CampaignCard extends StatelessWidget {
                               ? 'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg'
                               : campaign.photoUrl,
                         )),
-                    Text(campaign.name),
-                    const SizedBox(height: 8.0),
-                    Text("$daysLeft Days Left",
-                        style: TextStyle(
-                          color:int.parse(daysLeft)<30? Colors.red:Colors.green,
-                          fontWeight: FontWeight.bold,
-                        )),
+                    Text(campaign.name,style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),),
+                    // const SizedBox(height: 8.0),
+                    // Text("$daysLeft Days Left",
+                    //     style: TextStyle(
+                    //       color:int.parse(daysLeft)<30? Colors.red:Colors.green,
+                    //       fontWeight: FontWeight.bold,
+                    //     )),
                   ],
                 ),
               ],
             ),
-            const SizedBox(
-              height: 8,
-            ),
-            // Row(
-            //   children: [
-            //     Text('     Status: $status'),
-            //     const SizedBox(
-            //       width: 3,
-            //     ),
-            //     status == 'Active'
-            //         ? Icon(Icons.circle, size: 15.0, color: greenColor)
-            //         : status == 'Expired'
-            //             ? const Icon(Icons.circle,
-            //                 size: 15.0, color: Colors.red)
-            //             : const Icon(Icons.circle,
-            //                 size: 15.0, color: Colors.yellow),
-            //   ],
-            // ),
-            const SizedBox(height: 3.0),
+            const SizedBox(height: 10.0),
             ReadMoreText(
               '     Story:\n          ${campaign.description}',
               trimLines: 2,
@@ -260,30 +253,10 @@ class CampaignCard extends StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.question_mark),
                       onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                            title: const Text('Help'),
-                            content: const Text('This is the help section'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('Close'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HelpScreen()));
-                                },
-                                child: const Text('FAQs'),
-                              ),
-                            ],
-                          ),
-                        );
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HelpScreen()));
                       },
                     ),
                     IconButton(
@@ -295,10 +268,10 @@ class CampaignCard extends StatelessWidget {
                                 builder: (context) => OurSuggestionsPage()));
                       },
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: onUpdatePressed,
-                    ),
+                    // IconButton(
+                    //   icon: const Icon(Icons.edit),
+                    //   onPressed: onUpdatePressed,
+                    // ),
                     IconButton(
                       icon: const Icon(
                         Icons.delete,
@@ -346,7 +319,7 @@ class CampaignCard extends StatelessWidget {
                               );
                             },
                             title: 'Donate Now',
-                            color: greenColor,
+                            color: secondColor,
                           ),
                   ],
                 ),

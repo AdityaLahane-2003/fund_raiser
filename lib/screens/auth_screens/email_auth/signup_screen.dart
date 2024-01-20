@@ -165,7 +165,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 Button(
                   title: '   SignUp With Phone   ',
-                  color: Colors.blue.shade700,
+                  color: secondColor,
                   onTap: () {
                   Navigator.push(
                       context,

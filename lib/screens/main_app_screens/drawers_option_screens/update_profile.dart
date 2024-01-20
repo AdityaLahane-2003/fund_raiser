@@ -116,7 +116,7 @@ bool loading = false;
                   Navigator.pop(context); // Pop this page to go back to UserInfoPage
                 },
                 title: 'Update Info',
-                color: greenColor,
+                color: secondColor,
               ),
             ],
           ),

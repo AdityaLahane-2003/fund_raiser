@@ -44,6 +44,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+Color iconColor = isEmailVerified ? Colors.green : Colors.grey;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: greenColor,
@@ -93,131 +96,201 @@ class _UserInfoPageState extends State<UserInfoPage> {
                               fontSize: 12,
                             ),
                           ))),
-                  ListTile(
-                      leading: const Icon(Icons.person),
-                      title: Text('Name: ${userData['name']}')),
-                  ListTile(
-                      leading: const Icon(Icons.email_outlined),
-                      title: userData['email'] != ""
-                          ? Text('Email: ${userData['email']}')
-                          : const Text('Email: Not provided'),
-                      subtitle: FirebaseAuth.instance.currentUser!.emailVerified
-                          ? const SizedBox(
-                              height: 0,
-                            )
-                          : Text(
-                              "Your email is not verified, please verify your email.",
-                              style: TextStyle(color: Colors.red.shade200)),
-                      trailing: FirebaseAuth.instance.currentUser!.emailVerified
-                          ? const Icon(Icons.verified_outlined,
-                              color: Colors.green)
-                          : TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const VerifyEmail(
-                                      isSignUp: false,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: const Text(
-                                "Verify",
-                                style: TextStyle(color: Colors.red),
-                              ))),
-                  ListTile(
-                    leading: const Icon(Icons.phone),
-                    title: Text('Phone: ${userData['phone']}'),
+                  // ListTile(
+                  //     leading: const Icon(Icons.person),
+                  //     title: Text('Name: ${userData['name']}')),
+                  TextFormField(
+                    enabled: false,
+                    style: const TextStyle(color: Colors.black),
+                    initialValue: userData['name'],
+                    decoration: const InputDecoration(
+                      labelText: 'Name',
+                      prefixIcon: Icon(Icons.person),
+                    ),
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.abc_outlined),
-                    title: Text('Bio: ${userData['bio']}'),
+                  TextFormField(
+                    enabled: false,
+                    style: const TextStyle(color: Colors.black),
+                    initialValue: userData['email'],
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      prefixIcon: Icon(Icons.email_outlined),
+                      suffixIcon: Icon(Icons.verified_outlined,
+                          color: iconColor),
+                    ),
                   ),
+                  Visibility(
+                    visible: !isEmailVerified,
+                    child: Row(
+                      children: [
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left:12.0),
+                            child: Text(
+                                "Your email is not verified, please verify your email.",
+                                style: TextStyle(color: Colors.red.shade200)),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const VerifyEmail(
+                                  isSignUp: false,
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "Verify",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  TextFormField(
+                    enabled: false,
+                    style: const TextStyle(color: Colors.black),
+                    initialValue: userData['phone'],
+                    decoration: const InputDecoration(
+                      labelText: 'Phone',
+                      prefixIcon: Icon(Icons.phone),
+                    ),
+                  ),
+                  TextFormField(
+                    enabled: false,
+                    style: const TextStyle(color: Colors.black),
+                    initialValue: userData['bio'],
+                    decoration: const InputDecoration(
+                      labelText: 'Bio',
+                      prefixIcon: Icon(Icons.abc_outlined),
+                    ),
+                    maxLines: 3,
+                  ),
+                  // ListTile(
+                  //     leading: const Icon(Icons.email_outlined),
+                  //     title: userData['email'] != ""
+                  //         ? Text('Email: ${userData['email']}')
+                  //         : const Text('Email: Not provided'),
+                  //     subtitle: FirebaseAuth.instance.currentUser!.emailVerified
+                  //         ? const SizedBox(
+                  //             height: 0,
+                  //           )
+                  //         : Text(
+                  //             "Your email is not verified, please verify your email.",
+                  //             style: TextStyle(color: Colors.red.shade200)),
+                  //     trailing: FirebaseAuth.instance.currentUser!.emailVerified
+                  //         ? const Icon(Icons.verified_outlined,
+                  //             color: Colors.green)
+                  //         : TextButton(
+                  //             onPressed: () {
+                  //               Navigator.push(
+                  //                 context,
+                  //                 MaterialPageRoute(
+                  //                   builder: (context) => const VerifyEmail(
+                  //                     isSignUp: false,
+                  //                   ),
+                  //                 ),
+                  //               );
+                  //             },
+                  //             child: const Text(
+                  //               "Verify",
+                  //               style: TextStyle(color: Colors.red),
+                  //             ))),
+                  // ListTile(
+                  //   leading: const Icon(Icons.phone),
+                  //   title: Text('Phone: ${userData['phone']}'),
+                  // ),
+                  // ListTile(
+                  //   leading: const Icon(Icons.abc_outlined),
+                  //   title: Text('Bio: ${userData['bio']}'),
+                  // ),
                   const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Button(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => UpdateUserInfoPage(
-                                  userId: widget.userId,
-                                  currentName: userData['name'],
-                                  currentEmail: userData['email'],
-                                  currentPhone: userData['phone'],
-                                  currentAge: userData['age']?.toString(),
-                                  currentBio: userData['bio'],
-                                ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UpdateUserInfoPage(
+                                userId: widget.userId,
+                                currentName: userData['name'],
+                                currentEmail: userData['email'],
+                                currentPhone: userData['phone'],
+                                currentAge: userData['age']?.toString(),
+                                currentBio: userData['bio'],
                               ),
-                            ).then((_) {
-                              // Refresh user data after returning from the update page
-                              loadUserInfo();
-                            });
-                          },
-                         title: 'Update Info',
-                        color: greenColor,
-                        ),
+                            ),
+                          ).then((_) {
+                            // Refresh user data after returning from the update page
+                            loadUserInfo();
+                          });
+                        },
+                        title: 'Update Info',
+                        color: secondColor,
+                      ),
                       Button(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: const Text("Delete Account !!!"),
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Image.asset(
-                                        'assets/logo.png',
-                                        // Replace with your image asset
-                                        height: 100,
-                                      ),
-                                      const SizedBox(height: 10),
-                                      const Text(
-                                        "Are you sure you want to delete your account? This action is irreversible.",
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                    ],
-                                  ),
-                                  alignment: Alignment.center,
-                                  actionsAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  actions: [
-                                    TextButton(
-                                      style: TextButton.styleFrom(
-                                        backgroundColor: Colors.grey[400],
-                                      ),
-                                      onPressed: () {
-                                        Navigator.pop(
-                                            context); // Close the dialog
-                                      },
-                                      child: const Text(
-                                        "Cancel",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text("Delete Account !!!"),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Image.asset(
+                                      'assets/logo.png',
+                                      // Replace with your image asset
+                                      height: 100,
                                     ),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        // Call a function to delete the account and data
-                                        await deleteUserServices
-                                            .deleteAccountAndData(context);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.red),
-                                      child: const Text("Delete",
-                                          style:
-                                              TextStyle(color: Colors.white)),
+                                    const SizedBox(height: 10),
+                                    const Text(
+                                      "Are you sure you want to delete your account? This action is irreversible.",
+                                      style: TextStyle(fontSize: 16),
                                     ),
                                   ],
-                                );
-                              },
-                            );
-                          },
-                          title: 'Delete Account',
-                      color: Colors.red.shade500,)
+                                ),
+                                alignment: Alignment.center,
+                                actionsAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                actions: [
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: Colors.grey[400],
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(
+                                          context); // Close the dialog
+                                    },
+                                    child: const Text(
+                                      "Cancel",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      // Call a function to delete the account and data
+                                      await deleteUserServices
+                                          .deleteAccountAndData(context);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.red),
+                                    child: const Text("Delete",
+                                        style: TextStyle(color: Colors.white)),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        title: 'Delete Account',
+                        color: Colors.red.shade500,
+                      )
                     ],
                   ),
                 ],

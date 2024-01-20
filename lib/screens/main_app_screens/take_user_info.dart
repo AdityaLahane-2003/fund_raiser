@@ -201,7 +201,7 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                   }
                 },
                 title: 'Save My Data',
-                color: greenColor,
+                color: secondColor,
               ),
             ],
           ),

@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "289212149010",
-    "project_id": "hrtaa-fund-raiser",
-    "storage_bucket": "hrtaa-fund-raiser.appspot.com"
+    "project_number": "740156796014",
+    "project_id": "taarn-690cb",
+    "storage_bucket": "taarn-690cb.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:289212149010:android:3e9bc2e0ea811f51f7d7cb",
+        "mobilesdk_app_id": "1:740156796014:android:ccb38c4eccd1083c8a8a7f",
         "android_client_info": {
-          "package_name": "com.example.fund_raiser.fund_raiser_second"
+          "package_name": "com.taarn.fund_raiser"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB9iGCEiPLakvBeagYP1InNznyLapncJM0"
+          "current_key": "AIzaSyAc_BwzAK5aDdsuacUkjsqM7nC_JtwTjfc"
         }
       ],
       "services": {

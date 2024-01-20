@@ -7,30 +7,33 @@ class IntroPage3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      child: Stack(
-        alignment: Alignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Positioned(
-            top: 20,
-            child: Image.asset(
-              "assets/logo.png",
-              height: 100,
-              width: 100,
-            ),
-          ),  Positioned(
-            top: 150,
-            child: Image.asset(
-              "assets/img1.png",
-              height: 200,
-              width: 200,
+          SizedBox(height: 20,),
+          Image.asset(
+            "assets/logo.png",
+            height: 100,
+            width: 100,
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height/20,),
+          Container(
+            height: 200,
+            width: 200,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(
+                image: NetworkImage(
+                "https://firebasestorage.googleapis.com/v0/b/taarn-690cb.appspot.com/o/images%2FIntro_screen_image_three.jpeg-removebg-preview.png?alt=media&token=1682c6d5-4f00-46ac-81dd-6639d528401a" ),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-          const Positioned(
-            top: 370,
-            left: 3,
-            right: 3,
-            child: Text(
-              "We help you to raise funds for your projects and any more text can be added here to make it look good",
+          SizedBox(height: MediaQuery.of(context).size.height/20,),
+          Align(
+            alignment: Alignment.center,
+            child:  Text(
+              "Quick Fund \n Withdrawl ! ",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 15,
