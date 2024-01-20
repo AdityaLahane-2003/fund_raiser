@@ -42,7 +42,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      persistentFooterButtons: [
+      persistentFooterButtons: const [
         Footer()
       ],
       appBar: AppBar(

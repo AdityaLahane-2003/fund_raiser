@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fund_raiser_second/components/button.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
-import 'package:video_player/video_player.dart';
 
 import '../firebase_services/Image_services/upload_image_to_storage.dart';
 import '../utils/utils_toast.dart';
@@ -32,16 +31,10 @@ class SelectAndUploadmedia extends StatefulWidget {
 class _SelectAndUploadmediaState extends State<SelectAndUploadmedia> {
   List<PlatformFile>? _pickedFiles;
   bool isuploadingStarted = false;
-  late VideoPlayerController _controller;
 
   @override
   void initState() {
     // TODO: implement initState
-    _controller = VideoPlayerController.network(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4')
-      ..initialize().then((_) {
-        setState(() {});
-      });
     super.initState();
   }
 
@@ -62,9 +55,9 @@ class _SelectAndUploadmediaState extends State<SelectAndUploadmedia> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Text("Upload ${widget.uploadingMedia}",
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             )),
@@ -77,7 +70,7 @@ class _SelectAndUploadmediaState extends State<SelectAndUploadmedia> {
                 alignment: Alignment.bottomCenter,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(bottom: 10),
+                    margin: const EdgeInsets.only(bottom: 10),
                     height: 100,
                     width: 100,
                     decoration: BoxDecoration(
@@ -100,7 +93,7 @@ class _SelectAndUploadmediaState extends State<SelectAndUploadmedia> {
                       ),
                     ),
                   ),
-                  FaIcon(
+                  const FaIcon(
                     FontAwesomeIcons.plusCircle,
                     color: Colors.grey,
                     size: 30,)
@@ -128,7 +121,7 @@ class _SelectAndUploadmediaState extends State<SelectAndUploadmedia> {
                       ? Container(
                     height: 100.0,
                     width: 100.0,
-                    margin: EdgeInsets.all(8.0),
+                    margin: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       image: DecorationImage(
@@ -141,7 +134,7 @@ class _SelectAndUploadmediaState extends State<SelectAndUploadmedia> {
                           ? Container(
                             height: 100.0,
                             width: 100.0,
-                            margin: EdgeInsets.all(8.0),
+                            margin: const EdgeInsets.all(8.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
                               border: Border.all(color: Colors.grey),
@@ -149,16 +142,16 @@ class _SelectAndUploadmediaState extends State<SelectAndUploadmedia> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                               FaIcon(FontAwesomeIcons.video,color: Colors.grey,),
+                               const FaIcon(FontAwesomeIcons.video,color: Colors.grey,),
                                 Text(pickedFile.name,
-                                  style: TextStyle(color: Colors.grey),),
+                                  style: const TextStyle(color: Colors.grey),),
                               ],
                             ),
                           )
                           : Container(
                     height: 100.0,
                     width: 100.0,
-                    margin: EdgeInsets.all(8.0),
+                    margin: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
                       border: Border.all(color: Colors.grey),
@@ -166,9 +159,9 @@ class _SelectAndUploadmediaState extends State<SelectAndUploadmedia> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        FaIcon(FontAwesomeIcons.file,color: Colors.grey,),
+                        const FaIcon(FontAwesomeIcons.file,color: Colors.grey,),
                         Text(pickedFile.name,
-                          style: TextStyle(color: Colors.grey),),
+                          style: const TextStyle(color: Colors.grey),),
                       ],
                     ),
                   );
@@ -239,7 +232,7 @@ class _SelectAndUploadmediaState extends State<SelectAndUploadmedia> {
                           color: secondColor,
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Text(
                         'Uploading Document... Please Wait !!! ',
                         style: TextStyle(color: secondColor),

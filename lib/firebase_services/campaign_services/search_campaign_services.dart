@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:fund_raiser_second/firebase_services/user_services/add_user_details_service.dart';
 
 import '../../models/campaign_model.dart';
 import '../../providers/campaigns_provider.dart';
@@ -21,7 +20,7 @@ class CampaignSearchDelegate extends SearchDelegate<String> {
     return [
       // Clear search query
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           query = '';
         },
@@ -73,7 +72,7 @@ class CampaignSearchDelegate extends SearchDelegate<String> {
   Widget _buildSearchResults(BuildContext context,List<Campaign> campaigns) {
     // final campaigns = campaignProvider.searchResults;
     if (campaigns.isEmpty) {
-      return Center(
+      return const Center(
         child: Text("No results found."),
       );
     }
@@ -86,9 +85,9 @@ class CampaignSearchDelegate extends SearchDelegate<String> {
           leading: CircleAvatar(
             backgroundImage: NetworkImage(campaign.photoUrl),
           ),
-          trailing:Icon(Icons.arrow_forward_ios),
+          trailing:const Icon(Icons.arrow_forward_ios),
           subtitle: Text(campaign.status),
-          title: Text(campaign.title + " - " + campaign.name),
+          title: Text("${campaign.title} - ${campaign.name}"),
           onTap: () {
             userId == campaign.ownerId
                 ? Navigator.push(

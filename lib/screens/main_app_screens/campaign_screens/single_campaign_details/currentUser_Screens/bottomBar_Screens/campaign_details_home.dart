@@ -24,7 +24,7 @@ class CampaignDetailsPage extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 10.0),
-            Text(
+            const Text(
               'Welcome !',
               style: TextStyle(
                 fontSize: 18.0,
@@ -32,14 +32,14 @@ class CampaignDetailsPage extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-            Text(
+            const Text(
               "Here's the progress of your campaign.",
               style: TextStyle(
                 fontSize: 15.0,
                 color: Colors.black,
               ),
             ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             ListTile(
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
@@ -48,7 +48,7 @@ class CampaignDetailsPage extends StatelessWidget {
               tileColor: Colors.grey.shade200,
               leading: CircleAvatar(
                 backgroundImage: campaign.photoUrl == ""
-                    ? NetworkImage(
+                    ? const NetworkImage(
                         "https://firebasestorage.googleapis.com/v0/b/hrtaa-fund-raiser.appspot.com/o/images%2Fuser_profile.png?alt=media&token=1492c8e6-c68f-4bc3-8ff0-58fca5485d4e")
                     : NetworkImage(campaign.photoUrl),
               ),
@@ -61,20 +61,20 @@ class CampaignDetailsPage extends StatelessWidget {
                         builder: (context) => ShareCampaignScreen(campaign: campaign,)));
               },
             ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             ListTile(
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(20.0),
                   ),),
                 tileColor: Colors.grey.shade200,
-              leading: FaIcon(FontAwesomeIcons.checkCircle),
-              subtitle: Text('Complete the instructions in the checklist for better results.',
+              leading: const FaIcon(FontAwesomeIcons.checkCircle),
+              subtitle: const Text('Complete the instructions in the checklist for better results.',
                 style: TextStyle(
                   fontSize: 13.0,
                 ),),
               trailing: const Icon(Icons.arrow_forward_ios),
-              title: Text('Your TAARN Checklist',
+              title: const Text('Your TAARN Checklist',
                 style: TextStyle(
                   fontSize: 15.0,
                   fontWeight: FontWeight.bold,
@@ -91,7 +91,7 @@ class CampaignDetailsPage extends StatelessWidget {
                         children: [
                           ListTile(
                             leading: const Icon(Icons.share),
-                            title: Text(campaign.title,style: TextStyle(
+                            title: Text(campaign.title,style: const TextStyle(
                               fontSize: 15.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
@@ -105,11 +105,11 @@ class CampaignDetailsPage extends StatelessWidget {
                             },
                           ),
                           ListTile(
-                            leading:FaIcon(FontAwesomeIcons.fileUpload),
+                            leading:const FaIcon(FontAwesomeIcons.fileUpload),
                             subtitle:
                                 const Text('Upload the required documents for better results'),
                             trailing: const Icon(Icons.arrow_forward_ios),
-                            title:  Text('Upload Documents',style: TextStyle(
+                            title:  const Text('Upload Documents',style: TextStyle(
                               fontSize: 15.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
@@ -127,7 +127,7 @@ class CampaignDetailsPage extends StatelessWidget {
                             subtitle:
                                 const Text('Upload the required media for better results.'),
                             trailing: const Icon(Icons.arrow_forward_ios),
-                            title:  Text('Add Media',style: TextStyle(
+                            title:  const Text('Add Media',style: TextStyle(
                               fontSize: 15.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
@@ -145,7 +145,7 @@ class CampaignDetailsPage extends StatelessWidget {
                             subtitle:
                                 const Text('Write updates for your campaign.'),
                             trailing: const Icon(Icons.arrow_forward_ios),
-                            title:  Text('Write updates',style: TextStyle(
+                            title:  const Text('Write updates',style: TextStyle(
                               fontSize: 15.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
@@ -167,37 +167,35 @@ class CampaignDetailsPage extends StatelessWidget {
               },
             ),
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  SizedBox(height: 10.0),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 10.0),
+                  const SizedBox(height: 16.0),
                   CircularProgressIndicator(
                     value: campaign.amountRaised / campaign.amountGoal,
                     color: Colors.green,
                     backgroundColor: Colors.grey.shade300,
                     strokeWidth: 10.0,
                   ),
-                  SizedBox(height: 10.0),
+                  const SizedBox(height: 10.0),
                   Text(
-                    ((campaign.amountRaised / campaign.amountGoal) * 100)
-                            .toString() +
-                        " %",
-                    style: TextStyle(
+                    "${(campaign.amountRaised / campaign.amountGoal) * 100} %",
+                    style: const TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   RichText(
                     text: TextSpan(
-                      text:'₹ '+ campaign.amountRaised.toString(),
-                      style: TextStyle(
+                      text:'₹ ${campaign.amountRaised}',
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0,
                         color: Colors.black,
                       ),
                       children: <TextSpan>[
-                        TextSpan(
+                        const TextSpan(
                           text: " raised out of ",
                           style: TextStyle(
                             fontSize: 15.0,
@@ -206,8 +204,8 @@ class CampaignDetailsPage extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: '₹ '+ campaign.amountGoal.toString(),
-                          style: TextStyle(
+                          text: '₹ ${campaign.amountGoal}',
+                          style: const TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -216,44 +214,43 @@ class CampaignDetailsPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      FaIcon(FontAwesomeIcons.peopleGroup),
-                      SizedBox(width: 10.0),
-                      Text("Donors : ",style: TextStyle(
+                      const FaIcon(FontAwesomeIcons.peopleGroup),
+                      const SizedBox(width: 10.0),
+                      const Text("Donors : ",style: TextStyle(
                         fontSize: 15.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),),
-                      Text(campaign.amountDonors.toString() + ' Donors'),
+                      Text('${campaign.amountDonors} Donors'),
                     ],
                   ),
-                  SizedBox(height: 10.0),
+                  const SizedBox(height: 10.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      FaIcon(FontAwesomeIcons.clock),
-                      SizedBox(width: 10.0),
+                      const FaIcon(FontAwesomeIcons.clock),
+                      const SizedBox(width: 10.0),
                       campaign.dateEnd.difference(DateTime.now()).inDays < 0
-                        ?Text( ' Campaign Expired '):
-                      Text(campaign.dateEnd
+                        ?const Text( ' Campaign Expired '):
+                      Text("${campaign.dateEnd
                           .difference(DateTime.now())
-                          .inDays
-                          .toString() + " Days Left "
+                          .inDays} Days Left "
                       ),
 
                     ],
                   ),
-                  SizedBox(height: 10.0),
+                  const SizedBox(height: 10.0),
                   const SizedBox(
                     height: 20,
                   ),
                   campaign.documentUrls.isEmpty
-                      ? SizedBox(
+                      ? const SizedBox(
                     height: 50,
-                    child: const Center(
+                    child: Center(
                       child: Text("Upload Documents for better results !"),
                     ),
                   )
@@ -299,7 +296,7 @@ class CampaignDetailsPage extends StatelessWidget {
                                     borderRadius:
                                     BorderRadius.circular(
                                         8.0),
-                                    image: DecorationImage(
+                                    image: const DecorationImage(
                                       image: AssetImage(
                                           "assets/PDF.png"),
                                       fit: BoxFit.fill,
@@ -309,7 +306,7 @@ class CampaignDetailsPage extends StatelessWidget {
                                 const SizedBox(
                                   height: 5,
                                 ),
-                                Text("View PDF"),
+                                const Text("View PDF"),
                               ],
                             ),
                           );
@@ -318,9 +315,9 @@ class CampaignDetailsPage extends StatelessWidget {
                     ],
                   ),
                   campaign.mediaImageUrls.isEmpty
-                      ? SizedBox(
+                      ? const SizedBox(
                     height: 50,
-                    child: const Center(
+                    child: Center(
                       child: Text("Upload Images for better results !"),
                     ),
                   )
@@ -363,9 +360,9 @@ class CampaignDetailsPage extends StatelessWidget {
                     ],
                   ),
                   campaign.mediaVideoUrls.isEmpty
-                      ? SizedBox(
+                      ? const SizedBox(
                     height: 50,
-                    child: const Center(
+                    child: Center(
                       child: Text("Upload Videos for better results !"),
                     ),
                   )
@@ -382,10 +379,10 @@ class CampaignDetailsPage extends StatelessWidget {
                               color: Colors.grey,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
-                          Text(campaign.mediaVideoUrls.length.toString()+" Videos Uploaded"),
+                          Text("${campaign.mediaVideoUrls.length} Videos Uploaded"),
                         ],
                       )
                 ],

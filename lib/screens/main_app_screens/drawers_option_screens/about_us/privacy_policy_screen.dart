@@ -5,7 +5,7 @@ import '../../../../models/expandable_item.dart';
 import '../../../../utils/constants/color_code.dart';
 
 class PrivacyPolicyScreen extends StatefulWidget {
-  const PrivacyPolicyScreen({Key? key}) : super(key: key);
+  const PrivacyPolicyScreen({super.key});
 
   @override
   _PrivacyPolicyScreenState createState() => _PrivacyPolicyScreenState();
@@ -17,7 +17,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      persistentFooterButtons: [
+      persistentFooterButtons: const [
         Footer(),
       ],
       appBar: AppBar(
@@ -32,8 +32,8 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
               height: 100,
             ),
             const SizedBox(height: 26.0),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
               child: Text(
                   """We value the trust you place in us. That's why we insist upon the highest standards for secure transactions and User information privacy. Please read the following statement to learn about our information gathering and dissemination practices. The following Privacy Policy should be read along with the Hrtaa – Terms of Use for a full understanding of Hrtaa's practices as well as the Users responsibilities when interacting with the site www.Hrtaa.org, mobile application and m-site (hereinafter referred to as “Platform”)
 

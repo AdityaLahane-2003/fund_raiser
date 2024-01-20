@@ -45,7 +45,7 @@ class _IntroHomeState extends State<IntroHome> {
                 });
               }
             },
-            children: [
+            children: const [
               IntroPage1(),
               IntroPage2(),
               IntroPage3(),

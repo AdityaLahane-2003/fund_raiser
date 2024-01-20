@@ -38,7 +38,6 @@ class CampaignCard extends StatelessWidget {
         : DateTime.now().isAfter(campaign.dateEnd)
             ? status = 'Expired'
             : status = 'Pending';
-    bool isExpired = status == 'Expired' ? true : false;
     return GestureDetector(
       onTap: () {
         if (isCurrentUserCampaign) {
@@ -141,8 +140,7 @@ class CampaignCard extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 14)),
                   Text(
-                      '${campaign.amountGoal - campaign.amountRaised}' +
-                          ' ₹ more to go to reach ${campaign.amountGoal} ₹',
+                      '${campaign.amountGoal - campaign.amountRaised}' ' ₹ more to go to reach ${campaign.amountGoal} ₹',
                       style: TextStyle(
                           color: Colors.blue.shade700,
                           fontWeight: FontWeight.bold,
@@ -183,7 +181,7 @@ class CampaignCard extends StatelessWidget {
                           size: 17.0,
                           color:int.parse(daysLeft)<30? Colors.red:Colors.green,
                         ),
-                        SizedBox(width: 5.0,),
+                        const SizedBox(width: 5.0,),
                         Text("$daysLeft Days Left",
                             style: TextStyle(
                               color:int.parse(daysLeft)<30? Colors.red:Colors.green,
@@ -219,7 +217,7 @@ class CampaignCard extends StatelessWidget {
                               ? 'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg'
                               : campaign.photoUrl,
                         )),
-                    Text(campaign.name,style: TextStyle(
+                    Text(campaign.name,style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),),
                     // const SizedBox(height: 8.0),
@@ -256,7 +254,7 @@ class CampaignCard extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HelpScreen()));
+                                builder: (context) => const HelpScreen()));
                       },
                     ),
                     IconButton(
@@ -265,7 +263,7 @@ class CampaignCard extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => OurSuggestionsPage()));
+                                builder: (context) => const OurSuggestionsPage()));
                       },
                     ),
                     // IconButton(

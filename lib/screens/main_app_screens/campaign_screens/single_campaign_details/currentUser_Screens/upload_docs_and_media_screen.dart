@@ -51,7 +51,7 @@ class _UploadMediaScreenState extends State<UploadMediaScreen> {
                     }
                   });
                 },
-                children: [
+                children: const [
                   Text("Images"),
                   Text("Videos"),
                   Text("Documents"),

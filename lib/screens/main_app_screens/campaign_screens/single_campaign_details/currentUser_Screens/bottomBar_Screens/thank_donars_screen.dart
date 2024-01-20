@@ -11,7 +11,7 @@ import '../../../../../../utils/utils_toast.dart';
 class ThankDonorsPage extends StatefulWidget {
   final String campaignId;
 
-  ThankDonorsPage({super.key, required this.campaignId});
+  const ThankDonorsPage({super.key, required this.campaignId});
 
   @override
   State<ThankDonorsPage> createState() => _ThankDonorsPageState();
@@ -51,7 +51,7 @@ class _ThankDonorsPageState extends State<ThankDonorsPage> {
                     .size
                     .height * 0.8,
                 color: Colors.grey[100],
-                child: Column(
+                child: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -61,7 +61,7 @@ class _ThankDonorsPageState extends State<ThankDonorsPage> {
                       color: Colors.grey,
                     ),
                     SizedBox(height: 20),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('Share and get Donars.',
@@ -80,28 +80,27 @@ class _ThankDonorsPageState extends State<ThankDonorsPage> {
               // User has campaigns
               return Column(
                 children: [
-                  SizedBox(height: 10),
-                  Text(
+                  const SizedBox(height: 10),
+                  const Text(
                     'Donars',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Text(
-                    'Total Donars: ' +
-                        snapshot.data!.length.toString(),
-                    style: TextStyle(
+                    'Total Donars: ${snapshot.data!.length}',
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 5),
-                  Text(
+                  const SizedBox(height: 5),
+                  const Text(
                     "Thank donars for their contribution",
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(
@@ -130,7 +129,7 @@ class _ThankDonorsPageState extends State<ThankDonorsPage> {
                               onPressed: ()async{
                                 String phone = donation['phone'];
                                 setState(() {
-                                  url = 'https://wa.me/${phone}?text=${Uri.parse('Hello ${donation['name']}\n, Thank you ! for your contribution of ${donation['amountDonated']} to ${donation['name']}.')}';
+                                  url = 'https://wa.me/$phone?text=${Uri.parse('Hello ${donation['name']}\n, Thank you ! for your contribution of ${donation['amountDonated']} to ${donation['name']}.')}';
                                 });
                                 await launch(url);
                               },
@@ -144,9 +143,7 @@ class _ThankDonorsPageState extends State<ThankDonorsPage> {
                         //     ),),),
                         title: Text(donation['name']),
                         subtitle: Text(
-                        donation['amountDonated']
-                            .toString() +
-                        " ₹",
+                        "${donation['amountDonated']} ₹",
                         style: TextStyle(
                         color: Colors.green.
                         shade700

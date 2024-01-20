@@ -8,8 +8,6 @@ import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import '../../../components/text_filed_area.dart';
 import '../../../utils/utils_toast.dart';
 import '../phone_auth/login_with_phone_number.dart';
-import 'login_screen.dart';
-
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

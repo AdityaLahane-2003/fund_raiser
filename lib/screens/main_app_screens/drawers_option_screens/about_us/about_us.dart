@@ -12,7 +12,7 @@ class AboutUsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      persistentFooterButtons: [
+      persistentFooterButtons: const [
         Footer(),
       ],
       appBar: AppBar(
@@ -34,7 +34,7 @@ class AboutUsScreen extends StatelessWidget {
               elevation: 5.0,
               shadowColor: Colors.blueGrey,
               child: ListTile(
-                leading: Icon(Icons.info),
+                leading: const Icon(Icons.info),
                 title: const Text(
                   'About Us',
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -47,7 +47,7 @@ class AboutUsScreen extends StatelessWidget {
                     ),
                   );
                 },
-                trailing: Icon(Icons.arrow_forward_ios),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
             const SizedBox(height: 10.0),
@@ -55,7 +55,7 @@ class AboutUsScreen extends StatelessWidget {
               elevation: 5.0,
               shadowColor: Colors.blueGrey,
               child: ListTile(
-                leading: Icon(Icons.assignment),
+                leading: const Icon(Icons.assignment),
                 title: const Text(
                   'Terms and Conditions',
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -68,7 +68,7 @@ class AboutUsScreen extends StatelessWidget {
                     ),
                   );
                 },
-                trailing: Icon(Icons.arrow_forward_ios),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
             const SizedBox(height: 10.0),
@@ -76,7 +76,7 @@ class AboutUsScreen extends StatelessWidget {
               elevation: 5.0,
               shadowColor: Colors.blueGrey,
               child: ListTile(
-                leading: Icon(Icons.lock),
+                leading: const Icon(Icons.lock),
                 title: const Text(
                   'Privacy Policy',
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -89,7 +89,7 @@ class AboutUsScreen extends StatelessWidget {
                     ),
                   );
                 },
-                trailing: Icon(Icons.arrow_forward_ios),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
             const SizedBox(height: 10.0),
@@ -97,14 +97,14 @@ class AboutUsScreen extends StatelessWidget {
               elevation: 5.0,
               shadowColor: Colors.blueGrey,
               child: ListTile(
-                leading: Icon(Icons.star),
+                leading: const Icon(Icons.star),
                 title: const Text(
                   'Rate Us',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
                 },
-                trailing: Icon(Icons.arrow_forward_ios),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
           ],

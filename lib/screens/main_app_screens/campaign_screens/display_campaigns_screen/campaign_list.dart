@@ -80,7 +80,7 @@ Future<void> handleRefresh() async {
         actions: [
           // Search functionality
           IconButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             onPressed: () {
               showSearch(
                 context: context,
@@ -101,7 +101,7 @@ Future<void> handleRefresh() async {
       body: Consumer<CampaignProvider>(
         builder: (context, provider, child) {
           final campaigns = provider.filteredCampaigns == null
-              ? provider.new_campaigns
+              ? provider.newCampaigns
               : provider.filteredCampaigns!;
 
           return  LiquidPullToRefresh(
@@ -440,7 +440,7 @@ Future<void> handleRefresh() async {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(left:15.0),
-                                    child: Text('Category: '+selectedCategory),
+                                    child: Text('Category: $selectedCategory'),
                                   ),
                                   IconButton(
                                     iconSize: 20,
@@ -461,7 +461,7 @@ Future<void> handleRefresh() async {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(left:15.0),
-                                    child: Text('Relation: '+selectedRelation),
+                                    child: Text('Relation: $selectedRelation'),
                                   ),
                                   IconButton(
                                     iconSize: 20,
@@ -486,7 +486,7 @@ Future<void> handleRefresh() async {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text('Status: ' + selectedStatus),
+                                          Text('Status: $selectedStatus'),
                                         ],
                                       ),
                                     ),
@@ -620,18 +620,17 @@ Future<void> handleRefresh() async {
                                       campaign.dateEnd
                                           .difference(DateTime.now())
                                           .inDays>=0?TextSpan(
-                                        text:"\n" + campaign.dateEnd
+                                        text:"\n${campaign.dateEnd
                                             .difference(DateTime.now())
-                                            .inDays
-                                            .toString() + " days left",
+                                            .inDays} days left",
                                         style: const TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.normal,
                                           color: Colors.red,
                                         ),
-                                      ):TextSpan(
-                                        text:"\n" + "Campaign Expired",
-                                        style: const TextStyle(
+                                      ):const TextSpan(
+                                        text:"\n" "Campaign Expired",
+                                        style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.normal,
                                           color: Colors.red,

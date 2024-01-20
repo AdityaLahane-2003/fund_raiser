@@ -47,10 +47,10 @@ class _Step4State extends State<Step4> {
         child: Form(
           key: _formKey,
           child: Consumer<FundraiserDataProvider>(
-            builder: (context, Provider, child) {
+            builder: (context, fundRaiserProvider, child) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                titleController.text = Provider.fundraiserData.title;
-                storyController.text = Provider.fundraiserData.story;
+                titleController.text = fundRaiserProvider.fundraiserData.title;
+                storyController.text = fundRaiserProvider.fundraiserData.story;
               });
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -64,9 +64,9 @@ class _Step4State extends State<Step4> {
                                 minRadius: 30,
                                 backgroundColor: Colors.white,
                                 maxRadius: 50,
-                                child: Provider.isCoverPhotoUploaded
+                                child: fundRaiserProvider.isCoverPhotoUploaded
                                     ? Image.network(
-                                        Provider.fundraiserData.coverPhoto)
+                                        fundRaiserProvider.fundraiserData.coverPhoto)
                                     : Image.asset('assets/logo.png'),
                               )
                             : CircleAvatar(
@@ -74,7 +74,7 @@ class _Step4State extends State<Step4> {
                                 backgroundColor: Colors.white,
                                 maxRadius: 50,
                                 child: _loading
-                                    ? Loading(
+                                    ? const Loading(
                                         size: 20,
                                         color: Colors.black,
                                       )
@@ -98,7 +98,7 @@ class _Step4State extends State<Step4> {
                             }
                             setState(() {
                               _imageUrl != ''
-                                  ? Provider.updateCoverPhoto(true, _imageUrl)
+                                  ? fundRaiserProvider.updateCoverPhoto(true, _imageUrl)
                                   : '';
                               _loading = false;
                             });
@@ -116,7 +116,7 @@ class _Step4State extends State<Step4> {
                     child: Text("Cover Image"),
                   ),
                   Visibility(
-                    visible: Provider.isCoverPhotoUploaded,
+                    visible: fundRaiserProvider.isCoverPhotoUploaded,
                     child: const Align(
                       alignment: Alignment.topCenter,
                       child: Text("Image uploaded successfully !"),
@@ -135,7 +135,7 @@ class _Step4State extends State<Step4> {
                       return null;
                     },
                     onChanged: (value) {
-                      value != '' ? Provider.updateTitle(value) : '';
+                      value != '' ? fundRaiserProvider.updateTitle(value) : '';
                     },
                   ),
                   const SizedBox(height: 16),
@@ -164,7 +164,7 @@ class _Step4State extends State<Step4> {
                       return null;
                     },
                     onChanged: (value) {
-                      value != '' ? Provider.updateStory(value) : '';
+                      value != '' ? fundRaiserProvider.updateStory(value) : '';
                     },
                   ),
                   const SizedBox(height: 16),
@@ -183,7 +183,7 @@ class _Step4State extends State<Step4> {
                         onTap: () async {
                           if (_formKey.currentState?.validate() ?? false) {
                             if (_imageUrl.isEmpty &&
-                                Provider.isCoverPhotoUploaded == false) {
+                                fundRaiserProvider.isCoverPhotoUploaded == false) {
                               Utils().toastMessage('Please select an image');
                               return;
                             }

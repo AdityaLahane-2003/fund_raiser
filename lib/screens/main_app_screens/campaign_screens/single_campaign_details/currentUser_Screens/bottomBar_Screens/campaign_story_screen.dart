@@ -22,7 +22,7 @@ class CampaignStoryScreen extends StatelessWidget {
       body: Column(
         children: [
           const SizedBox(height: 20,),
-           Text('Update your campaign to get more donations ! '
+           const Text('Update your campaign to get more donations ! '
             ,style: TextStyle(fontSize: 18),
            textAlign: TextAlign.center,),
           const SizedBox(height: 20,),
@@ -43,11 +43,11 @@ class CampaignStoryScreen extends StatelessWidget {
             },
           ),
           ListTile(
-      leading:FaIcon(FontAwesomeIcons.fileUpload),
+      leading:const FaIcon(FontAwesomeIcons.fileUpload),
       subtitle:
       const Text('Upload the required documents for better results'),
       trailing: const Icon(Icons.arrow_forward_ios),
-      title:  Text('Upload Documents',style: TextStyle(
+      title:  const Text('Upload Documents',style: TextStyle(
         fontSize: 15.0,
         fontWeight: FontWeight.bold,
         color: Colors.black,
@@ -65,7 +65,7 @@ class CampaignStoryScreen extends StatelessWidget {
             subtitle:
             const Text('Upload the required media for better results.'),
             trailing: const Icon(Icons.arrow_forward_ios),
-            title:  Text('Add Media',style: TextStyle(
+            title:  const Text('Add Media',style: TextStyle(
               fontSize: 15.0,
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -83,7 +83,7 @@ class CampaignStoryScreen extends StatelessWidget {
             subtitle:
             const Text('Write updates for your campaign.'),
             trailing: const Icon(Icons.arrow_forward_ios),
-            title:  Text('Write updates',style: TextStyle(
+            title:  const Text('Write updates',style: TextStyle(
               fontSize: 15.0,
               fontWeight: FontWeight.bold,
               color: Colors.black,

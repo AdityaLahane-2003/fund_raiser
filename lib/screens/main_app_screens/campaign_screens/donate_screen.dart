@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
@@ -72,9 +71,9 @@ class _DonateScreenState extends State<DonateScreen> {
     await donationService.createDonation(donationData);
     isUserLoggedIn
         ? Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeDashboard()))
+            context, MaterialPageRoute(builder: (context) => const HomeDashboard()))
         : Navigator.push(
-            context, MaterialPageRoute(builder: (context) => CampaignsList()));
+            context, MaterialPageRoute(builder: (context) => const CampaignsList()));
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -104,11 +103,11 @@ class _DonateScreenState extends State<DonateScreen> {
                     ? Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => HomeDashboard()))
+                            builder: (context) => const HomeDashboard()))
                     : Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => CampaignsList()));
+                            builder: (context) => const CampaignsList()));
               },
               child: const Text(
                 "Go Back",
@@ -220,7 +219,7 @@ class _DonateScreenState extends State<DonateScreen> {
                         });
                       },
                     ),
-                    Text('Donate Anonymously'),
+                    const Text('Donate Anonymously'),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -285,7 +284,7 @@ class _DonateScreenState extends State<DonateScreen> {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    Text('Donation Amount:',style: TextStyle(
+                    const Text('Donation Amount:',style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),),
@@ -363,7 +362,7 @@ class _DonateScreenState extends State<DonateScreen> {
                 // Add a DropdownButton for tip percentage
                 Row(
                   children: [
-                    Text('Support Surcharge: ',
+                    const Text('Support Surcharge: ',
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -390,7 +389,7 @@ class _DonateScreenState extends State<DonateScreen> {
                           },
                         );
                       },
-                        child: Icon(Icons.info_outline,
+                        child: const Icon(Icons.info_outline,
                             color: Colors.grey, size: 16)),
                     const SizedBox(width: 16),
                     DropdownButton<double>(

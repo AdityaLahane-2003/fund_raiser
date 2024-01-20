@@ -95,7 +95,7 @@ bool loading = false;
                           minRadius: 30,
                           backgroundColor: Colors.white,
                           maxRadius: 50,
-                          child:loading?Loading(size: 20,color: Colors.black,):Image(image: FileImage(_selectedImage!),),
+                          child:loading?const Loading(size: 20,color: Colors.black,):Image(image: FileImage(_selectedImage!),),
                         ),
                         GestureDetector(
                           onTap: () async {

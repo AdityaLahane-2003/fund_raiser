@@ -42,34 +42,34 @@ class _WriteUpdatesScreenState extends State<WriteUpdatesScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: greenColor,
-        title: Text("Write Updates"),
+        title: const Text("Write Updates"),
       ),
-      persistentFooterButtons: [
+      persistentFooterButtons: const [
         Footer(),
       ],
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 10),
-              CircleAvatar(
+              const SizedBox(height: 10),
+              const CircleAvatar(
                 maxRadius: 50,
                 backgroundColor: Colors.white,
                 backgroundImage: AssetImage("assets/logo.png"),
               ),
-              SizedBox(height: 10),
-              Text("Post An Update",
+              const SizedBox(height: 10),
+              const Text("Post An Update",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.bold)),
-              SizedBox(height: 10),
-              Text("Write updates to share progress of your fundraiser with donars !",),
-              SizedBox(height: 20),
-              Divider(thickness: 1),
-              SizedBox(height: 20),
+              const SizedBox(height: 10),
+              const Text("Write updates to share progress of your fundraiser with donars !",),
+              const SizedBox(height: 20),
+              const Divider(thickness: 1),
+              const SizedBox(height: 20),
               TextFormFieldArea(
                 title: "Title",
                 controller: titleController,
@@ -178,7 +178,7 @@ class _WriteUpdatesScreenState extends State<WriteUpdatesScreen> {
                                   child: Text((index+1).toString()),
                                 ),
                                 title: Text(update['title'],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.black,
                                         fontWeight:
                                         FontWeight.bold)),

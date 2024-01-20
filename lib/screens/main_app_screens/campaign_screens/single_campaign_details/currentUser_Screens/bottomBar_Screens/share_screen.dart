@@ -44,12 +44,12 @@ class _ShareCampaignScreenState extends State<ShareCampaignScreen> {
                   backgroundColor: Colors.transparent,
                 ),
                 title: Text(
-                  widget.campaign.title, style: TextStyle(
+                  widget.campaign.title, style: const TextStyle(
                   fontSize: 15.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),),
-                subtitle: Text(widget.campaign.status, style: TextStyle(
+                subtitle: Text(widget.campaign.status, style: const TextStyle(
                   fontSize: 13.0,
                 ),),
               ),
@@ -67,12 +67,7 @@ class _ShareCampaignScreenState extends State<ShareCampaignScreen> {
                  title: "Share",
                  onTap:(){
                    Share.share(
-                     'Check out this fundraising campaign: ${widget.campaign.title}\n\n'
-                         'Amount Raised: ${widget.campaign.amountRaised} ₹\n'
-                         'Goal Amount: ${widget.campaign.amountGoal} ₹\n'
-                         + controller.text +'\n\n'
-                         'To donate, follow the link:https://adityalahane-2003.github.io/PrivacyPolicy_TAARN/ \n\n'
-                         'Donate now and support the cause!',
+                     'Check out this fundraising campaign: ${widget.campaign.title}\n\nAmount Raised: ${widget.campaign.amountRaised} ₹\nGoal Amount: ${widget.campaign.amountGoal} ₹\n${controller.text}\n\nTo donate, follow the link:https://adityalahane-2003.github.io/PrivacyPolicy_TAARN/ \n\nDonate now and support the cause!',
                    );
                    setState(() {
                       controller.clear();

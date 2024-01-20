@@ -26,7 +26,7 @@ class _SingleCampaignHomeScreenState extends State<SingleCampaignHomeScreen> {
     _pages = [
       CampaignDetailsPage(campaign: widget.campaign,),
       CampaignStoryScreen(campaign: widget.campaign,),
-      WithdrawScreen(),
+      const WithdrawScreen(),
       ThankDonorsPage(campaignId: widget.campaign.id,),
        ShareCampaignScreen(campaign: widget.campaign,),
     ];
@@ -43,7 +43,7 @@ class _SingleCampaignHomeScreenState extends State<SingleCampaignHomeScreen> {
           BottomNavigationBarItem(
             activeIcon: Icon(Icons.home, color: secondColor,),
             backgroundColor: greenColor,
-            icon:FaIcon(FontAwesomeIcons.home),
+            icon:const FaIcon(FontAwesomeIcons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(

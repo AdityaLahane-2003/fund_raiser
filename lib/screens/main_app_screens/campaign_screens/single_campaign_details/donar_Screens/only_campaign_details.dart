@@ -154,7 +154,7 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                       }
                     });
                   },
-                  children: [
+                  children: const [
                     Text("Overview"),
                     Text("Documents"),
                     Text("Updates"),
@@ -193,7 +193,7 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                       if (loadingProgress == null) {
                                         return child;
                                       } else {
-                                        return Center(
+                                        return const Center(
                                           child: Loading(
                                             size: 20,
                                             color: Colors.black,
@@ -215,15 +215,13 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                           children: [
                             Row(
                               children: [
-                                Icon(Icons.watch_later,
+                                const Icon(Icons.watch_later,
                                     size: 20.0, color: Colors.red),
                                 const SizedBox(width: 8.0),
                                 Text(
-                                  widget.campaign.dateEnd
+                                  "${widget.campaign.dateEnd
                                           .difference(DateTime.now())
-                                          .inDays
-                                          .toString() +
-                                      " days left",
+                                          .inDays} days left",
                                   style: const TextStyle(
                                     color: Colors.red,
                                   ),
@@ -246,20 +244,19 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                 ),
                               ),
                               title: Text(
-                                "Beneficiary : " + widget.campaign.name,
+                                "Beneficiary : ${widget.campaign.name}",
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               subtitle: Text(
-                                "Phone : " + widget.campaign.email,
+                                "Phone : ${widget.campaign.email}",
                               ),
                             ),
                             const SizedBox(height: 8.0),
                             RichText(
                               text: TextSpan(
-                                text: widget.campaign.amountRaised.toString() +
-                                    " ₹ ",
+                                text: "${widget.campaign.amountRaised} ₹ ",
                                 style: TextStyle(
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.bold,
@@ -267,11 +264,8 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                 ),
                                 children: <TextSpan>[
                                   TextSpan(
-                                      text: "raised out of " +
-                                          widget.campaign.amountGoal
-                                              .toString() +
-                                          " ₹",
-                                      style: TextStyle(
+                                      text: "raised out of ${widget.campaign.amountGoal} ₹",
+                                      style: const TextStyle(
                                         fontSize: 14.0,
                                         color: Colors.black,
                                       )),
@@ -288,9 +282,9 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                   Colors.green.shade300),
                             ),
                             const SizedBox(height: 30.0),
-                            Text(
+                            const Text(
                               "About the fundraiser",
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.grey,
@@ -303,17 +297,17 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                             ),
                             const SizedBox(height: 30.0),
                             ListTile(
-                              leading: Text(
+                              leading: const Text(
                                 "❤️",
                                 style: TextStyle(fontSize: 20),
                               ),
-                              title: Text(
+                              title: const Text(
                                 "Supporters:",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              trailing: Icon(
+                              trailing: const Icon(
                                 Icons.keyboard_arrow_down,
                                 size: 20.0,
                                 color: Colors.grey,
@@ -365,9 +359,7 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                             ),
                                             title: Text(donation['name']),
                                             subtitle: Text(
-                                              donation['amountDonated']
-                                                      .toString() +
-                                                  " ₹",
+                                              "${donation['amountDonated']} ₹",
                                               style: TextStyle(
                                                   color: Colors.green.shade700),
                                             ),
@@ -419,11 +411,11 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            TermsAndConditionsScreen(),
+                                            const TermsAndConditionsScreen(),
                                       ),
                                     );
                                   },
-                                  child: Text(" © Terms and Conditions",
+                                  child: const Text(" © Terms and Conditions",
                                       style: TextStyle(
                                           color: Colors.blue, fontSize: 15))),
                             ),
@@ -439,9 +431,9 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                             height: 20,
                           ),
                           widget.campaign.documentUrls.isEmpty
-                              ? SizedBox(
+                              ? const SizedBox(
                                   height: 50,
-                                  child: const Center(
+                                  child: Center(
                                     child: Text("No Documents Uploaded"),
                                   ),
                                 )
@@ -487,7 +479,7 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           8.0),
-                                                  image: DecorationImage(
+                                                  image: const DecorationImage(
                                                     image: AssetImage(
                                                         "assets/PDF.png"),
                                                     fit: BoxFit.fill,
@@ -497,7 +489,7 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                               const SizedBox(
                                                 height: 5,
                                               ),
-                                              Text("View PDF"),
+                                              const Text("View PDF"),
                                             ],
                                           ),
                                         );
@@ -506,9 +498,9 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                   ],
                                 ),
                           widget.campaign.mediaImageUrls.isEmpty
-                              ? SizedBox(
+                              ? const SizedBox(
                                   height: 50,
-                                  child: const Center(
+                                  child: Center(
                                     child: Text("No Images Uploaded"),
                                   ),
                                 )
@@ -551,9 +543,9 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                   ],
                                 ),
                           widget.campaign.mediaVideoUrls.isEmpty
-                              ? SizedBox(
+                              ? const SizedBox(
                                   height: 50,
-                                  child: const Center(
+                                  child: Center(
                                     child: Text("No Videos Uploaded"),
                                   ),
                                 )
@@ -570,7 +562,7 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                         color: Colors.grey,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 20,
                                     ),
                                     SizedBox(
@@ -701,13 +693,12 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                                               .start,
                                                       children: [
                                                         Text(
-                                                            daysAgo +
-                                                                " days ago ",
-                                                            style: TextStyle(
+                                                            "$daysAgo days ago ",
+                                                            style: const TextStyle(
                                                                 fontSize: 15,
                                                                 color: Colors
                                                                     .red)),
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           height: 5,
                                                         ),
                                                         Text(
@@ -719,7 +710,7 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                                                 FontWeight.bold,
                                                           ),
                                                         ),
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           height: 5,
                                                         ),
                                                         Text(

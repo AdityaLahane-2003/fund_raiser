@@ -8,7 +8,6 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/dis
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/create_campaign_screens/create_campaign.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/display_campaigns_screen/my_campaigns.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/about_us.dart';
-import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/help.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import 'package:provider/provider.dart';
 import '../../components/button.dart';
@@ -357,18 +356,18 @@ class _HomeDashboardState extends State<HomeDashboard> {
           child: Consumer<CampaignProvider>(
             builder: (context, provider, child) {
               final campaigns = provider.campaigns;
-              final ending_campaigns = provider.filteredEndingCampaigns;
-              final new_campaigns = provider.new_campaigns;
+              final endingCampaigns = provider.filteredEndingCampaigns;
+              final newCampaigns = provider.newCampaigns;
 
               campaigns
                   .sort((a, b) => b.amountDonors.compareTo(a.amountDonors));
 
-              new_campaigns.sort((a, b) => b.dateCreated
+              newCampaigns.sort((a, b) => b.dateCreated
                   .difference(DateTime.now())
                   .inDays
                   .compareTo(a.dateCreated.difference(DateTime.now()).inDays));
 
-              // ending_campaigns.sort((a, b) => a.dateEnd
+              // endingCampaigns.sort((a, b) => a.dateEnd
               //     .difference(DateTime.now())
               //     .inDays
               //     .compareTo(b.dateEnd.difference(DateTime.now()).inDays));
@@ -564,14 +563,14 @@ class _HomeDashboardState extends State<HomeDashboard> {
                     height: 150,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount:ending_campaigns.length,
+                      itemCount:endingCampaigns.length,
                       itemBuilder: (context, index) {
-                        int remainingDays = ending_campaigns[index]
+                        int remainingDays = endingCampaigns[index]
                             .dateEnd
                             .difference(DateTime.now())
                             .inDays;
                         bool isCurrentUserCampaign =
-                            ending_campaigns[index].ownerId == currentUser?.uid;
+                            endingCampaigns[index].ownerId == currentUser?.uid;
                         return remainingDays>0? Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
@@ -584,12 +583,12 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                 CircleAvatar(
                                   maxRadius: 50,
                                   minRadius: 40,
-                                  backgroundImage: ending_campaigns[index]
+                                  backgroundImage: endingCampaigns[index]
                                           .coverPhoto
                                           .isNotEmpty
                                       ? NetworkImage(
-                                          ending_campaigns[index].coverPhoto)
-                                      : NetworkImage(
+                                          endingCampaigns[index].coverPhoto)
+                                      : const NetworkImage(
                                           'https://firebasestorage.googleapis.com/v0/b/hrtaa-fund-raiser.appspot.com/o/images%2Fuser_profile.png?alt=media&token=1492c8e6-c68f-4bc3-8ff0-58fca5485d4e'),
                                   child: InkWell(
                                     onTap: () {
@@ -599,7 +598,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 SingleCampaignHomeScreen(
-                                              campaign: ending_campaigns[index],
+                                              campaign: endingCampaigns[index],
                                             ),
                                           ),
                                         );
@@ -609,7 +608,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 OnlyCampaignDetailsPage(
-                                                    campaign: ending_campaigns[
+                                                    campaign: endingCampaigns[
                                                         index]),
                                           ),
                                         );
@@ -659,7 +658,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                     height: 310,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: new_campaigns.length,
+                      itemCount: newCampaigns.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -670,9 +669,9 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                 // color: secondColor,
                               ),
                               child: LittleCampaignCard(
-                                campaign: new_campaigns[index],
+                                campaign: newCampaigns[index],
                                 isCurrentUserCampaign:
-                                    new_campaigns[index].ownerId ==
+                                    newCampaigns[index].ownerId ==
                                         currentUser?.uid,
                                 onDeletePressed: () async {
                                   showDialog(
@@ -716,7 +715,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                             onPressed: () async {
                                               await DeleteCampaignServices
                                                   .deleteCampaign(
-                                                      new_campaigns[index].id);
+                                                      newCampaigns[index].id);
                                               await _loadCampaigns();
                                               Navigator.pop(context);
                                             },

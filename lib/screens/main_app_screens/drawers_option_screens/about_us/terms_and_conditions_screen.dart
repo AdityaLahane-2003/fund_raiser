@@ -5,7 +5,7 @@ import '../../../../models/expandable_item.dart';
 import '../../../../utils/constants/color_code.dart';
 
 class TermsAndConditionsScreen extends StatefulWidget {
-  const TermsAndConditionsScreen({Key? key}) : super(key: key);
+  const TermsAndConditionsScreen({super.key});
 
   @override
   _TermsAndConditionsScreenState createState() => _TermsAndConditionsScreenState();
@@ -16,7 +16,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold( persistentFooterButtons: [
+    return Scaffold( persistentFooterButtons: const [
       Footer(),
     ],
       appBar: AppBar(

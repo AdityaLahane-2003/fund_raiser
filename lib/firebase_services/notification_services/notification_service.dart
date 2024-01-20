@@ -7,8 +7,6 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/dis
 import 'package:fund_raiser_second/utils/utils_toast.dart';
 import 'package:http/http.dart' as http;
 
-import '../../screens/main_app_screens/home_dashboard.dart';
-
 class NotificationServices {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =

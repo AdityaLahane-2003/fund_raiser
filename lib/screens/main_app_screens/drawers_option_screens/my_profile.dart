@@ -114,7 +114,7 @@ Color iconColor = isEmailVerified ? Colors.green : Colors.grey;
                     initialValue: userData['email'],
                     decoration: InputDecoration(
                       labelText: 'Email',
-                      prefixIcon: Icon(Icons.email_outlined),
+                      prefixIcon: const Icon(Icons.email_outlined),
                       suffixIcon: Icon(Icons.verified_outlined,
                           color: iconColor),
                     ),

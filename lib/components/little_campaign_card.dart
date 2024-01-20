@@ -32,7 +32,6 @@ class LittleCampaignCard extends StatelessWidget {
         : DateTime.now().isAfter(campaign.dateEnd)
         ? status = 'Expired'
         : status = 'Pending';
-    bool isExpired = status == 'Expired' ? true : false;
     return GestureDetector(
       onTap: () {
         if (isCurrentUserCampaign) {
@@ -93,7 +92,7 @@ class LittleCampaignCard extends StatelessWidget {
                       color: secondColor.withOpacity(0.5),
                     ),
                     child: Text(" $daysLeft Days Left",
-                      style: TextStyle(color: Colors.white,fontSize: 12),)
+                      style: const TextStyle(color: Colors.white,fontSize: 12),)
                 ),
               ],
             ),
@@ -106,7 +105,7 @@ class LittleCampaignCard extends StatelessWidget {
                     width: 250,
                     child: Text(
                       campaign.title.characters.length > 32
-                          ? campaign.title.substring(0, 32) + ' ...'
+                          ? '${campaign.title.substring(0, 32)} ...'
                           : campaign.title,
                       style: const TextStyle(
                         fontSize: 13.0,
@@ -114,14 +113,13 @@ class LittleCampaignCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text(campaign.status.characters.length > 32?campaign.status.substring(0, 32) + ' ...'
+                  Text(campaign.status.characters.length > 32?'${campaign.status.substring(0, 32)} ...'
                     : campaign.status,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.blueGrey,
                           fontSize: 12)),
                   Text(
-                      '${campaign.amountGoal - campaign.amountRaised}' +
-                          ' ₹ more to go',
+                      '${campaign.amountGoal - campaign.amountRaised}' ' ₹ more to go',
                       style: TextStyle(
                           color: secondColor,
                           fontWeight: FontWeight.bold,

@@ -47,7 +47,7 @@ class FundraiserDataProvider extends ChangeNotifier {
     _fundraiserData.dateEnd = date;
     _fundraiserData.category = category;
     _fundraiserData.status = status;
-    _fundraiserData.title="Help "+name+" to raise funds for "+category;
+    _fundraiserData.title="Help $name to raise funds for $category";
     notifyListeners();
   }
 
