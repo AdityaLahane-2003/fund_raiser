@@ -1,14 +1,17 @@
 
 import 'package:flutter/material.dart';
+import 'package:fund_raiser_second/firebase_services/user_services/add_user_details_service.dart';
 
 import '../../models/campaign_model.dart';
 import '../../providers/campaigns_provider.dart';
+import '../../screens/main_app_screens/campaign_screens/single_campaign_details/currentUser_Screens/single_campaign_home.dart';
 import '../../screens/main_app_screens/campaign_screens/single_campaign_details/donar_Screens/only_campaign_details.dart';
 
 class CampaignSearchDelegate extends SearchDelegate<String> {
   final CampaignProvider campaignProvider;
+  final String userId;
 
-  CampaignSearchDelegate(this.campaignProvider);
+  CampaignSearchDelegate(this.campaignProvider, this.userId);
 
   @override
   String get searchFieldLabel => 'Search Campaigns';
@@ -87,7 +90,16 @@ class CampaignSearchDelegate extends SearchDelegate<String> {
           subtitle: Text(campaign.status),
           title: Text(campaign.title + " - " + campaign.name),
           onTap: () {
-            // Navigate to the campaign details page
+            userId == campaign.ownerId
+                ? Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SingleCampaignHomeScreen(
+                  campaign: campaign,
+                ),
+              ),
+            )
+                :
             Navigator.push(
               context,
               MaterialPageRoute(

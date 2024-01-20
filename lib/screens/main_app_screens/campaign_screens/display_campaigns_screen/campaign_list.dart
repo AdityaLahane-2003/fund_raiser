@@ -84,7 +84,7 @@ Future<void> handleRefresh() async {
             onPressed: () {
               showSearch(
                 context: context,
-                delegate: CampaignSearchDelegate(campaignProvider),
+                delegate: CampaignSearchDelegate(campaignProvider,isUserLoggedIn?currentUser!.uid:''),
               );
             },
           ),
