@@ -1,3 +1,4 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/signup_screen.dart';
 import 'package:fund_raiser_second/screens/auth_screens/phone_auth/verify_code.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../../components/button.dart';
 import '../../../utils/utils_toast.dart';
 import '../email_auth/login_screen.dart';
@@ -26,6 +28,28 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
   String selectedCountryCode = '+91'; // Default country code
   String selectedCountry = 'India'; // Default country code
   final _formKey = GlobalKey<FormState>();
+
+  void initState() {
+    super.initState();
+    requestSmsPermission();
+  }
+
+  Future<void> requestSmsPermission() async {
+    final status = await Permission.sms.request();
+
+    if (status == PermissionStatus.granted) {
+      // Permission granted, you can proceed with your application logic.
+      Utils().toastMessage('SMS permission granted');
+    } else {
+      // Permission denied or restricted, handle accordingly.
+      AppSettings.openAppSettings();
+      Utils().toastMessage('SMS permission denied');
+    }
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

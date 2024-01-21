@@ -9,6 +9,7 @@ import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/cre
 import 'package:fund_raiser_second/screens/main_app_screens/campaign_screens/display_campaigns_screen/my_campaigns.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/about_us/about_us.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 import '../../components/button.dart';
 import '../../components/little_campaign_card.dart';
@@ -58,7 +59,10 @@ class _HomeDashboardState extends State<HomeDashboard> {
   Future<void> _loadCampaigns() async {
     await campaignProvider.loadCampaigns();
   }
-
+  Future<void> handleRefresh () async{
+    await loadUserInfo();
+    await _loadCampaigns();
+}
   Future<bool> _onBackPressed() async {
     if (lastBackPressedTime == null ||
         DateTime.now().difference(lastBackPressedTime!) >
@@ -352,44 +356,59 @@ class _HomeDashboardState extends State<HomeDashboard> {
             ],
           ),
         ),
-        body: SingleChildScrollView(
-          child: Consumer<CampaignProvider>(
-            builder: (context, provider, child) {
-              final campaigns = provider.campaigns;
-              final endingCampaigns = provider.filteredEndingCampaigns;
-              final newCampaigns = provider.newCampaigns;
+        body: LiquidPullToRefresh(
+          color: secondColor,
+          backgroundColor: greenColor,
+          height: 100,
+          onRefresh: handleRefresh,
+          child: SingleChildScrollView(
+            child: Consumer<CampaignProvider>(
+              builder: (context, provider, child) {
+                final campaigns = provider.campaigns;
+                final endingCampaigns = provider.filteredEndingCampaigns;
+                final newCampaigns = provider.newCampaigns;
 
-              campaigns
-                  .sort((a, b) => b.amountDonors.compareTo(a.amountDonors));
+                campaigns
+                    .sort((a, b) => b.amountDonors.compareTo(a.amountDonors));
 
-              newCampaigns.sort((a, b) => b.dateCreated
-                  .difference(DateTime.now())
-                  .inDays
-                  .compareTo(a.dateCreated.difference(DateTime.now()).inDays));
+                newCampaigns.sort((a, b) => b.dateCreated
+                    .difference(DateTime.now())
+                    .inDays
+                    .compareTo(a.dateCreated.difference(DateTime.now()).inDays));
 
-              // endingCampaigns.sort((a, b) => a.dateEnd
-              //     .difference(DateTime.now())
-              //     .inDays
-              //     .compareTo(b.dateEnd.difference(DateTime.now()).inDays));
+                // endingCampaigns.sort((a, b) => a.dateEnd
+                //     .difference(DateTime.now())
+                //     .inDays
+                //     .compareTo(b.dateEnd.difference(DateTime.now()).inDays));
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    height: 250,
-                    decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        image: AssetImage('assets/home_dashboard.png'),
-                        fit: BoxFit.cover,
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      height: 250,
+                      decoration: BoxDecoration(
+                        image: const DecorationImage(
+                          image: AssetImage('assets/home_dashboard.png'),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.circular(100),
                       ),
-                      borderRadius: BorderRadius.circular(100),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  userData.isNotEmpty
-                      ? Center(
-                          child: Text(
-                            'Welcome ${userData['name']} ! ',
+                    const SizedBox(height: 20),
+                    userData.isNotEmpty
+                        ? Center(
+                            child: Text(
+                              'Welcome ${userData['name']} ! ',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: secondColor,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        : Text(
+                            'Welcome User !',
                             style: TextStyle(
                               fontSize: 20,
                               color: secondColor,
@@ -397,443 +416,434 @@ class _HomeDashboardState extends State<HomeDashboard> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                        )
-                      : Text(
-                          'Welcome User !',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: secondColor,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Let's make a change together !!",
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: secondColor,
+                          fontStyle: FontStyle.italic,
                         ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Let's make a change together !!",
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: secondColor,
-                        fontStyle: FontStyle.italic,
                       ),
                     ),
-                  ),
-                  // Toggle button
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // const Text('Select:'),
-                        // const SizedBox(width: 10),
-                        ToggleButtons(
-                          constraints: const BoxConstraints(
-                            minWidth: 100,
-                            minHeight: 40,
+                    // Toggle button
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // const Text('Select:'),
+                          // const SizedBox(width: 10),
+                          ToggleButtons(
+                            constraints: const BoxConstraints(
+                              minWidth: 100,
+                              minHeight: 40,
+                            ),
+                            borderRadius: BorderRadius.circular(50),
+                            isSelected: [
+                              isFundraiserSelected,
+                              !isFundraiserSelected
+                            ],
+                            onPressed: (index) {
+                              setState(() {
+                                isFundraiserSelected = index == 0;
+                              });
+                            },
+                            selectedColor: Colors.white,
+                            fillColor: secondColor,
+                            children: const [
+                              Text('   Fundraiser   '),
+                              Text('   Donate    '),
+                            ], // Adjust the color as needed
                           ),
-                          borderRadius: BorderRadius.circular(50),
-                          isSelected: [
-                            isFundraiserSelected,
-                            !isFundraiserSelected
-                          ],
-                          onPressed: (index) {
-                            setState(() {
-                              isFundraiserSelected = index == 0;
-                            });
-                          },
-                          selectedColor: Colors.white,
-                          fillColor: secondColor,
-                          children: const [
-                            Text('   Fundraiser   '),
-                            Text('   Donate    '),
-                          ], // Adjust the color as needed
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  // Button based on toggle selection
-                  isFundraiserSelected
-                      ? Consumer<FundraiserDataProvider>(
-                          builder: (BuildContext context,
-                              FundraiserDataProvider value, Widget? child) {
-                            return Column(
-                              children: [
-                                const Text(
-                                  'Raise Fund for a Cause',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight
-                                        .bold, // Adjust the color as needed
+                    // Button based on toggle selection
+                    isFundraiserSelected
+                        ? Consumer<FundraiserDataProvider>(
+                            builder: (BuildContext context,
+                                FundraiserDataProvider value, Widget? child) {
+                              return Column(
+                                children: [
+                                  const Text(
+                                    'Raise Fund for a Cause',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight
+                                          .bold, // Adjust the color as needed
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 10),
-                                Button(
-                                  title: 'Raise Fund',
-                                  color: secondColor,
-                                  onTap: () {
-                                    value.initiateFundraiserData();
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => CampaignCreation(
-                                          campaignService: campaignService,
+                                  const SizedBox(height: 10),
+                                  Button(
+                                    title: 'Raise Fund',
+                                    color: secondColor,
+                                    onTap: () {
+                                      value.initiateFundraiserData();
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => CampaignCreation(
+                                            campaignService: campaignService,
+                                          ),
                                         ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          )
+                        : Column(
+                            children: [
+                              const Text(
+                                'Donate for a Cause',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight
+                                      .bold, // Adjust the color as needed
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Button(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const CampaignsList(),
+                                    ),
+                                  );
+                                },
+                                title: 'Donate Now',
+                                color: secondColor,
+                              ),
+                            ],
+                          ),
+                    const SizedBox(height: 30),
+                    Container(
+                      height: 50,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: secondColor.withOpacity(0.3),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(15, 7),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        'Explore Fundraisers',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: secondColor,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Curved',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 25),
+                    Icon(
+                      Icons.keyboard_double_arrow_down,
+                      size: 30,
+                      color: secondColor,
+                    ),
+                    const SizedBox(height: 25),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Top Stories 📰',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: secondColor,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Curved',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      height: 150,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount:endingCampaigns.length,
+                        itemBuilder: (context, index) {
+                          int remainingDays = endingCampaigns[index]
+                              .dateEnd
+                              .difference(DateTime.now())
+                              .inDays;
+                          bool isCurrentUserCampaign =
+                              endingCampaigns[index].ownerId == currentUser?.uid;
+                          return remainingDays>0? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              width: 100,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                    maxRadius: 50,
+                                    minRadius: 40,
+                                    backgroundImage: endingCampaigns[index]
+                                            .coverPhoto
+                                            .isNotEmpty
+                                        ? NetworkImage(
+                                            endingCampaigns[index].coverPhoto)
+                                        : const NetworkImage(
+                                            'https://firebasestorage.googleapis.com/v0/b/hrtaa-fund-raiser.appspot.com/o/images%2Fuser_profile.png?alt=media&token=1492c8e6-c68f-4bc3-8ff0-58fca5485d4e'),
+                                    child: InkWell(
+                                      onTap: () {
+                                        if (isCurrentUserCampaign) {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SingleCampaignHomeScreen(
+                                                campaign: endingCampaigns[index],
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  OnlyCampaignDetailsPage(
+                                                      campaign: endingCampaigns[
+                                                          index]),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(
+                                        Icons.watch_later,
+                                        color: Colors.red,
+                                        size: 15,
                                       ),
+                                      Text(
+                                        " $remainingDays Days Left",
+                                        style: const TextStyle(
+                                            color: Colors.red, fontSize: 12),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ):Container();
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Make A Change 💖',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: secondColor,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Curved',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      height: 310,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: newCampaigns.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                                width: 250,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  // color: secondColor,
+                                ),
+                                child: LittleCampaignCard(
+                                  campaign: newCampaigns[index],
+                                  isCurrentUserCampaign:
+                                      newCampaigns[index].ownerId ==
+                                          currentUser?.uid,
+                                  onDeletePressed: () async {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title:
+                                              const Text("Delete Campaign !!!"),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Image.asset(
+                                                'assets/logo.png',
+                                                // Replace with your image asset
+                                                height: 100,
+                                              ),
+                                              const SizedBox(height: 10),
+                                              const Text(
+                                                "Are you sure you want to delete your Campaign? This action is irreversible.",
+                                                style: TextStyle(fontSize: 16),
+                                              ),
+                                            ],
+                                          ),
+                                          alignment: Alignment.center,
+                                          actionsAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          actions: [
+                                            TextButton(
+                                              style: TextButton.styleFrom(
+                                                backgroundColor: Colors.grey[400],
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pop(
+                                                    context); // Close the dialog
+                                              },
+                                              child: const Text("Cancel",
+                                                  style: TextStyle(
+                                                      color: Colors.white)),
+                                            ),
+                                            TextButton(
+                                              onPressed: () async {
+                                                await DeleteCampaignServices
+                                                    .deleteCampaign(
+                                                        newCampaigns[index].id);
+                                                await _loadCampaigns();
+                                                Navigator.pop(context);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.red),
+                                              child: const Text("Delete",
+                                                  style: TextStyle(
+                                                      color: Colors.white)),
+                                            ),
+                                          ],
+                                        );
+                                      },
                                     );
                                   },
-                                ),
-                              ],
-                            );
-                          },
-                        )
-                      : Column(
-                          children: [
-                            const Text(
-                              'Donate for a Cause',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight
-                                    .bold, // Adjust the color as needed
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Button(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const CampaignsList(),
-                                  ),
-                                );
-                              },
-                              title: 'Donate Now',
-                              color: secondColor,
-                            ),
-                          ],
+                                )),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Top Fundraisers 🏆',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: secondColor,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Curved',
                         ),
-                  const SizedBox(height: 30),
-                  Container(
-                    height: 50,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: secondColor.withOpacity(0.3),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset: const Offset(15, 7),
-                        ),
-                      ],
-                    ),
-                    child: Text(
-                      'Explore Fundraisers',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: secondColor,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Curved',
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 25),
-                  Icon(
-                    Icons.keyboard_double_arrow_down,
-                    size: 30,
-                    color: secondColor,
-                  ),
-                  const SizedBox(height: 25),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Top Stories 📰',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: secondColor,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Curved',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    height: 150,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount:endingCampaigns.length,
-                      itemBuilder: (context, index) {
-                        int remainingDays = endingCampaigns[index]
-                            .dateEnd
-                            .difference(DateTime.now())
-                            .inDays;
-                        bool isCurrentUserCampaign =
-                            endingCampaigns[index].ownerId == currentUser?.uid;
-                        return remainingDays>0? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            width: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Column(
-                              children: [
-                                CircleAvatar(
-                                  maxRadius: 50,
-                                  minRadius: 40,
-                                  backgroundImage: endingCampaigns[index]
-                                          .coverPhoto
-                                          .isNotEmpty
-                                      ? NetworkImage(
-                                          endingCampaigns[index].coverPhoto)
-                                      : const NetworkImage(
-                                          'https://firebasestorage.googleapis.com/v0/b/hrtaa-fund-raiser.appspot.com/o/images%2Fuser_profile.png?alt=media&token=1492c8e6-c68f-4bc3-8ff0-58fca5485d4e'),
-                                  child: InkWell(
-                                    onTap: () {
-                                      if (isCurrentUserCampaign) {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                SingleCampaignHomeScreen(
-                                              campaign: endingCampaigns[index],
-                                            ),
-                                          ),
-                                        );
-                                      } else {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                OnlyCampaignDetailsPage(
-                                                    campaign: endingCampaigns[
-                                                        index]),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                  ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      height: 310,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: campaigns.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                                width: 250,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  // color: secondColor,
                                 ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.watch_later,
-                                      color: Colors.red,
-                                      size: 15,
-                                    ),
-                                    Text(
-                                      " $remainingDays Days Left",
-                                      style: const TextStyle(
-                                          color: Colors.red, fontSize: 12),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ):Container();
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Make A Change 💖',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: secondColor,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Curved',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    height: 310,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: newCampaigns.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                              width: 250,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                // color: secondColor,
-                              ),
-                              child: LittleCampaignCard(
-                                campaign: newCampaigns[index],
-                                isCurrentUserCampaign:
-                                    newCampaigns[index].ownerId ==
-                                        currentUser?.uid,
-                                onDeletePressed: () async {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title:
-                                            const Text("Delete Campaign !!!"),
-                                        content: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Image.asset(
-                                              'assets/logo.png',
-                                              // Replace with your image asset
-                                              height: 100,
+                                child: LittleCampaignCard(
+                                  campaign: campaigns[index],
+                                  isCurrentUserCampaign:
+                                      campaigns[index].ownerId ==
+                                          currentUser?.uid,
+                                  onDeletePressed: () async {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title:
+                                              const Text("Delete Campaign !!!"),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Image.asset(
+                                                'assets/logo.png',
+                                                // Replace with your image asset
+                                                height: 100,
+                                              ),
+                                              const SizedBox(height: 10),
+                                              const Text(
+                                                "Are you sure you want to delete your Campaign? This action is irreversible.",
+                                                style: TextStyle(fontSize: 16),
+                                              ),
+                                            ],
+                                          ),
+                                          alignment: Alignment.center,
+                                          actionsAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          actions: [
+                                            TextButton(
+                                              style: TextButton.styleFrom(
+                                                backgroundColor: Colors.grey[400],
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pop(
+                                                    context); // Close the dialog
+                                              },
+                                              child: const Text("Cancel",
+                                                  style: TextStyle(
+                                                      color: Colors.white)),
                                             ),
-                                            const SizedBox(height: 10),
-                                            const Text(
-                                              "Are you sure you want to delete your Campaign? This action is irreversible.",
-                                              style: TextStyle(fontSize: 16),
+                                            TextButton(
+                                              onPressed: () async {
+                                                await DeleteCampaignServices
+                                                    .deleteCampaign(
+                                                        campaigns[index].id);
+                                                await _loadCampaigns();
+                                                Navigator.pop(context);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.red),
+                                              child: const Text("Delete",
+                                                  style: TextStyle(
+                                                      color: Colors.white)),
                                             ),
                                           ],
-                                        ),
-                                        alignment: Alignment.center,
-                                        actionsAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        actions: [
-                                          TextButton(
-                                            style: TextButton.styleFrom(
-                                              backgroundColor: Colors.grey[400],
-                                            ),
-                                            onPressed: () {
-                                              Navigator.pop(
-                                                  context); // Close the dialog
-                                            },
-                                            child: const Text("Cancel",
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                          ),
-                                          TextButton(
-                                            onPressed: () async {
-                                              await DeleteCampaignServices
-                                                  .deleteCampaign(
-                                                      newCampaigns[index].id);
-                                              await _loadCampaigns();
-                                              Navigator.pop(context);
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.red),
-                                            child: const Text("Delete",
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                              )),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Top Fundraisers 🏆',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: secondColor,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Curved',
+                                        );
+                                      },
+                                    );
+                                  },
+                                )),
+                          );
+                        },
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    height: 310,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: campaigns.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                              width: 250,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                // color: secondColor,
-                              ),
-                              child: LittleCampaignCard(
-                                campaign: campaigns[index],
-                                isCurrentUserCampaign:
-                                    campaigns[index].ownerId ==
-                                        currentUser?.uid,
-                                onDeletePressed: () async {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title:
-                                            const Text("Delete Campaign !!!"),
-                                        content: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Image.asset(
-                                              'assets/logo.png',
-                                              // Replace with your image asset
-                                              height: 100,
-                                            ),
-                                            const SizedBox(height: 10),
-                                            const Text(
-                                              "Are you sure you want to delete your Campaign? This action is irreversible.",
-                                              style: TextStyle(fontSize: 16),
-                                            ),
-                                          ],
-                                        ),
-                                        alignment: Alignment.center,
-                                        actionsAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        actions: [
-                                          TextButton(
-                                            style: TextButton.styleFrom(
-                                              backgroundColor: Colors.grey[400],
-                                            ),
-                                            onPressed: () {
-                                              Navigator.pop(
-                                                  context); // Close the dialog
-                                            },
-                                            child: const Text("Cancel",
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                          ),
-                                          TextButton(
-                                            onPressed: () async {
-                                              await DeleteCampaignServices
-                                                  .deleteCampaign(
-                                                      campaigns[index].id);
-                                              await _loadCampaigns();
-                                              Navigator.pop(context);
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.red),
-                                            child: const Text("Delete",
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                              )),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
