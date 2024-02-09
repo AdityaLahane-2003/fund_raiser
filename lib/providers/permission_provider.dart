@@ -5,23 +5,36 @@ class PermissionProvider with ChangeNotifier {
 
   bool isSmsPermissionGranted = false;
   bool isNotificationPermissionGranted = false;
-
   get smsPermissionGranted => isSmsPermissionGranted;
   get notificationPermissionGranted => isNotificationPermissionGranted;
 
-  // External Storage Permission
-  // Future<bool> requestExternalStoragePermission() async {
-  //   var status = await Permission.storage.status;
-  //   print("Status: ${status.toString()}");
-  //
-  //   if (status.isDenied) {
-  //     var result = await Permission.storage.request();
-  //   print("Result: ${result.toString()}");
-  //     notifyListeners();
-  //     return result.isGranted;
-  //   }
-  //   return status.isGranted;
-  // }
+  // Photos Permission
+  Future<bool> requestPhotosPermission() async {
+    var status = await Permission.photos.status;
+    print("Status: ${status.toString()}");
+
+    if (status.isDenied) {
+      var result = await Permission.photos.request();
+    print("Result: ${result.toString()}");
+      notifyListeners();
+      return result.isGranted;
+    }
+    return status.isGranted;
+  }
+
+  // Videos Permission
+  Future<bool> requestVideosPermission() async {
+    var status = await Permission.videos.status;
+    print("Status: ${status.toString()}");
+
+    if (status.isDenied) {
+      var result = await Permission.videos.request();
+    print("Result: ${result.toString()}");
+      notifyListeners();
+      return result.isGranted;
+    }
+    return status.isGranted;
+  }
 
   // SMS Permission
   Future<bool> requestSmsPermission() async {

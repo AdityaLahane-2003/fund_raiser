@@ -14,7 +14,7 @@ class ImageStoreUtils {
         'imageUrl': imageUrl,
       });
 
-      Utils().toastMessage('Image URL stored in Firestore for the current user',color: Colors.green);
+      Utils().toastMessage('Image stored for the current user',color: Colors.green);
     } else {
       Utils().toastMessage('User Not Authenticated', color: Colors.red);
     }

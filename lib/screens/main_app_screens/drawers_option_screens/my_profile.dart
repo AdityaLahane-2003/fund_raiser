@@ -1,16 +1,19 @@
 import 'dart:io';
+import 'package:app_settings/app_settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/firebase_services/user_services/UserInfoUtils.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/verify_email.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_screens/update_profile.dart';
 import 'package:fund_raiser_second/utils/utils_toast.dart';
+import 'package:provider/provider.dart';
 import '../../../components/button.dart';
 import '../../../components/loading.dart';
 import '../../../firebase_services/Image_services/pick_image.dart';
 import '../../../firebase_services/Image_services/store_img_url.dart';
 import '../../../firebase_services/Image_services/upload_image_to_storage.dart';
 import '../../../firebase_services/user_services/delete_user_services.dart';
+import '../../../providers/permission_provider.dart';
 import '../../../utils/constants/color_code.dart';
 
 class UserInfoPage extends StatefulWidget {
@@ -28,13 +31,22 @@ class _UserInfoPageState extends State<UserInfoPage> {
   File? _selectedImage;
   late UserInfoUtils userInfoUtils;
   String? _imageUrl;
-
+  bool isPhotoPermissionGranted = false;
+bool loading = false;
   @override
   void initState() {
     super.initState();
     userInfoUtils = UserInfoUtils(userId: widget.userId);
     userData = {};
     loadUserInfo();
+    checkPermission();
+  }
+  checkPermission() async{
+    var permissionProvider = Provider.of<PermissionProvider>(context, listen: false);
+    isPhotoPermissionGranted = await permissionProvider.requestPhotosPermission();
+    if(!isPhotoPermissionGranted){
+      Utils().toastMessage("Images Permission denied !");
+    }
   }
 
   Future<void> loadUserInfo() async {
@@ -58,35 +70,57 @@ Color iconColor = isEmailVerified ? Colors.green : Colors.grey;
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 30),
-                  Container(
-                    width: double.infinity,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.contain,
-                        image: userData['imageUrl'] != ""
-                            ? NetworkImage(userData['imageUrl'])
-                            : const NetworkImage(
-                                "https://firebasestorage.googleapis.com/v0/b/hrtaa-fund-raiser.appspot.com/o/images%2Fuser_profile.png?alt=media&token=1492c8e6-c68f-4bc3-8ff0-58fca5485d4e"), // Provide a default image
-                      ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: CircleAvatar(
+                      minRadius: 50,
+                      backgroundColor: Colors.white,
+                      maxRadius: 70,
+                      child:loading?const Loading(size: 20,color: Colors.black,):Image(image:userData['imageUrl'] != ""
+                          ? NetworkImage(userData['imageUrl'])
+                          :  const NetworkImage(
+                          "https://firebasestorage.googleapis.com/v0/b/hrtaa-fund-raiser.appspot.com/o/images%2Fuser_profile.png?alt=media&token=1492c8e6-c68f-4bc3-8ff0-58fca5485d4e")),
                     ),
                   ),
+                  // Container(
+                  //   width: double.infinity,
+                  //   height: 100,
+                  //   decoration: BoxDecoration(
+                  //     shape: BoxShape.circle,
+                  //     image: DecorationImage(
+                  //       fit: BoxFit.contain,
+                  //       image:  ),
+                  //   ),
+                  // ),
                   Align(
                       alignment: Alignment.topCenter,
                       child: TextButton(
                           onPressed: () async {
-                            _selectedImage = await ImagePickerUtils.pickImage();
-                            setState(() {});
-                            if (_selectedImage != null) {
-                              _imageUrl = await ImageUploadUtils
-                                  .uploadImageToFirebaseStorage(
-                                      _selectedImage!, 'user_images');
-                              await ImageStoreUtils.storeImageUrlInFirestore(
-                                  _imageUrl!);
-                            } else {
-                              Utils()
-                                  .toastMessage('Please pick an image first.');
+                            if(!isPhotoPermissionGranted){
+                              AppSettings.openAppSettings();
+                              setState(() {
+                                checkPermission();
+                              });
+                            }else{
+                              _selectedImage = await ImagePickerUtils.pickImage();
+                              setState(() {});
+                              if (_selectedImage != null) {
+                                setState(() {
+                                  loading = true;
+                                });
+                                _imageUrl = await ImageUploadUtils
+                                    .uploadImageToFirebaseStorage(
+                                    _selectedImage!, 'user_images');
+                                await ImageStoreUtils.storeImageUrlInFirestore(
+                                    _imageUrl!);
+                                setState(() {
+                                  loadUserInfo();
+                                  loading = false;
+                                });
+                              } else {
+                                Utils()
+                                    .toastMessage('Please pick an image first.');
+                              }
                             }
                           },
                           child: Text(

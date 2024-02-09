@@ -99,6 +99,34 @@ By mere use of the Platform, you expressly consent to our use and disclosure of 
 final List<ExpandableItem> expandableItems = [
   ExpandableItem(
     title:
+        'Permission Request for Access to Photos, Videos, Files, and SMS',
+    subtitle: 'Subtitle 1',
+    description:"""Dear User,
+
+We are excited to welcome you to our app! To provide you with the best experience and ensure seamless functionality, we kindly ask for your permission to access certain features on your device.
+
+1. Photos, Videos, and Files: Our app allows you to create campaigns and share your stories through photos, videos, and documents. To enable this functionality, we require access to your device's external storage to upload and manage these media files. Rest assured, we respect your privacy and will only access files necessary for app usage.
+
+2. SMS Permissions: For security purposes, we use SMS verification to authenticate your account during sign-up and login processes. This ensures that your account remains secure and protected from unauthorized access. We assure you that we will not misuse your phone number or send unsolicited messages.
+
+3. Notifications: Stay updated and informed about your campaigns' progress, donations, and other important updates through notifications. We strive to keep you engaged and informed about activities related to your campaigns and the app.
+
+Your privacy and security are our top priorities. We adhere to strict data protection measures and only collect information essential for app functionality. Your personal data will never be shared with third parties without your consent.
+
+Thank you for choosing our app. By granting these permissions, you allow us to deliver a seamless and personalized experience tailored to your needs. Should you have any concerns or questions regarding permissions or privacy, please feel free to contact us.
+
+Best regards,
+TAARN Team
+
+"""),
+   ExpandableItem(
+    title:
+        'Contact List Information Collection, Usage, and Disclosure Policy',
+    subtitle: 'Subtitle 1',
+    description:"""
+Our app, TAARN, may request and collect information from your device's Contact List. The information collected may include names, phone numbers, email addresses, and other relevant contact details. **Purpose of Collection:** The Contact List information is collected for the following purposes: - **Enhanced User Experience:** Displaying contact names in the app to create a personalized and user-friendly experience. - **Account Verification:** Utilizing phone numbers or email addresses for account verification, such as sending One-Time Passwords (OTPs) for user authentication. - **Communication:** Sending notifications, updates, or other relevant information to users via their saved contact details. **Usage and Disclosure:** We respect your privacy, and the Contact List information collected will only be used for the purposes mentioned above. We do not sell, share, or disclose this information to third parties without your explicit consent, except as required by law. **User Control and Consent:** By using our app, you consent to the collection and use of your Contact List information as outlined in this privacy policy. You have the option to grant or deny access to your Contact List through app settings. **Review and Update:** This privacy policy is subject to change, and any updates will be reflected in the app and on our website. It is advised to review this policy periodically."""),
+  ExpandableItem(
+    title:
         'Collection of Personally Identifiable Information and other Information',
     subtitle: 'Subtitle 1',
     description:

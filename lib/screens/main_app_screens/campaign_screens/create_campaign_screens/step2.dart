@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/loading.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../../../components/button.dart';
 import '../../../../firebase_services/Image_services/pick_image.dart';
 import '../../../../firebase_services/Image_services/upload_image_to_storage.dart';
+import '../../../../providers/permission_provider.dart';
 import '../../../../utils/utils_toast.dart';
 
 class Step2 extends StatefulWidget {
@@ -49,6 +51,7 @@ bool loading = false;
   File? _selectedImage;
   String _imageUrl = '';
   late FundraiserDataProvider fundraiserDataProvider;
+  bool isPhotoPermissionGranted = false;
 
   @override
   void initState() {
@@ -57,6 +60,14 @@ bool loading = false;
     fundraiserDataProvider = Provider.of<FundraiserDataProvider>(context, listen: false);
     selectedRelation = fundraiserDataProvider.fundraiserData.relation;
     selectedGender = fundraiserDataProvider.fundraiserData.gender;
+    checkPermission();
+  }
+  checkPermission() async{
+    var permissionProvider = Provider.of<PermissionProvider>(context, listen: false);
+    isPhotoPermissionGranted = await permissionProvider.requestPhotosPermission();
+    if(!isPhotoPermissionGranted){
+      Utils().toastMessage("Images Permission Denied !");
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -99,21 +110,30 @@ bool loading = false;
                         ),
                         GestureDetector(
                           onTap: () async {
-                            _selectedImage = await ImagePickerUtils.pickImage();
-                            if (_selectedImage != null) {
+                            if(isPhotoPermissionGranted==false){
+                              AppSettings.openAppSettings();
                               setState(() {
-                                loading = true;
+                                checkPermission();
                               });
-                              _imageUrl = await ImageUploadUtils
-                                  .uploadImageToFirebaseStorage(_selectedImage!,
-                                  'campaigns_beneficiaryImages');
-                            } else {
-                              Utils().toastMessage('Please pick an image first.');
+                              Utils().toastMessage("Please grant permission to access photos !");
+                              return;
+                            }{
+                              _selectedImage = await ImagePickerUtils.pickImage();
+                              if (_selectedImage != null) {
+                                setState(() {
+                                  loading = true;
+                                });
+                                _imageUrl = await ImageUploadUtils
+                                    .uploadImageToFirebaseStorage(_selectedImage!,
+                                    'campaigns_beneficiaryImages');
+                              } else {
+                                Utils().toastMessage('Please pick an image first.');
+                              }
+                              setState(() {
+                                _imageUrl!=''?fundRaiserProvider.updateBeneficiaryPhoto(true,_imageUrl):'';
+                                loading = false;
+                              });
                             }
-                            setState(() {
-                              _imageUrl!=''?fundRaiserProvider.updateBeneficiaryPhoto(true,_imageUrl):'';
-                              loading = false;
-                            });
                           },
                           child: const Icon(
                             Icons.add_a_photo,

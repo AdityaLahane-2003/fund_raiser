@@ -8,6 +8,7 @@ import '../../../../components/button.dart';
 import '../../../../components/loading.dart';
 import '../../../../firebase_services/Image_services/pick_image.dart';
 import '../../../../firebase_services/Image_services/upload_image_to_storage.dart';
+import '../../../../providers/permission_provider.dart';
 import '../../../../utils/utils_toast.dart';
 
 class Step4 extends StatefulWidget {
@@ -36,8 +37,9 @@ class _Step4State extends State<Step4> {
   File? _selectedImage;
   bool _loading = false;
   String _imageUrl = '';
-
   bool loading = false;
+
+
 
   @override
   Widget build(BuildContext context) {

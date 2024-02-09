@@ -1,15 +1,18 @@
 import 'dart:io';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/main_app_screens/home_dashboard.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
+import 'package:provider/provider.dart';
 import '../../components/button.dart';
 import '../../firebase_services/Image_services/pick_image.dart';
 import '../../firebase_services/Image_services/upload_image_to_storage.dart';
 import '../../firebase_services/user_services/add_user_details_service.dart';
 import '../../firebase_services/user_services/update_user_info_services.dart';
+import '../../providers/permission_provider.dart';
 import '../../utils/utils_toast.dart';
 
 class TakeUserInfoScreen extends StatefulWidget {
@@ -34,7 +37,7 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
   final _formKey = GlobalKey<FormState>();
   File? _selectedImage;
   String? _imageUrl;
-
+bool isPhotoPermissionGranted = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -44,6 +47,14 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
     }
     if(userPhone!=''){
       phoneController = TextEditingController(text: userPhone);
+    }
+    checkPermission();
+  }
+  void checkPermission()async{
+    var permissionProvider = Provider.of<PermissionProvider>(context, listen: false);
+    isPhotoPermissionGranted = await permissionProvider.requestPhotosPermission();
+    if(!isPhotoPermissionGranted){
+      Utils().toastMessage("Images Permission denied !");
     }
   }
   @override
@@ -76,8 +87,15 @@ class _TakeUserInfoScreenState extends State<TakeUserInfoScreen> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      _selectedImage = await ImagePickerUtils.pickImage();
-                      setState(() {});
+                      if(!isPhotoPermissionGranted){
+                        AppSettings.openAppSettings();
+                        setState(() {
+                          checkPermission();
+                        });
+                      }else{
+                        _selectedImage = await ImagePickerUtils.pickImage();
+                        setState(() {});
+                      }
                     },
                     child: const Icon(
                       Icons.add_a_photo,
