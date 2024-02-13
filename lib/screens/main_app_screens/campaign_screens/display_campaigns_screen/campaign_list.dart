@@ -597,7 +597,8 @@ Future<void> handleRefresh() async {
                                 },
                               );
                             },
-                          ):ListView.builder(
+                          ):
+                          ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             itemCount: campaigns.length,
                             itemBuilder: (context, index) {

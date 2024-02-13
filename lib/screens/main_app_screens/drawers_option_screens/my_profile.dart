@@ -33,6 +33,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
   String? _imageUrl;
   bool isPhotoPermissionGranted = false;
 bool loading = false;
+
+bool isOwner=false;
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +43,7 @@ bool loading = false;
     userData = {};
     loadUserInfo();
     checkPermission();
+    isOwner = FirebaseAuth.instance.currentUser!.uid==widget.userId;
   }
   checkPermission() async{
     var permissionProvider = Provider.of<PermissionProvider>(context, listen: false);
@@ -92,7 +96,7 @@ Color iconColor = isEmailVerified ? Colors.green : Colors.grey;
                   //       image:  ),
                   //   ),
                   // ),
-                  Align(
+                 isOwner? Align(
                       alignment: Alignment.topCenter,
                       child: TextButton(
                           onPressed: () async {
@@ -129,7 +133,7 @@ Color iconColor = isEmailVerified ? Colors.green : Colors.grey;
                               color: greenColor,
                               fontSize: 12,
                             ),
-                          ))),
+                          ))):const SizedBox(),
                   // ListTile(
                   //     leading: const Icon(Icons.person),
                   //     title: Text('Name: ${userData['name']}')),
@@ -267,7 +271,7 @@ Color iconColor = isEmailVerified ? Colors.green : Colors.grey;
                         title: 'Update Info',
                         color: secondColor,
                       ),
-                      Button(
+                      isOwner?Button(
                         onTap: () {
                           showDialog(
                             context: context,
@@ -324,7 +328,7 @@ Color iconColor = isEmailVerified ? Colors.green : Colors.grey;
                         },
                         title: 'Delete Account',
                         color: Colors.red.shade500,
-                      )
+                      ):const SizedBox(),
                     ],
                   ),
                 ],

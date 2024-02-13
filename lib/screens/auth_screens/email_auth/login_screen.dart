@@ -45,8 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     _auth
         .signInWithEmailAndPassword(
-            email: emailController.text,
-            password: passwordController.text.toString())
+        email: emailController.text,
+        password: passwordController.text.toString())
         .then((value) {
       Utils().toastMessage(value.user!.email.toString(), color: Colors.green);
       Navigator.push(context,
@@ -106,21 +106,21 @@ class _LoginScreenState extends State<LoginScreen> {
       onWillPop: _onBackPressed,
       child: Scaffold(
         persistentFooterButtons: const [
-        Footer(),
+          Footer(),
         ],
         appBar: AppBar(
           backgroundColor: greenColor,
           automaticallyImplyLeading: false,
           title: const Text('Login'),
-        leading: IconButton(
-          onPressed: (){
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const AuthScreen1()));
-          },
-          icon: const Icon(Icons.arrow_back_ios),
-        ),
+          leading: IconButton(
+            onPressed: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AuthScreen1()));
+            },
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
           actions: [
             IconButton(
               onPressed: () {
@@ -217,7 +217,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const ForgotPasswordScreen()));
+                                const ForgotPasswordScreen()));
                       },
                       child: Text('Forgot Password?',style: TextStyle(color: secondColor),)),
                 ),
@@ -240,14 +240,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 10,
                 ),
                 Button(
-                    title: 'Login with phone',
-                    color: secondColor,
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginWithPhoneNumber(comingFrom: "login",)));
-                    },
+                  title: 'Login with phone',
+                  color: secondColor,
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginWithPhoneNumber(comingFrom: "login",)));
+                  },
                 ),
               ],
             ),
