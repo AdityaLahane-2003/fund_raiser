@@ -182,7 +182,7 @@ class CampaignCard extends StatelessWidget {
                           color:int.parse(daysLeft)<30? Colors.red:Colors.green,
                         ),
                         const SizedBox(width: 5.0,),
-                        Text("$daysLeft Days Left",
+                        Text(int.parse(daysLeft) < 0 ?' Done ' : "$daysLeft Days Left",
                             style: TextStyle(
                               color:int.parse(daysLeft)<30? Colors.red:Colors.green,
                               fontWeight: FontWeight.bold,

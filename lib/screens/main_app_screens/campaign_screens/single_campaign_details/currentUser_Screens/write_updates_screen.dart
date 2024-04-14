@@ -217,7 +217,7 @@ class FirebaseFunctions {
       final List<dynamic> updates = campaignDoc['updates'];
       return updates.map((update) => update.toString()).toList();
     } catch (e) {
-      Utils().toastMessage('Error fetching updates: $e');
+      Utils().toastMessage('Error fetching updates !');
       return [];
     }
   }

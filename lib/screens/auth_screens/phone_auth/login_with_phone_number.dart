@@ -6,9 +6,9 @@ import 'package:fund_raiser_second/components/text_filed_area.dart';
 import 'package:fund_raiser_second/screens/auth_screens/email_auth/signup_screen.dart';
 import 'package:fund_raiser_second/screens/auth_screens/phone_auth/verify_code.dart';
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import '../../../components/button.dart';
-import '../../../providers/permission_provider.dart';
+// import '../../../providers/permission_provider.dart';
 import '../../../utils/utils_toast.dart';
 import '../email_auth/login_screen.dart';
 
@@ -32,18 +32,30 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
 
   void initState() {
     super.initState();
-    requestSmsPermission();
+    // requestSmsPermission();
   }
 
-  Future<void> requestSmsPermission() async {
-    var permissionProvider = Provider.of<PermissionProvider>(context, listen: false);
-    isSmsPermissionGranted = await permissionProvider.smsPermissionGranted;
-    if(!isSmsPermissionGranted){
-      Utils().toastMessage("SMS Permission Not granted !");
-      await permissionProvider.requestSmsPermission();
+  // Future<void> requestSmsPermission() async {
+  //   var permissionProvider = Provider.of<PermissionProvider>(context, listen: false);
+  //   isSmsPermissionGranted = await permissionProvider.smsPermissionGranted;
+  //   if(!isSmsPermissionGranted){
+  //     Utils().toastMessage("SMS Permission Not granted !");
+  //     await permissionProvider.requestSmsPermission();
+  //   }
+  // }
+
+  String getErrorMessage(String errorCode) {
+    switch (errorCode) {
+      case 'ERROR_INVALID_VERIFICATION_CODE':
+        return 'Invalid verification code.';
+      case 'ERROR_SESSION_EXPIRED':
+        return 'Session expired. Please try again.';
+      case 'ERROR_QUOTA_EXCEEDED':
+        return 'Quota exceeded. Please try again later.';
+      default:
+        return 'An error occurred. Please try again.';
     }
   }
-
 
 
 
@@ -51,7 +63,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
   Widget build(BuildContext context) {
     return Scaffold(
       persistentFooterButtons: const [
-       Footer(),
+        Footer(),
       ],
       appBar: AppBar(
         backgroundColor: greenColor,
@@ -65,132 +77,149 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
             Column(
               children: [
                 const SizedBox(height: 80,),
-            Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage('assets/logo.png'),
-                    backgroundColor: Colors.transparent,
-                  ),
-                  const SizedBox(height: 20,),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black,
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const CircleAvatar(
+                        radius: 50,
+                        backgroundImage: AssetImage('assets/logo.png'),
+                        backgroundColor: Colors.transparent,
                       ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: TextButton(
-                      onPressed: () {
-                        showCountryPicker(
-                          context: context,
-                          //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
-                          exclude: <String>['KN', 'MF'],
-                          favorite: <String>['IN'],
-                          //Optional. Shows phone code before the country name.
-                          showPhoneCode: true,
-                          onSelect: (Country country) {
-                            setState(() {
-                              selectedCountryCode = '+${country.phoneCode}';
-                              selectedCountry = '${country.flagEmoji} ${country.name}';
-                            });
-                          },
-                          // Optional. Sets the theme for the country list picker.
-                          countryListTheme: CountryListThemeData(
-                            // Optional. Sets the border radius for the bottomsheet.
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(40.0),
-                              topRight: Radius.circular(40.0),
-                            ),
-                            // Optional. Styles the search field.
-                            inputDecoration: InputDecoration(
-                              labelText: 'Search',
-                              hintText: 'Start typing to search',
-                              prefixIcon: const Icon(Icons.search),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: const Color(0xFF8C98A8).withOpacity(0.2),
-                                ),
+                      const SizedBox(height: 20,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          // Combined Country Picker and Text Field
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                children: [
+                                  // Country Picker
+                                  GestureDetector(
+                                    onTap: () {
+                                      showCountryPicker(
+                                        context: context,
+                                        exclude: <String>['KN', 'MF'],
+                                        favorite: <String>['IN'],
+                                        showPhoneCode: true,
+                                        onSelect: (Country country) {
+                                          setState(() {
+                                            selectedCountryCode = '+${country.phoneCode}';
+                                            selectedCountry = '${country.countryCode}';
+                                          });
+                                        },
+                                        countryListTheme: CountryListThemeData(
+                                          borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(40.0),
+                                            topRight: Radius.circular(40.0),
+                                          ),
+                                          inputDecoration: InputDecoration(
+                                            labelText: 'Search',
+                                            hintText: 'Start typing to search',
+                                            prefixIcon: const Icon(Icons.search),
+                                            border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: const Color(0xFF8C98A8).withOpacity(0.2),
+                                              ),
+                                            ),
+                                          ),
+                                          searchTextStyle: const TextStyle(
+                                            color: Colors.blue,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                      child: Row(
+                                        children: [
+                                          Text(selectedCountryCode),
+                                          const SizedBox(width: 8.0),
+                                          Text(selectedCountry),
+                                          const Icon(Icons.arrow_drop_down),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  // Vertical line separator
+                                  Container(
+                                    width: 1,
+                                    height: 40, // Adjust the height as needed
+                                    color: Colors.grey, // You can change the color as needed
+                                  ),
+                                  // Text Field
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: phoneNumberController,
+                                      keyboardType: TextInputType.phone,
+                                      decoration: const InputDecoration(
+                                        hintText: '  Enter phone number',
+                                        border: InputBorder.none,
+                                      ),
+                                        validator:  (value) {
+                                        if (value!.isEmpty) {
+                                          return 'Enter phone number';
+                                        } else if (value.length < 10) {
+                                          return 'Enter valid phone number';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            // Optional. Styles the text in the search field
-                            searchTextStyle: const TextStyle(
-                              color: Colors.blue,
-                              fontSize: 18,
-                            ),
                           ),
-                        );
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(selectedCountry),
-                          const SizedBox(width: 8.0,),
-                          Text(selectedCountryCode),
-                          const SizedBox(width: 8.0,),
-                          const Icon(Icons.arrow_drop_down),
                         ],
                       ),
-                    ),
+
+                    ],
                   ),
-                  const SizedBox(height: 20,),
-                  TextFormFieldArea(
-                    prefixIcon: Icons.phone,
-                      controller: phoneNumberController,
-                      textInputType: TextInputType.phone,
-                        title: 'Enter phone number',
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Enter phone number';
-                        }else if(value.length<10){
-                          return 'Enter valid phone number';
-                        }
-                        return null;
-                      },
-                    ),
-                ],
-              ),
-            ),
+                ),
                 const SizedBox(height: 50,),
                 Button(
-                  color: greenColor,
+                    color: greenColor,
                     title: widget.comingFrom=='signup'?"SignUp":'Login',
                     loading: loading, onTap: (){
                   if(_formKey.currentState!.validate()){
                     setState(() {
                       loading = true ;
                     });
-                  auth.verifyPhoneNumber(
-                      phoneNumber: selectedCountryCode+phoneNumberController.text,
-                      verificationCompleted: (_){
-                        setState(() {
-                          loading = false ;
+                    auth.verifyPhoneNumber(
+                        phoneNumber: selectedCountryCode+phoneNumberController.text,
+                        verificationCompleted: (_){
+                          setState(() {
+                            loading = false ;
+                          });
+                        },
+                        verificationFailed: (e){
+                          setState(() {
+                            loading = false ;
+                          });
+                          Utils().toastMessage(getErrorMessage(e.code));
+                        },
+                        codeSent: (String verificationId , int? token){
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) => VerifyCodeScreen(verificationId:verificationId ,phone:phoneNumberController.text.trim(),comingFrom: widget.comingFrom,)));
+                          setState(() {
+                            loading = false ;
+                          });
+                        },
+                        codeAutoRetrievalTimeout: (e){
+                          Utils().toastMessage("Code autoretrieval timeout occured");
+                          setState(() {
+                            loading = false ;
+                          });
                         });
-                      },
-                      verificationFailed: (e){
-                        setState(() {
-                          loading = false ;
-                        });
-                        Utils().toastMessage(e.toString());
-                      },
-                      codeSent: (String verificationId , int? token){
-                        Navigator.push(context,
-                            MaterialPageRoute(
-                                builder: (context) => VerifyCodeScreen(verificationId:verificationId ,phone:phoneNumberController.text.trim(),comingFrom: widget.comingFrom,)));
-                        setState(() {
-                          loading = false ;
-                        });
-                      },
-                      codeAutoRetrievalTimeout: (e){
-                        Utils().toastMessage(e.toString());
-                        setState(() {
-                          loading = false ;
-                        });
-                      });
-                }}),
+                  }}),
                 const SizedBox(height: 15,),
                 widget.comingFrom=='signup'?Row(
                   mainAxisAlignment: MainAxisAlignment.center,

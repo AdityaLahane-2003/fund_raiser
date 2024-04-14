@@ -13,6 +13,7 @@ import 'package:fund_raiser_second/screens/main_app_screens/drawers_option_scree
 import 'package:fund_raiser_second/utils/constants/color_code.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../components/button.dart';
 import '../../components/little_campaign_card.dart';
 import '../../firebase_services/user_services/UserInfoUtils.dart';
@@ -296,7 +297,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                               MaterialPageRoute(
                                   builder: (context) => const LoginScreen()));
                         }).onError((error, stackTrace) {
-                          Utils().toastMessage(error.toString());
+                          Utils().toastMessage(error.toString().split(']')[1].trim());
                         });
                       },
                     ),
@@ -644,9 +645,32 @@ class _HomeDashboardState extends State<HomeDashboard> {
                               MaterialPageRoute(
                                   builder: (context) => const LoginScreen()));
                         }).onError((error, stackTrace) {
-                          Utils().toastMessage(error.toString());
+                          Utils().toastMessage(error.toString().split(']')[1].trim());
                         });
                       },
+                    ),
+                    Divider(
+                      height: 2, // You can adjust the height of the divider
+                      color: Colors.grey, // You can set the color of the divider
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: TextButton(
+                          onPressed: () async{
+                            const url = 'https://adityalahane-2003.github.io/DataSaftey_TAARN/';
+                            if (await canLaunch(url)) {
+                              await launch(url);
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          },
+                          child: Text(
+                            " ⓘ Report",
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueAccent,),
+                          )),
                     ),
                   ],
                 ),
@@ -885,7 +909,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                     ? Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Container(
-                                          width: 100,
+                                          width: 101,
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -943,7 +967,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                     color: Colors.red,
                                                     size: 15,
                                                   ),
-                                                  Text(
+                                                  Text(remainingDays<0 ?" Done ":
                                                     " $remainingDays Days Left",
                                                     style: const TextStyle(
                                                         color: Colors.red,

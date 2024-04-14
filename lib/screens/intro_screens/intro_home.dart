@@ -1,7 +1,8 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:fund_raiser_second/components/footer.dart';
-import 'package:fund_raiser_second/screens/auth_screens/auth_screen1.dart';
+// import 'package:fund_raiser_second/screens/auth_screens/auth_screen1.dart';
+import 'package:fund_raiser_second/screens/intro_screens/notification_permission_screen.dart';
 import 'package:fund_raiser_second/screens/intro_screens/page1.dart';
 import 'package:fund_raiser_second/screens/intro_screens/page2.dart';
 import 'package:fund_raiser_second/screens/intro_screens/page3.dart';
@@ -56,10 +57,10 @@ We are excited to welcome you to our app! To provide you with the best experienc
 
 1. Photos, Videos, and Files: Our app allows you to create campaigns and share your stories through photos, videos, and documents. To enable this functionality, we require access to your device's external storage to upload and manage these media files. Rest assured, we respect your privacy and will only access files necessary for app usage.
 
-2. SMS Permissions: For security purposes, we use SMS verification to authenticate your account during sign-up and login processes. This ensures that your account remains secure and protected from unauthorized access. We assure you that we will not misuse your phone number or send unsolicited messages.
+2. Notifications: Stay updated and informed about your campaigns' progress, donations, and other important updates through notifications. We strive to keep you engaged and informed about activities related to your campaigns and the app.
 
-3. Notifications: Stay updated and informed about your campaigns' progress, donations, and other important updates through notifications. We strive to keep you engaged and informed about activities related to your campaigns and the app.
-
+ SMS Permissions: For security purposes, we use SMS verification to authenticate your account during sign-up and login processes. This ensures that your account remains secure and protected from unauthorized access. We assure you that we will not misuse your phone number or send unsolicited messages.
+ We are doing this with server side SMS verification.
 Your privacy and security are our top priorities. We adhere to strict data protection measures and only collect information essential for app functionality. Your personal data will never be shared with third parties without your consent.
 
 Thank you for choosing our app. By granting these permissions, you allow us to deliver a seamless and personalized experience tailored to your needs. Should you have any concerns or questions regarding permissions or privacy, please feel free to contact us.
@@ -93,10 +94,15 @@ TAARN Team"""),
           Footer(),
         ],
         appBar: AppBar(
-          titleSpacing: MediaQuery.of(context).size.width / 3,
-          title: const Text(
-            "Welcome",
-            textAlign: TextAlign.center,
+          // titleSpacing: MediaQuery.of(context).size.width / 3,
+          title: const Center(
+            child: Text(
+              "WELCOME",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           backgroundColor: greenColor,
           automaticallyImplyLeading: false,
@@ -205,7 +211,7 @@ TAARN Team"""),
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const AuthScreen1()))
+                                                const NotificationPermissionScreen()))
                                     : !isCheckboxSelected_1 &&
                                             isCheckboxSelected_2
                                         ?

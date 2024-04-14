@@ -22,7 +22,7 @@ class AuthScreen1 extends StatefulWidget {
 class _AuthScreen1State extends State<AuthScreen1> {
   bool isPhotoPermissionGranted = false;
   bool isVideoPermissionGranted = false;
-  bool isSmsPermissionGranted = false;
+  // bool isSmsPermissionGranted = false;
   bool isNotificationPermissionGranted = false;
 
   @override
@@ -46,12 +46,12 @@ class _AuthScreen1State extends State<AuthScreen1> {
     }else{
       Utils().toastMessage("Videos Permission denied !");
     }
-    isSmsPermissionGranted = await permissionProvider.requestSmsPermission();
-    if(isSmsPermissionGranted){
-      Utils().toastMessage("SMS Permission granted !");
-    }else{
-      Utils().toastMessage("SMS Permission denied !");
-    }
+    // isSmsPermissionGranted = await permissionProvider.requestSmsPermission();
+    // if(isSmsPermissionGranted){
+    //   Utils().toastMessage("SMS Permission granted !");
+    // }else{
+    //   Utils().toastMessage("SMS Permission denied !");
+    // }
 
     isNotificationPermissionGranted = await permissionProvider.requestNotificationPermission();
     if(isNotificationPermissionGranted){
@@ -60,11 +60,11 @@ class _AuthScreen1State extends State<AuthScreen1> {
       Utils().toastMessage("Notifications Permission denied !");
     }
 
-    if(!isPhotoPermissionGranted || !isVideoPermissionGranted || !isSmsPermissionGranted || !isNotificationPermissionGranted){
+    if(!isPhotoPermissionGranted || !isVideoPermissionGranted || !isNotificationPermissionGranted){
       showDialog(context: context, builder: (context){
         return AlertDialog(
           title: const Text("Permissions"),
-          content: const Text("""Please grant all the permissions to continue.\n\n  Our app needs permission for \n\n 1. Permission for sms for otp based Phone verification \n\n 2. Notifications permission to receive nitifications on creating campaigns \n\n 3.Media permission to access media for creating campaigns \n\n All these permissions are for the purpose of enhancing user experience and providing specific functionalities."""),
+          content: const Text("""Please grant all the permissions to continue.\n\n  Our app needs permission for \n\n 1. Notifications permission to receive nitifications on creating campaigns \n\n 2.Media permission to access media for creating campaigns \n\n All these permissions are for the purpose of enhancing user experience and providing specific functionalities."""),
           actions: [
             TextButton(onPressed: (){
               Navigator.pop(context);

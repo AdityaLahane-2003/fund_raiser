@@ -7,7 +7,7 @@ class Utils {
         msg: message,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 2,
+        timeInSecForIosWeb: 3,
         backgroundColor: color ?? Colors.lightBlueAccent,
         textColor: Colors.white,
         fontSize: 16.0

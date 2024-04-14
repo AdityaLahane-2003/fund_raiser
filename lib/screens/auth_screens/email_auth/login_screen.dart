@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
       });
     }).onError((error, stackTrace) {
       debugPrint(error.toString());
-      Utils().toastMessage(error.toString());
+      Utils().toastMessage(error.toString().split(']')[1].trim());
       setState(() {
         loading = false;
       });

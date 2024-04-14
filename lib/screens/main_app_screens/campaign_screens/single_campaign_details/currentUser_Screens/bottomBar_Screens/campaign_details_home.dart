@@ -236,7 +236,9 @@ class CampaignDetailsPage extends StatelessWidget {
                       const SizedBox(width: 10.0),
                       campaign.dateEnd.difference(DateTime.now()).inDays < 0
                         ?const Text( ' Campaign Expired '):
-                      Text("${campaign.dateEnd
+                      Text(campaign.dateEnd
+                          .difference(DateTime.now())
+                          .inDays<0 ? " Done ":"${campaign.dateEnd
                           .difference(DateTime.now())
                           .inDays} Days Left "
                       ),

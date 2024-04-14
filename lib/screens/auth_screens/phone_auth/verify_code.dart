@@ -123,7 +123,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                     setState(() {
                       loading = false;
                     });
-                    Utils().toastMessage(e.toString());
+                    Utils().toastMessage(e.toString().split(']')[1].trim());
                   }
                 })
           ],

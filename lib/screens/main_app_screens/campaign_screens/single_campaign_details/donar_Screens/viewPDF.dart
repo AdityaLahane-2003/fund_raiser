@@ -23,7 +23,7 @@ class _ViewPDFState extends State<ViewPDF> {
       pdfDocument = await PDFDocument.fromURL(widget.url);
       setState(() {});
     } catch (e) {
-      Utils().toastMessage('Error loading PDF: $e');
+      Utils().toastMessage('Error loading PDF !');
     }
   }
 

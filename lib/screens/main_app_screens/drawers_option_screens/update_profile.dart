@@ -34,6 +34,17 @@ class _UpdateUserInfoPageState extends State<UpdateUserInfoPage> {
   late TextEditingController ageController;
   late TextEditingController bioController;
 bool loading = false;
+String userPhone = "";
+
+  String? _validatePhoneNumber(String value) {
+    if (value.isEmpty) {
+      return 'Phone number is required';
+    } else if (value.length != 10) {
+      return 'Phone number must be 10 digits long';
+    }
+    return null;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -43,8 +54,8 @@ bool loading = false;
     phoneController = TextEditingController(text: widget.currentPhone);
     ageController = TextEditingController(text: widget.currentAge ?? '');
     bioController = TextEditingController(text: widget.currentBio);
+    userPhone = widget.currentPhone;
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,40 +73,48 @@ bool loading = false;
                 backgroundColor: Colors.white,
                 minRadius: 30,
                 maxRadius: 65,
-                child: Image.asset('assets/logo.png'),),
+                child: Image.asset('assets/logo.png'),
+              ),
               const SizedBox(height: 15.0),
               TextFormFieldArea(
                 controller: nameController,
-                textInputType: TextInputType.text, // Text color
+                textInputType: TextInputType.text,
                 title: 'Name',
                 prefixIcon: Icons.person,
-              ),const SizedBox(height: 12.0),
+              ),
+              const SizedBox(height: 12.0),
               TextFormFieldArea(
                 controller: emailController,
                 textInputType: TextInputType.emailAddress,
-                  title: 'Email',
-                  prefixIcon: Icons.email_outlined
+                title: 'Email',
+                prefixIcon: Icons.email_outlined,
               ),
               const SizedBox(height: 12.0),
               TextFormFieldArea(
                 controller: phoneController,
                 textInputType: TextInputType.number,
-                  title: 'Phone',
-                  prefixIcon: Icons.phone,
+                title: 'Phone',
+                prefixIcon: Icons.phone,
+                validator: (value) {
+                  if (value!.isNotEmpty && value.length != 10) {
+                    return 'Phone number must be 10 digits long';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 12.0),
               TextFormFieldArea(
                 controller: ageController,
                 textInputType: TextInputType.number,
-                  title: 'Age',
-                  prefixIcon:Icons.calendar_today,
+                title: 'Age',
+                prefixIcon: Icons.calendar_today,
               ),
               const SizedBox(height: 12.0),
               TextFormFieldArea(
                 controller: bioController,
-                textInputType: TextInputType.number,
-                  title: 'Bio',
-                  prefixIcon: Icons.abc_outlined,
+                textInputType: TextInputType.text,
+                title: 'Bio',
+                prefixIcon: Icons.abc_outlined,
               ),
               const SizedBox(height: 16.0),
               Button(
@@ -104,6 +123,22 @@ bool loading = false;
                   setState(() {
                     loading = true;
                   });
+
+                  // Validate phone number only if it has changed
+                  String? phoneValidationError;
+                  if (phoneController.text.trim() != userPhone) {
+                    phoneValidationError = _validatePhoneNumber(phoneController.text.trim());
+                  }
+
+                  // Check if any validation error occurred
+                  if (phoneValidationError != null) {
+                    Utils().toastMessage(phoneValidationError, color: Colors.red); // Display validation error
+                    setState(() {
+                      loading = false;
+                    });
+                    return; // Stop execution if validation fails
+                  }
+
                   await firebaseService.updateUser(widget.userId, {
                     'name': nameController.text.trim(),
                     'email': emailController.text.trim(),
@@ -112,7 +147,7 @@ bool loading = false;
                     'bio': bioController.text.trim(),
                   });
 
-                  Utils().toastMessage("Info Upadated", color: greenColor);
+                  Utils().toastMessage("Info Updated", color: greenColor);
                   Navigator.pop(context); // Pop this page to go back to UserInfoPage
                 },
                 title: 'Update Info',

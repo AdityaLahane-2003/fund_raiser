@@ -91,7 +91,7 @@ class LittleCampaignCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       color: secondColor.withOpacity(0.5),
                     ),
-                    child: Text(" $daysLeft Days Left",
+                    child: Text((status == 'Expired' || campaign.amountGoal - campaign.amountRaised <= 0 ) ?" Done ": " $daysLeft Days Left",
                       style: const TextStyle(color: Colors.white,fontSize: 12),)
                 ),
               ],

@@ -53,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           MaterialPageRoute(builder: (context) => const VerifyEmail(isSignUp: true,))
       );
     }).onError((error, stackTrace){
-      Utils().toastMessage(error.toString());
+      Utils().toastMessage(error.toString().split(']')[1].trim());
       setState(() {
         loading = false ;
       });

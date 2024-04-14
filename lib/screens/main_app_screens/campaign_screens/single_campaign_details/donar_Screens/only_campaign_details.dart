@@ -218,7 +218,9 @@ class _OnlyCampaignDetailsPageState extends State<OnlyCampaignDetailsPage> {
                                 const Icon(Icons.watch_later,
                                     size: 20.0, color: Colors.red),
                                 const SizedBox(width: 8.0),
-                                Text(
+                                Text(widget.campaign.dateEnd
+                                    .difference(DateTime.now())
+                                    .inDays < 0 ? " Done ":
                                   "${widget.campaign.dateEnd
                                           .difference(DateTime.now())
                                           .inDays} days left",

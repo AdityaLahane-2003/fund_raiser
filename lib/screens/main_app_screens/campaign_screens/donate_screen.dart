@@ -146,7 +146,8 @@ class _DonateScreenState extends State<DonateScreen> {
     try {
       _razorpay.open(options);
     } catch (e) {
-      Utils().toastMessage("Error: $e");
+      Utils().toastMessage("Error Occured ! Please try after some time !");
+      // Utils().toastMessage("Error: $e");
 
       // Show an error dialog
       showDialog(
